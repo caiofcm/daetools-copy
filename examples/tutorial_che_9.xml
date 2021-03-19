@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="52535760" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_che_9]]></Name>
+  <Description><![CDATA[
+Chemical reaction network from the Dow Chemical Company described in the following article:
+
+- Caracotsios M., Stewart W.E. (1985) Sensitivity analysis of initial value problems 
+  with mixed odes and algebraic equations. Computers & Chemical Engineering 9(4):359-365.
+  `doi:10.1016/0098-1354(85)85014-6 <https://doi.org/10.1016/0098-1354(85)85014-6>`_
+  
+The sensitivity analysis is enabled and the sensitivity data can be obtained in two ways:
+    
+- Directly from the DAE solver in the user-defined Run function using the
+  DAESolver.SensitivityMatrix property.
+- From the data reporter as any ordinary variable.
+
+The concentrations plot (u1, u3, u4):
+
+.. image:: _static/tutorial_che_9-results1.png
+   :width: 500px
+  
+The concentrations plot (u6, u8):
+
+.. image:: _static/tutorial_che_9-results2.png
+   :width: 500px
+  
+The sensitivities plot (k2*du1/dk2, k2*du2/dk2, k2*du3/dk2, k2*du4/dk2, k2*du5/dk2):
+
+.. image:: _static/tutorial_che_9-results3.png
+   :width: 800px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables>
+    <Object ID="52537424" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k1]]></Name>
+      <Description><![CDATA[k1]]></Description>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52538032" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k1n]]></Name>
+      <Description><![CDATA[k1n]]></Description>
+      <VariableType>kn_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52538640" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k2]]></Name>
+      <Description><![CDATA[k2]]></Description>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52540288" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k3]]></Name>
+      <Description><![CDATA[k3]]></Description>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52540896" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k3n]]></Name>
+      <Description><![CDATA[k3n]]></Description>
+      <VariableType>kn_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52541504" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Keq1]]></Name>
+      <Description><![CDATA[Keq1]]></Description>
+      <VariableType>Keq_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52542112" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Keq2]]></Name>
+      <Description><![CDATA[Keq2]]></Description>
+      <VariableType>Keq_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52542800" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Keq3]]></Name>
+      <Description><![CDATA[Keq3]]></Description>
+      <VariableType>Keq_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52543648" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u1]]></Name>
+      <Description><![CDATA[u1]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52544496" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u2]]></Name>
+      <Description><![CDATA[u2]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52545184" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u3]]></Name>
+      <Description><![CDATA[u3]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52546464" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u4]]></Name>
+      <Description><![CDATA[u4]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52547232" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u5]]></Name>
+      <Description><![CDATA[u5]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52833344" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u6]]></Name>
+      <Description><![CDATA[u6]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52833952" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u7]]></Name>
+      <Description><![CDATA[u7]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52834560" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u8]]></Name>
+      <Description><![CDATA[u8]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52835168" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u9]]></Name>
+      <Description><![CDATA[u9]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="52835776" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u10]]></Name>
+      <Description><![CDATA[u10]]></Description>
+      <VariableType>u_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="52844696" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E1]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { u1 }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( - { k2 }  \right) }  \right)  \cdot { u2 } }  \right)  \cdot { u8 } }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52845304" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E2]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { u2 }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( { \left( { \left( - { k1 }  \right) }  \right)  \cdot { u2 } }  \right)  \cdot { u6 } }  \right)  + \left( { { k1n }  \cdot { u10 } }  \right) }  \right)  - \left( { \left( { { k2 }  \cdot { u2 } }  \right)  \cdot { u8 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52854936" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E3]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { u3 }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( { { k2 }  \cdot { u2 } }  \right)  \cdot { u8 } }  \right)  + \left( { \left( { { k3 }  \cdot { u4 } }  \right)  \cdot { u6 } }  \right) }  \right)  - \left( { { k3n }  \cdot { u9 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52855208" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E4]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { u4 }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( { \left( - { k3 }  \right) }  \right)  \cdot { u4 } }  \right)  \cdot { u6 } }  \right)  + \left( { { k3n }  \cdot { u9 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52855608" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E5]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { u5 }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { { k1 }  \cdot { u2 } }  \right)  \cdot { u6 } }  \right)  - \left( { { k1n }  \cdot { u10 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52856536" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E6]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { u6 }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( { \left( { \left( { \left( - { k1 }  \right) }  \right)  \cdot { u2 } }  \right)  \cdot { u6 } }  \right)  - \left( { \left( { { k3 }  \cdot { u4 } }  \right)  \cdot { u6 } }  \right) }  \right)  + \left( { { k1n }  \cdot { u10 } }  \right) }  \right)  + \left( { { k3n }  \cdot { u9 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52857944" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E7]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { u7 }  - \left( { \left( { \left( { \left( { {-0.0131 {{kg ^ {-1}}{mol}}} + { u6 } }  \right)  + { u8 } }  \right)  + { u9 } }  \right)  + { u10 } }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52859032" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E8]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { u8 }  - \left( { \left( { { Keq2 }  \cdot { u1 } }  \right)  \over \left( { { Keq2 }  + { u7 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52859720" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E9]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { u9 }  - \left( { \left( { { Keq3 }  \cdot { u3 } }  \right)  \over \left( { { Keq3 }  + { u7 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="52860376" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E10]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { u10 }  - \left( { \left( { { Keq1 }  \cdot { u5 } }  \right)  \over \left( { { Keq1 }  + { u7 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

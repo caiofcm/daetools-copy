@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="50686928" Class="daeModel" Library="DAE.Core" Version="1.7.2">
+  <Name>tutorial4</Name>
+  <Description>
+This tutorial introduces the following concepts:
+
+- Discontinuous equations (symmetrical state transition networks: daeIF statements)
+- Building of Jacobian expressions
+
+In this example we model a very simple heat transfer problem where a small piece of copper
+is at one side exposed to the source of heat and at the other to the surroundings.
+
+The lumped heat balance is given by the following equation::
+
+    rho * cp * dT/dt - Qin = h * A * (T - Tsurr)
+
+where Qin is the power of the heater, h is the heat transfer coefficient,
+A is the surface area and Tsurr is the temperature of the surrounding air.
+
+The process starts at the temperature of the metal of 283K.
+The metal is allowed to warm up for 200 seconds, when the heat source is
+removed and the metal cools down slowly to the ambient temperature.
+
+This can be modelled using the following symmetrical state transition network:
+
+.. code-block:: none
+
+   IF t &lt; 200
+     Qin = 1500 W
+   ELSE
+     Qin = 0 W
+
+The temperature plot:
+
+.. image:: _static/tutorial4-results.png
+   :width: 500px
+</Description>
+  <Domains/>
+  <Parameters>
+    <Object ID="35332392" Class="daeParameter" Library="DAE.Core" Version="1.7.2">
+      <Name>m</Name>
+      <Description>Mass of the copper plate</Description>
+      <Units>
+        <kg>1</kg>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="36763336" Class="daeParameter" Library="DAE.Core" Version="1.7.2">
+      <Name>c_p</Name>
+      <Description>Specific heat capacity of the plate</Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="39263368" Class="daeParameter" Library="DAE.Core" Version="1.7.2">
+      <Name>alpha</Name>
+      <Description>Heat transfer coefficient</Description>
+      <Units>
+        <K>-1</K>
+        <W>1</W>
+        <m>-2</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="50677752" Class="daeParameter" Library="DAE.Core" Version="1.7.2">
+      <Name>A</Name>
+      <Description>Area of the plate</Description>
+      <Units>
+        <m>2</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="50678088" Class="daeParameter" Library="DAE.Core" Version="1.7.2">
+      <Name>T_surr</Name>
+      <Description>Temperature of the surroundings</Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="50687536" Class="daeVariable" Library="DAE.Core" Version="1.7.2">
+      <Name>Q_in</Name>
+      <Description>Power of the heater</Description>
+      <VariableType>power_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="50688144" Class="daeVariable" Library="DAE.Core" Version="1.7.2">
+      <Name>T</Name>
+      <Description>Temperature of the plate</Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="50694456" Class="daeEquation" Library="DAE.Core" Version="1.7.2">
+      <Name>HeatBalance</Name>
+      <Description>Integral heat balance equation</Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { \left( { \left( { { m }  \cdot { c_p } }  \right)  \cdot \left( { { \partial { { \left( { T }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - { Q_in } }  \right)  + \left( { \left( { { \alpha }  \cdot { A } }  \right)  \cdot \left( { { T }  - { T_surr } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs>
+    <Object ID="50695472" Class="daeIF" Library="DAE.Core" Version="1.7.2">
+      <Name>IF_0</Name>
+      <Description/>
+      <Type>eIF</Type>
+      <States>
+        <Object ID="50695824" Class="daeState" Library="DAE.Core" Version="1.7.2">
+          <Name>State_1</Name>
+          <Description/>
+          <Equations>
+            <Object ID="50696520" Class="daeEquation" Library="DAE.Core" Version="1.7.2">
+              <Name>Q_on</Name>
+              <Description>The heater is on</Description>
+              <EquationType>eAlgebraic</EquationType>
+              <Residual>$${ { Q_in }  - {1500 {{W}}}}  = 0$$</Residual>
+              <DistributedDomainInfos/>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions>
+            <Object ID="50696248" Class="daeOnConditionActions" Library="DAE.Core" Version="1.7.2">
+              <Name>OnConditionActions_0</Name>
+              <Description/>
+              <Condition ID="140726796144432" Class="daeCondition" Library="" Version="1.7.2">
+                <Expression>${\left( {{ {\tau} } } &lt; {{200 {{s}}}} \right)}$</Expression>
+                <EventTolerance>0.000010000000000</EventTolerance>
+              </Condition>
+              <Actions/>
+            </Object>
+          </OnConditionActions>
+          <STN ID="50695472">IF_0</STN>
+        </Object>
+        <Object ID="50697200" Class="daeState" Library="DAE.Core" Version="1.7.2">
+          <Name>ELSE</Name>
+          <Description/>
+          <Equations>
+            <Object ID="50697480" Class="daeEquation" Library="DAE.Core" Version="1.7.2">
+              <Name>Q_off</Name>
+              <Description>The heater is off</Description>
+              <EquationType>eAlgebraic</EquationType>
+              <Residual>$${ Q_in }  = 0$$</Residual>
+              <DistributedDomainInfos/>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions/>
+          <STN ID="50695472">IF_0</STN>
+        </Object>
+      </States>
+      <ParentState>NULL</ParentState>
+    </Object>
+  </STNs>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

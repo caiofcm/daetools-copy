@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="26467536" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_dealii_3]]></Name>
+  <Description><![CDATA[
+In this example the Cahn-Hilliard equation is solved using the finite element method.
+This equation describes the process of phase separation, where two components of a
+binary mixture separate and form domains pure in each component.
+
+.. code-block:: none
+
+   dc/dt - D*nabla^2(mu) = 0, in Omega
+   mu = c^3 - c - gamma*nabla^2(c)
+
+The mesh is a simple square (0-100)x(0-100):
+
+.. image:: _static/square.png
+   :width: 300 px
+
+The concentration plot at t = 500s:
+
+.. image:: _static/tutorial_dealii_3-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_3-animation.gif
+   :height: 400 px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables/>
+  <Ports/>
+  <EventPorts/>
+  <Equations/>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components>
+    <Object ID="26529440" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[CahnHilliard]]></Name>
+      <Description><![CDATA[
+In this example the Cahn-Hilliard equation is solved using the finite element method.
+This equation describes the process of phase separation, where two components of a
+binary mixture separate and form domains pure in each component.
+
+.. code-block:: none
+
+   dc/dt - D*nabla^2(mu) = 0, in Omega
+   mu = c^3 - c - gamma*nabla^2(c)
+
+The mesh is a simple square (0-100)x(0-100):
+
+.. image:: _static/square.png
+   :width: 300 px
+
+The concentration plot at t = 500s:
+
+.. image:: _static/tutorial_dealii_3-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_3-animation.gif
+   :height: 400 px
+]]></Description>
+      <Domains>
+        <Object ID="26529176" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;]]></Name>
+          <Description><![CDATA[Omega]]></Description>
+          <Type>eUnstructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="19036944" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_0]]></Name>
+          <Description><![CDATA[FE sub domain 0]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+        <Object ID="26533120" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_1]]></Name>
+          <Description><![CDATA[FE sub domain 1]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters/>
+      <Variables>
+        <Object ID="26532720" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[c]]></Name>
+          <Description><![CDATA[Concentration]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="19036944"><![CDATA[&Omega;_0]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26533760" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[mu]]></Name>
+          <Description><![CDATA[Chemical potential]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="26533120"><![CDATA[&Omega;_1]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="44114040" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[dealIIFESystem_0]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="46055288" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[&Omega;]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="26529176"><![CDATA[&Omega;]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+  </Components>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

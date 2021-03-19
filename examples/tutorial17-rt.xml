@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="140205583508032" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+  <Name><![CDATA[tutorial17]]></Name>
+  <Description><![CDATA[
+This tutorial introduces the following concepts:
+
+- TCPIP Log and TCPIPLogServer
+
+In this example we use the same heat transfer problem as in the tutorial 7.
+
+The screenshot of the TCP/IP log server:
+
+.. image:: _static/tutorial17-screenshot.png
+   :width: 500px
+
+The temperature plot:
+
+.. image:: _static/tutorial17-results.png
+   :width: 500px
+]]></Description>
+  <Domains/>
+  <Parameters>
+    <Object ID="140205583509464" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[m]]></Name>
+      <Description><![CDATA[Mass of the copper plate]]></Description>
+      <Units>
+        <kg>1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>1</Item>
+      </Values>
+    </Object>
+    <Object ID="140205583510568" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[c_p]]></Name>
+      <Description><![CDATA[Specific heat capacity of the plate]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>385</Item>
+      </Values>
+    </Object>
+    <Object ID="140205583511224" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[&alpha;]]></Name>
+      <Description><![CDATA[Heat transfer coefficient]]></Description>
+      <Units>
+        <K>-1</K>
+        <W>1</W>
+        <m>-2</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>200</Item>
+      </Values>
+    </Object>
+    <Object ID="140205583511624" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[A]]></Name>
+      <Description><![CDATA[Area of the plate]]></Description>
+      <Units>
+        <m>2</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>0.100000000000000</Item>
+      </Values>
+    </Object>
+    <Object ID="140205583511992" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[T_surr]]></Name>
+      <Description><![CDATA[Temperature of the surroundings]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>283</Item>
+      </Values>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="140205583512552" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Q_in]]></Name>
+      <Description><![CDATA[Power of the heater]]></Description>
+      <VariableType>power_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+    <Object ID="140205583512968" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Temperature of the plate]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>1</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="140205583517288" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[HeatBalance]]></Name>
+      <Description><![CDATA[Integral heat balance equation]]></Description>
+      <Residual>$${ \left( { \left( { \left( { { m }  \cdot { c_p } }  \right)  \cdot \left( { { \partial { { \left( { T }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - { Q_in } }  \right)  + \left( { \left( { { \alpha }  \cdot { A } }  \right)  \cdot \left( { { T }  - { T_surr } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="140205583519952" Class="daeEquationExecutionInfo" Library="" Version="1.9.0">
+          <EquationEvaluationNode>$${ \left( { \left( { \left( { { m }  \cdot { c_p } }  \right)  \cdot { { \partial { { T }  } } \over { \partial { t  } } } }  \right)  - { Q_in } }  \right)  + \left( { \left( { { \alpha }  \cdot { A } }  \right)  \cdot \left( { { T }  - { T_surr } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>

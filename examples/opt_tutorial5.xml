@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="39882016" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+  <Name><![CDATA[opt_tutorial5]]></Name>
+  <Description><![CDATA[
+This tutorial shows the interoperability between DAE Tools and 3rd party optimization 
+software (scipy.optimize) used to fit the simple function with experimental data.
+
+DAE Tools simulation object is used to calculate the objective function and its gradients,
+while scipy.optimize.leastsq function (a wrapper around MINPACK’s lmdif and lmder)
+implementing Levenberg-Marquardt algorithm is used to estimate the parameters.
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables>
+    <Object ID="39529544" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[x]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="39364536" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[A]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="39670824" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[k]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="39624072" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[&theta;]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="39567016" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[y]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="39718888" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[V_obj1]]></Name>
+      <Description><![CDATA[Objective function]]></Description>
+      <VariableType>gradient_function_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="39690024" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[F_obj1]]></Name>
+      <Description><![CDATA[Objective function]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { y }  - { V_obj1 } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="39586440" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[y]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { y }  - \left( { { A }  \cdot \sin \left( { \left( { \left( { {6.283185307 {}} \cdot { k } }  \right)  \cdot { x } }  \right)  + { \theta } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

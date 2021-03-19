@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="26997472" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_che_1]]></Name>
+  <Description><![CDATA[
+Continuously Stirred Tank Reactor with energy balance and Van de Vusse reactions:
+
+.. code-block:: none
+
+    A -> B -> C
+   2A -> D
+
+Reference: G.A. Ridlehoover, R.C. Seagrave. Optimization of Van de Vusse Reaction Kinetics
+Using Semibatch Reactor Operation, Ind. Eng. Chem. Fundamen. 1973;12(4):444-447.
+`doi:10.1021/i160048a700 <https://doi.org/10.1021/i160048a700>`_
+
+The concentrations plot:
+
+.. image:: _static/tutorial_che_1-results.png
+   :width: 500px
+
+The temperatures plot:
+
+.. image:: _static/tutorial_che_1-results2.png
+   :width: 500px
+]]></Description>
+  <Domains/>
+  <Parameters>
+    <Object ID="26976280" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_10]]></Name>
+      <Description><![CDATA[A->B pre-exponential factor]]></Description>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>3575000</Item>
+      </Values>
+    </Object>
+    <Object ID="26976664" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_20]]></Name>
+      <Description><![CDATA[B->C pre-exponential factor]]></Description>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>3575000</Item>
+      </Values>
+    </Object>
+    <Object ID="26977368" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_30]]></Name>
+      <Description><![CDATA[2A->D pre-exponential factor]]></Description>
+      <Units>
+        <m>3</m>
+        <mol>-1</mol>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>2511.944444444444343</Item>
+      </Values>
+    </Object>
+    <Object ID="26977704" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E_1]]></Name>
+      <Description><![CDATA[A->B activation energy]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>9758.299999999999272</Item>
+      </Values>
+    </Object>
+    <Object ID="26977992" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E_2]]></Name>
+      <Description><![CDATA[B->C activation energy]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>9758.299999999999272</Item>
+      </Values>
+    </Object>
+    <Object ID="26978280" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[E_3]]></Name>
+      <Description><![CDATA[2A->D activation energy]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>8560</Item>
+      </Values>
+    </Object>
+    <Object ID="26978648" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[dHr1]]></Name>
+      <Description><![CDATA[A->B heat of reaction]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>4200</Item>
+      </Values>
+    </Object>
+    <Object ID="26979096" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[dHr2]]></Name>
+      <Description><![CDATA[B->C heat of reaction]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>-11000</Item>
+      </Values>
+    </Object>
+    <Object ID="26979672" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[dHr3]]></Name>
+      <Description><![CDATA[2A->D heat of reaction]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>-41850</Item>
+      </Values>
+    </Object>
+    <Object ID="26980248" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&rho;]]></Name>
+      <Description><![CDATA[Density]]></Description>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>934.200000000000045</Item>
+      </Values>
+    </Object>
+    <Object ID="26981000" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_p]]></Name>
+      <Description><![CDATA[Heat capacity of reactants]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>3010</Item>
+      </Values>
+    </Object>
+    <Object ID="26982456" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_w]]></Name>
+      <Description><![CDATA[Heat transfer coefficient]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <m>-2</m>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>1120</Item>
+      </Values>
+    </Object>
+    <Object ID="26982792" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[A_r]]></Name>
+      <Description><![CDATA[Area of jacket cooling]]></Description>
+      <Units>
+        <m>2</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>0.215000000000000</Item>
+      </Values>
+    </Object>
+    <Object ID="26983080" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_K]]></Name>
+      <Description><![CDATA[Mass of the cooling fluid]]></Description>
+      <Units>
+        <kg>1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>5</Item>
+      </Values>
+    </Object>
+    <Object ID="26984488" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_pk]]></Name>
+      <Description><![CDATA[Heat capacity of the cooling fluid]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>2000</Item>
+      </Values>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="26985136" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[V_r]]></Name>
+      <Description><![CDATA[Reactor volume]]></Description>
+      <VariableType>volume_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+    <Object ID="26985744" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Q_k]]></Name>
+      <Description><![CDATA[Jacket cooling rate]]></Description>
+      <VariableType>power_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>1</OverallIndex>
+    </Object>
+    <Object ID="26986352" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Qf]]></Name>
+      <Description><![CDATA[Feed flowrate]]></Description>
+      <VariableType>volume_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>2</OverallIndex>
+    </Object>
+    <Object ID="26987120" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Caf]]></Name>
+      <Description><![CDATA[Feed concentration]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>3</OverallIndex>
+    </Object>
+    <Object ID="26987936" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Tf]]></Name>
+      <Description><![CDATA[Feed temperature]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>4</OverallIndex>
+    </Object>
+    <Object ID="26988720" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[Concentration of A]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>5</OverallIndex>
+    </Object>
+    <Object ID="26989536" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cb]]></Name>
+      <Description><![CDATA[Concentration of B]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>6</OverallIndex>
+    </Object>
+    <Object ID="26991472" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cc]]></Name>
+      <Description><![CDATA[Concentration of C]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>7</OverallIndex>
+    </Object>
+    <Object ID="27277856" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cd]]></Name>
+      <Description><![CDATA[Concentration of D]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>8</OverallIndex>
+    </Object>
+    <Object ID="27278464" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Temperature in the reactor]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>9</OverallIndex>
+    </Object>
+    <Object ID="27279072" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_k]]></Name>
+      <Description><![CDATA[Temperature of the cooling jacket]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>10</OverallIndex>
+    </Object>
+    <Object ID="27279680" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_1]]></Name>
+      <Description><![CDATA[Reaction A->B rate constant]]></Description>
+      <VariableType>K_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>11</OverallIndex>
+    </Object>
+    <Object ID="27280288" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_2]]></Name>
+      <Description><![CDATA[Reaction B->C rate constant]]></Description>
+      <VariableType>K_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>12</OverallIndex>
+    </Object>
+    <Object ID="27280896" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k_3]]></Name>
+      <Description><![CDATA[Reaction 2A->D rate constant]]></Description>
+      <VariableType>K2_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>13</OverallIndex>
+    </Object>
+    <Object ID="27281504" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[V0]]></Name>
+      <Description><![CDATA[Minimum reactor volume]]></Description>
+      <VariableType>volume_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>14</OverallIndex>
+    </Object>
+    <Object ID="27282112" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Vm]]></Name>
+      <Description><![CDATA[Maximum reactor volume]]></Description>
+      <VariableType>volume_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>15</OverallIndex>
+    </Object>
+    <Object ID="27282720" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[V0_star]]></Name>
+      <Description><![CDATA[Dimensionless minimum volume]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>16</OverallIndex>
+    </Object>
+    <Object ID="27283328" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca_star]]></Name>
+      <Description><![CDATA[Dimensionless concentration of A]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>17</OverallIndex>
+    </Object>
+    <Object ID="27283936" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cb_star]]></Name>
+      <Description><![CDATA[Dimensionless concentration of B]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>18</OverallIndex>
+    </Object>
+    <Object ID="27284544" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P1]]></Name>
+      <Description><![CDATA[Dimensionless A->B reaction rate constant]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>19</OverallIndex>
+    </Object>
+    <Object ID="27285152" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P2]]></Name>
+      <Description><![CDATA[Dimensionless B->C reaction rate constant]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>20</OverallIndex>
+    </Object>
+    <Object ID="27285760" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P3]]></Name>
+      <Description><![CDATA[Dimensionless 2A->D reaction rate constant]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>21</OverallIndex>
+    </Object>
+    <Object ID="27286368" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[theta]]></Name>
+      <Description><![CDATA[Dimensionless time]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>22</OverallIndex>
+    </Object>
+    <Object ID="27286976" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[sigma_f]]></Name>
+      <Description><![CDATA[The proportion of the semibatch cycle occupied by filling]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>23</OverallIndex>
+    </Object>
+    <Object ID="27287584" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[sigma_b]]></Name>
+      <Description><![CDATA[The proportion of the semibatch cycle occupied by batch]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>24</OverallIndex>
+    </Object>
+    <Object ID="27288192" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[sigma_e]]></Name>
+      <Description><![CDATA[The proportion of the semibatch cycle occupied by emptying]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>25</OverallIndex>
+    </Object>
+    <Object ID="27289024" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[time_f]]></Name>
+      <Description><![CDATA[The time duration of filling phase]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>26</OverallIndex>
+    </Object>
+    <Object ID="27289632" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[time_b]]></Name>
+      <Description><![CDATA[The time duration of batch phase]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>27</OverallIndex>
+    </Object>
+    <Object ID="26990352" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[time_e]]></Name>
+      <Description><![CDATA[The time duration of emptying phase]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>28</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="27305864" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k1]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { \partial { { \left( { V_r }  \right) }  } } \over { \partial { t  } } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27322304" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { \partial { { V_r }  } } \over { \partial { t  } } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27306568" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k1]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { k_1 }  - \left( { { k_10 }  \cdot e^{ { \left( { \left( - { E_1 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27322720" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { k_1 }  - \left( { { k_10 }  \cdot e^{ { \left( { \left( - { E_1 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27295256" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k2]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { k_2 }  - \left( { { k_20 }  \cdot e^{ { \left( { \left( - { E_2 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27323904" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { k_2 }  - \left( { { k_20 }  \cdot e^{ { \left( { \left( - { E_2 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27307528" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k3]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { k_3 }  - \left( { { k_30 }  \cdot e^{ { \left( { \left( - { E_3 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27324928" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { k_3 }  - \left( { { k_30 }  \cdot e^{ { \left( { \left( - { E_3 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27308152" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { \partial { { \left( { { V_r }  \cdot { Ca } }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( - { \left( { { k_1 }  \cdot { V_r } }  \right)  \cdot { Ca } }  \right) }  \right)  - \left( { {2 {}} \cdot \left( { \left( { { k_3 }  \cdot { V_r } }  \right)  \cdot \left( { { Ca }  ^ {2 {}}}  \right) }  \right) }  \right) }  \right)  + \left( { { Qf }  \cdot \left( { { Caf }  - { Ca } }  \right) }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27326096" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { V_r }  \cdot { { \partial { { Ca }  } } \over { \partial { t  } } } }  \right)  + \left( { { Ca }  \cdot { { \partial { { V_r }  } } \over { \partial { t  } } } }  \right) }  \right)  - \left( { \left( { \left( { \left( - { \left( { { k_1 }  \cdot { V_r } }  \right)  \cdot { Ca } }  \right) }  \right)  - \left( { {2 {}} \cdot \left( { \left( { { k_3 }  \cdot { V_r } }  \right)  \cdot \left( { { Ca }  ^ {2 {}}}  \right) }  \right) }  \right) }  \right)  + \left( { { Qf }  \cdot \left( { { Caf }  - { Ca } }  \right) }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27308856" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cb]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { \partial { { \left( { { V_r }  \cdot { Cb } }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { \left( { { k_1 }  \cdot { V_r } }  \right)  \cdot { Ca } }  \right)  - \left( { \left( { { k_2 }  \cdot { V_r } }  \right)  \cdot { Cb } }  \right) }  \right)  - \left( { { Qf }  \cdot { Cb } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27328624" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { V_r }  \cdot { { \partial { { Cb }  } } \over { \partial { t  } } } }  \right)  + \left( { { Cb }  \cdot { { \partial { { V_r }  } } \over { \partial { t  } } } }  \right) }  \right)  - \left( { \left( { \left( { \left( { { k_1 }  \cdot { V_r } }  \right)  \cdot { Ca } }  \right)  - \left( { \left( { { k_2 }  \cdot { V_r } }  \right)  \cdot { Cb } }  \right) }  \right)  - \left( { { Qf }  \cdot { Cb } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27309224" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cc]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { \partial { { \left( { { V_r }  \cdot { Cc } }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { { k_2 }  \cdot { V_r } }  \right)  \cdot { Cb } }  \right)  - \left( { { Qf }  \cdot { Cc } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27330576" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { V_r }  \cdot { { \partial { { Cc }  } } \over { \partial { t  } } } }  \right)  + \left( { { Cc }  \cdot { { \partial { { V_r }  } } \over { \partial { t  } } } }  \right) }  \right)  - \left( { \left( { \left( { { k_2 }  \cdot { V_r } }  \right)  \cdot { Cb } }  \right)  - \left( { { Qf }  \cdot { Cc } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27309656" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cd]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { \partial { { \left( { { V_r }  \cdot { Cd } }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { \left( { \left( { { k_3 }  \cdot { V_r } }  \right)  \cdot \left( { { Ca }  ^ {2 {}}}  \right) }  \right)  - \left( { { Qf }  \cdot { Cd } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27332048" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { V_r }  \cdot { { \partial { { Cd }  } } \over { \partial { t  } } } }  \right)  + \left( { { Cd }  \cdot { { \partial { { V_r }  } } \over { \partial { t  } } } }  \right) }  \right)  - \left( { \left( { \left( { { k_3 }  \cdot { V_r } }  \right)  \cdot \left( { { Ca }  ^ {2 {}}}  \right) }  \right)  - \left( { { Qf }  \cdot { Cd } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27310024" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[EnergyBalanceReactor]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { \left( { { \rho }  \cdot { c_p } }  \right)  \cdot \left( { { \partial { { \left( { { V_r }  \cdot { T } }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { Qf }  \cdot { \rho } }  \right)  \cdot { c_p } }  \right)  \cdot \left( { { Tf }  - { T } }  \right) }  \right)  - \left( { \left( { \left( { { k_1 }  \cdot { V_r } }  \right)  \cdot { Ca } }  \right)  \cdot { dHr1 } }  \right) }  \right)  - \left( { \left( { \left( { { k_2 }  \cdot { V_r } }  \right)  \cdot { Cb } }  \right)  \cdot { dHr2 } }  \right) }  \right)  - \left( { \left( { \left( { { k_3 }  \cdot { V_r } }  \right)  \cdot \left( { { Ca }  ^ {2 {}}}  \right) }  \right)  \cdot { dHr3 } }  \right) }  \right)  + \left( { \left( { { k_w }  \cdot { A_r } }  \right)  \cdot \left( { { T_k }  - { T } }  \right) }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27333648" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { \rho }  \cdot { c_p } }  \right)  \cdot \left( { \left( { { V_r }  \cdot { { \partial { { T }  } } \over { \partial { t  } } } }  \right)  + \left( { { T }  \cdot { { \partial { { V_r }  } } \over { \partial { t  } } } }  \right) }  \right) }  \right)  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { Qf }  \cdot { \rho } }  \right)  \cdot { c_p } }  \right)  \cdot \left( { { Tf }  - { T } }  \right) }  \right)  - \left( { \left( { \left( { { k_1 }  \cdot { V_r } }  \right)  \cdot { Ca } }  \right)  \cdot { dHr1 } }  \right) }  \right)  - \left( { \left( { \left( { { k_2 }  \cdot { V_r } }  \right)  \cdot { Cb } }  \right)  \cdot { dHr2 } }  \right) }  \right)  - \left( { \left( { \left( { { k_3 }  \cdot { V_r } }  \right)  \cdot \left( { { Ca }  ^ {2 {}}}  \right) }  \right)  \cdot { dHr3 } }  \right) }  \right)  + \left( { \left( { { k_w }  \cdot { A_r } }  \right)  \cdot \left( { { T_k }  - { T } }  \right) }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27311704" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[EnergyBalanceCooling]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { \left( { { m_K }  \cdot { c_pk } }  \right)  \cdot \left( { { \partial { { \left( { T_k }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { { Q_k }  + \left( { \left( { { k_w }  \cdot { A_r } }  \right)  \cdot \left( { { T }  - { T_k } }  \right) }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27338384" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { m_K }  \cdot { c_pk } }  \right)  \cdot { { \partial { { T_k }  } } \over { \partial { t  } } } }  \right)  - \left( { { Q_k }  + \left( { \left( { { k_w }  \cdot { A_r } }  \right)  \cdot \left( { { T }  - { T_k } }  \right) }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27312712" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[V0_star]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { V0_star }  - \left( { { V0 }  \over { Vm } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27340176" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { V0_star }  - \left( { { V0 }  \over { Vm } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27313416" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca_star]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { Ca_star }  \cdot { Caf } }  \right)  - { Ca } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27340976" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { Ca_star }  \cdot { Caf } }  \right)  - { Ca } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27313992" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Cb_star]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { Cb_star }  \cdot { Caf } }  \right)  - { Cb } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27341584" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { Cb_star }  \cdot { Caf } }  \right)  - { Cb } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27314568" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P1]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { P1 }  \cdot { Qf } }  \right)  - \left( { { k_1 }  \cdot { Vm } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27342288" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { P1 }  \cdot { Qf } }  \right)  - \left( { { k_1 }  \cdot { Vm } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27315160" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P2]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { P2 }  \cdot { Qf } }  \right)  - \left( { { k_2 }  \cdot { Vm } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27343088" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { P2 }  \cdot { Qf } }  \right)  - \left( { { k_2 }  \cdot { Vm } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27315848" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P3]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { P3 }  \cdot { Qf } }  \right)  - \left( { { k_3 }  \cdot { Vm } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27344032" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { P3 }  \cdot { Qf } }  \right)  - \left( { { k_3 }  \cdot { Vm } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27316552" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[theta]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { theta }  - \left( { \left( { \left( { {\tau} }  \right)  \cdot { Qf } }  \right)  \over { Vm } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27344976" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { theta }  - \left( { \left( { \left( { {\tau} }  \right)  \cdot { Qf } }  \right)  \over { Vm } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27317256" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[sigma_f]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { sigma_f }  \cdot \left( { \left( { { time_f }  + { time_b } }  \right)  + { time_e } }  \right) }  \right)  - { time_f } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27345808" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { sigma_f }  \cdot \left( { \left( { { time_f }  + { time_b } }  \right)  + { time_e } }  \right) }  \right)  - { time_f } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27317944" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[sigma_b]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { sigma_b }  \cdot \left( { \left( { { time_f }  + { time_b } }  \right)  + { time_e } }  \right) }  \right)  - { time_b } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27347216" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { sigma_b }  \cdot \left( { \left( { { time_f }  + { time_b } }  \right)  + { time_e } }  \right) }  \right)  - { time_b } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="27318664" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[sigma_e]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { sigma_e }  \cdot \left( { \left( { { time_f }  + { time_b } }  \right)  + { time_e } }  \right) }  \right)  - { time_e } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27348144" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { sigma_e }  \cdot \left( { \left( { { time_f }  + { time_b } }  \right)  + { time_e } }  \right) }  \right)  - { time_e } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>

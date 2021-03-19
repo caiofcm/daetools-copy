@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="44001760" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial14]]></Name>
+  <Description><![CDATA[
+In this tutorial we introduce the external functions concept that can handle and execute
+functions in external libraries. The daeScalarExternalFunction-derived external function
+object is used to calculate the heat transferred and to interpolate a set of values
+using the scipy.interpolate.interp1d object.
+
+In this example we use the same model as in the tutorial 5 with few additional equations.
+
+The simulation output should show the following messages at the end of simulation:
+
+.. code-block:: none
+
+   ...
+   scipy.interp1d statistics:
+     interp1d called 1703 times (cache value used 770 times)
+
+The plot of the 'Heat_ext' variable:
+
+.. image:: _static/tutorial14-results.png
+   :width: 500px
+
+The plot of the 'Value_interp' variable:
+
+.. image:: _static/tutorial14-results2.png
+   :width: 500px
+]]></Description>
+  <Domains/>
+  <Parameters>
+    <Object ID="44002584" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m]]></Name>
+      <Description><![CDATA[Mass of the copper plate]]></Description>
+      <Units>
+        <kg>1</kg>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44003208" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_p]]></Name>
+      <Description><![CDATA[Specific heat capacity of the plate]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44003784" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&alpha;]]></Name>
+      <Description><![CDATA[Heat transfer coefficient]]></Description>
+      <Units>
+        <K>-1</K>
+        <W>1</W>
+        <m>-2</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44004120" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[A]]></Name>
+      <Description><![CDATA[Area of the plate]]></Description>
+      <Units>
+        <m>2</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44004456" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_surr]]></Name>
+      <Description><![CDATA[Temperature of the surroundings]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="44005200" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Q_in]]></Name>
+      <Description><![CDATA[Power of the heater]]></Description>
+      <VariableType>power_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44005808" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Temperature of the plate]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44006464" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Heat]]></Name>
+      <Description><![CDATA[Heat transferred]]></Description>
+      <VariableType>power_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44007072" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Heat_ext]]></Name>
+      <Description><![CDATA[Heat transferred calculated using an external function]]></Description>
+      <VariableType>power_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44007760" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Value]]></Name>
+      <Description><![CDATA[Simple value]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="44008448" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Value_interp]]></Name>
+      <Description><![CDATA[Simple value calculated using an external function that wraps scipy.interp1d]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="43973992" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[HeatBalance]]></Name>
+      <Description><![CDATA[Integral heat balance equation]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { \left( { \left( { { m }  \cdot { c_p } }  \right)  \cdot \left( { { \partial { { \left( { T }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - { Q_in } }  \right)  + \left( { \left( { { \alpha }  \cdot { A } }  \right)  \cdot \left( { { T }  - { T_surr } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="43974984" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Heat]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ { Heat }  - \left( { \left( { { m }  \cdot { c_p } }  \right)  \cdot \left( { { \partial { { \left( { T }  \right) }  } } \over { \partial { t  } } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="43975832" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Heat_ext]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Heat_ext }  - \left( { Heat \left( cp = { { c_p }  } , dT = { { { \partial { { \left( { T }  \right) }  } } \over { \partial { t  } } }  } , m = { { m }  }  \right) } \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="43978120" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Value]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Value }  - \left( { {2 {}} \cdot \left( { {\tau} }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="43978856" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Value_interp]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Value_interp }  - \left( { interp1d \left( t = { { {\tau} }  }  \right) } \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs>
+    <Object ID="43979424" Class="daeSTN" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Regulator]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Type>eSTN</Type>
+      <States>
+        <Object ID="43979808" Class="daeState" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[Heating]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Equations>
+            <Object ID="43980184" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[Q_in]]></Name>
+              <Description><![CDATA[The heater is on]]></Description>
+              <EquationType>eAlgebraic</EquationType>
+              <Residual>$${ { Q_in }  - {1500 {{W}}}}  = 0$$</Residual>
+              <DistributedDomainInfos/>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions>
+            <Object ID="43981192" Class="daeOnConditionActions" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[OnConditionActions_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Condition ID="140721519961520" Class="daeCondition" Library="" Version="1.7.3">
+                <Expression>${\left( {{ T } } &gt; {{340 {{K}}}} \right)}$</Expression>
+                <EventTolerance>0</EventTolerance>
+              </Condition>
+              <Actions>
+                <Object ID="43981488" Class="daeAction" Library="DAE.Core" Version="1.7.3">
+                  <Name><![CDATA[actionChangeState_Cooling]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <Type>eChangeState</Type>
+                  <STN ID="43979424">Regulator</STN>
+                  <StateTo ID="44304048">Cooling</StateTo>
+                </Object>
+              </Actions>
+            </Object>
+            <Object ID="44303304" Class="daeOnConditionActions" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[OnConditionActions_1]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Condition ID="140721519961520" Class="daeCondition" Library="" Version="1.7.3">
+                <Expression>${\left( {{ {\tau} } } &gt; {{350 {{s}}}} \right)}$</Expression>
+                <EventTolerance>0</EventTolerance>
+              </Condition>
+              <Actions>
+                <Object ID="44303600" Class="daeAction" Library="DAE.Core" Version="1.7.3">
+                  <Name><![CDATA[actionChangeState_HeaterOff]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <Type>eChangeState</Type>
+                  <STN ID="43979424">Regulator</STN>
+                  <StateTo ID="44307024">HeaterOff</StateTo>
+                </Object>
+              </Actions>
+            </Object>
+          </OnConditionActions>
+          <STN ID="43979424">Regulator</STN>
+        </Object>
+        <Object ID="44304048" Class="daeState" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[Cooling]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Equations>
+            <Object ID="44304328" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[Q_in]]></Name>
+              <Description><![CDATA[The heater is off]]></Description>
+              <EquationType>eAlgebraic</EquationType>
+              <Residual>$${ Q_in }  = 0$$</Residual>
+              <DistributedDomainInfos/>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions>
+            <Object ID="44305224" Class="daeOnConditionActions" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[OnConditionActions_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Condition ID="140721519961520" Class="daeCondition" Library="" Version="1.7.3">
+                <Expression>${\left( {{ T } } &lt; {{320 {{K}}}} \right)}$</Expression>
+                <EventTolerance>0</EventTolerance>
+              </Condition>
+              <Actions>
+                <Object ID="44305520" Class="daeAction" Library="DAE.Core" Version="1.7.3">
+                  <Name><![CDATA[actionChangeState_Heating]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <Type>eChangeState</Type>
+                  <STN ID="43979424">Regulator</STN>
+                  <StateTo ID="43979808">Heating</StateTo>
+                </Object>
+              </Actions>
+            </Object>
+            <Object ID="44306328" Class="daeOnConditionActions" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[OnConditionActions_1]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Condition ID="140721519961520" Class="daeCondition" Library="" Version="1.7.3">
+                <Expression>${\left( {{ {\tau} } } &gt; {{350 {{s}}}} \right)}$</Expression>
+                <EventTolerance>0</EventTolerance>
+              </Condition>
+              <Actions>
+                <Object ID="44306624" Class="daeAction" Library="DAE.Core" Version="1.7.3">
+                  <Name><![CDATA[actionChangeState_HeaterOff]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <Type>eChangeState</Type>
+                  <STN ID="43979424">Regulator</STN>
+                  <StateTo ID="44307024">HeaterOff</StateTo>
+                </Object>
+              </Actions>
+            </Object>
+          </OnConditionActions>
+          <STN ID="43979424">Regulator</STN>
+        </Object>
+        <Object ID="44307024" Class="daeState" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[HeaterOff]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Equations>
+            <Object ID="44307304" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[Q_in]]></Name>
+              <Description><![CDATA[The heater is off]]></Description>
+              <EquationType>eAlgebraic</EquationType>
+              <Residual>$${ Q_in }  = 0$$</Residual>
+              <DistributedDomainInfos/>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions/>
+          <STN ID="43979424">Regulator</STN>
+        </Object>
+      </States>
+      <ParentState>NULL</ParentState>
+    </Object>
+  </STNs>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

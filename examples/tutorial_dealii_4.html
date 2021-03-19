@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Generator" content="Kate, the KDE Advanced Text Editor" />
+<title>tutorial_dealii_4.py</title>
+</head>
+<!-- Highlighting: "Python" -->
+<body>
+<pre style='color:#1f1c1b;background-color:#ffffff;'>
+<span style='color:#017a31;'>#!/usr/bin/env python</span>
+<span style='color:#017a31;'># -*- coding: utf-8 -*-</span>
+
+<span style='color:#017a31;'>&quot;&quot;&quot;</span>
+<span style='color:#017a31;'>***********************************************************************************</span>
+<span style='color:#017a31;'>                        tutorial_dealii_4.py</span>
+<span style='color:#017a31;'>                DAE Tools: pyDAE module, www.daetools.com</span>
+<span style='color:#017a31;'>                Copyright (C) Dragan Nikolic</span>
+<span style='color:#017a31;'>***********************************************************************************</span>
+<span style='color:#017a31;'>DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span style='color:#017a31;'>terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span style='color:#017a31;'>Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span style='color:#017a31;'>ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span style='color:#017a31;'>PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span style='color:#017a31;'>You should have received a copy of the GNU General Public License along with the</span>
+<span style='color:#017a31;'>DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span style='color:#017a31;'>************************************************************************************</span>
+<span style='color:#017a31;'>&quot;&quot;&quot;</span>
+__doc__ <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc0000;'>&quot;&quot;&quot;</span>
+<span style='color:#cc0000;'>In this tutorial the transient heat conduction problem is solved using</span>
+<span style='color:#cc0000;'>the finite element method:</span>
+
+<span style='color:#cc0000;'>.. code-block:: none</span>
+
+<span style='color:#cc0000;'>   dT/dt - kappa * nabla^2(Τ) = g in Omega</span>
+
+<span style='color:#cc0000;'>The mesh is a pipe submerged into water receiving the heat of the sun at the</span>
+<span style='color:#cc0000;'>45 degrees from the top-left direction, the heat from the suroundings and</span>
+<span style='color:#cc0000;'>having the constant temperature of the inner tube.</span>
+<span style='color:#cc0000;'>The boundary conditions are thus:</span>
+
+<span style='color:#cc0000;'>- [at boundary ID=0] Sun shine at 45 degrees, gradient heat flux = 2 kW/m**2 in direction n = (1,-1)</span>
+<span style='color:#cc0000;'>- [at boundary ID=1] Outer surface where y &lt;= -0.5, constant flux of 2 kW/m**2</span>
+<span style='color:#cc0000;'>- [at boundary ID=2] Inner tube: constant temperature of 300 K</span>
+
+<span style='color:#cc0000;'>The pipe mesh is given below:</span>
+
+<span style='color:#cc0000;'>.. image:: _static/pipe.png</span>
+<span style='color:#cc0000;'>   :width: 300 px</span>
+
+<span style='color:#cc0000;'>The temperature plot at t = 3600s:</span>
+
+<span style='color:#cc0000;'>.. image:: _static/tutorial_dealii_4-results.png</span>
+<span style='color:#cc0000;'>   :height: 400 px</span>
+
+<span style='color:#cc0000;'>Animation:</span>
+<span style='color:#cc0000;'>    </span>
+<span style='color:#cc0000;'>.. image:: _static/tutorial_dealii_4-animation.gif</span>
+<span style='color:#cc0000;'>   :height: 400 px</span>
+<span style='color:#cc0000;'>&quot;&quot;&quot;</span>
+
+<span style='color:#3605fb;'>import</span> os, sys, numpy, json, math, tempfile
+<span style='color:#3605fb;'>from</span> time <span style='color:#3605fb;'>import</span> localtime, strftime
+<span style='color:#3605fb;'>from</span> daetools.pyDAE <span style='color:#3605fb;'>import</span> <b><span style='color:#0000ff;'>*</span></b>
+<span style='color:#3605fb;'>from</span> daetools.solvers.deal_II <span style='color:#3605fb;'>import</span> <b><span style='color:#0000ff;'>*</span></b>
+<span style='color:#3605fb;'>from</span> daetools.solvers.superlu <span style='color:#3605fb;'>import</span> pySuperLU
+
+<span style='color:#017a31;'># Standard variable types are defined in variable_types.py</span>
+<span style='color:#3605fb;'>from</span> pyUnits <span style='color:#3605fb;'>import</span> m, kg, s, K, Pa, mol, J, W
+
+<span style='color:#017a31;'># Neumann BC use either value() or gradient() functions.</span>
+<span style='color:#017a31;'># Dirichlet BC use vector_value() with n_component = multiplicity of the equation.</span>
+<span style='color:#017a31;'># Other functions use just the value().</span>
+<span style='color:#017a31;'>#</span>
+<span style='color:#017a31;'># Nota bene:</span>
+<span style='color:#017a31;'>#   This function is derived from Function_2D class and returns &quot;double&quot; value/gradient</span>
+<b>class</b> GradientFunction_2D(Function_2D):
+    <b>def</b> <b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>, gradient, direction, n_components <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>1</span>):
+        <span style='color:#017a31;'>&quot;&quot;&quot;</span>
+<span style='color:#017a31;'>        Arguments:</span>
+<span style='color:#017a31;'>          gradient - float, flux magnitude</span>
+<span style='color:#017a31;'>          direction - Tensor&lt;1,dim&gt;, unit vector</span>
+<span style='color:#017a31;'>        </span><span style='color:#017a31;'>&quot;&quot;&quot;</span>
+        Function_2D.<b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>, n_components)
+        <span style='color:#3605fb;'>self</span>.m_gradient <b><span style='color:#0000ff;'>=</span></b> Tensor_1_2D()
+        <span style='color:#3605fb;'>self</span>.m_gradient[<span style='color:#cc047c;'>0</span>] <b><span style='color:#0000ff;'>=</span></b> gradient <b><span style='color:#0000ff;'>*</span></b> direction[<span style='color:#cc047c;'>0</span>]
+        <span style='color:#3605fb;'>self</span>.m_gradient[<span style='color:#cc047c;'>1</span>] <b><span style='color:#0000ff;'>=</span></b> gradient <b><span style='color:#0000ff;'>*</span></b> direction[<span style='color:#cc047c;'>1</span>]
+        
+    <b>def</b> gradient(<span style='color:#3605fb;'>self</span>, point, component <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>0</span>):
+        <b>if</b> point.x <b><span style='color:#0000ff;'>&lt;</span></b> <span style='color:#cc047c;'>0</span> <b>and</b> point.y <b><span style='color:#0000ff;'>&gt;</span></b> <span style='color:#cc047c;'>0</span>:
+            <b>return</b> <span style='color:#3605fb;'>self</span>.m_gradient
+        <b>else</b>:
+            <b>return</b> Tensor_1_2D()
+
+    <b>def</b> vector_gradient(<span style='color:#3605fb;'>self</span>, point):
+        <b>return</b> [<span style='color:#3605fb;'>self</span>.gradient(point, c) <b>for</b> c <b>in</b> <span style='color:#2a00d6;'>range</span>(<span style='color:#3605fb;'>self</span>.n_components)]
+
+<span style='color:#017a31;'># Nota bene:</span>
+<span style='color:#017a31;'>#   This function is derived from adoubleFunction_2D class and returns &quot;adouble&quot; value</span>
+<span style='color:#017a31;'>#   In this case, it is a function of daetools parameters/variables</span>
+<b>class</b> BottomGradientFunction_2D(adoubleFunction_2D):
+    <b>def</b> <b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>, gradient, n_components <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>1</span>):
+        <span style='color:#017a31;'>&quot;&quot;&quot;</span>
+<span style='color:#017a31;'>        Arguments:</span>
+<span style='color:#017a31;'>          gradient - adouble, flux magnitude (scalar)</span>
+<span style='color:#017a31;'>        </span><span style='color:#017a31;'>&quot;&quot;&quot;</span>
+        adoubleFunction_2D.<b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>, n_components)
+        <span style='color:#3605fb;'>self</span>.gradient <b><span style='color:#0000ff;'>=</span></b> adouble(gradient)
+        
+    <b>def</b> value(<span style='color:#3605fb;'>self</span>, point, component <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>0</span>):
+        <b>if</b> point.y <b><span style='color:#0000ff;'>&lt;</span></b> <b><span style='color:#0000ff;'>-</span></b><span style='color:#cc047c;'>0.5</span>:
+            <b>return</b> <span style='color:#3605fb;'>self</span>.gradient
+        <b>else</b>:
+            <b>return</b> adouble(<span style='color:#cc047c;'>0.0</span>)
+
+    <b>def</b> vector_value(<span style='color:#3605fb;'>self</span>, point):
+        <b>return</b> [<span style='color:#3605fb;'>self</span>.value(point, c) <b>for</b> c <b>in</b> <span style='color:#2a00d6;'>range</span>(<span style='color:#3605fb;'>self</span>.n_components)]
+
+<b>class</b> modTutorial(daeModel):
+    <b>def</b> <b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>, Name, Parent <b><span style='color:#0000ff;'>=</span></b> <span style='color:#3605fb;'>None</span>, Description <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc0000;'>&quot;&quot;</span>):
+        daeModel.<b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>, Name, Parent, Description)
+
+        <span style='color:#3605fb;'>self</span>.Q0_total <b><span style='color:#0000ff;'>=</span></b> daeVariable(<span style='color:#cc0000;'>&quot;Q0_total&quot;</span>, no_t, <span style='color:#3605fb;'>self</span>, <span style='color:#cc0000;'>&quot;Total heat passing through the boundary with id=0&quot;</span>)
+        <span style='color:#3605fb;'>self</span>.Q1_total <b><span style='color:#0000ff;'>=</span></b> daeVariable(<span style='color:#cc0000;'>&quot;Q1_total&quot;</span>, no_t, <span style='color:#3605fb;'>self</span>, <span style='color:#cc0000;'>&quot;Total heat passing through the boundary with id=1&quot;</span>)
+        <span style='color:#3605fb;'>self</span>.Q2_total <b><span style='color:#0000ff;'>=</span></b> daeVariable(<span style='color:#cc0000;'>&quot;Q2_total&quot;</span>, no_t, <span style='color:#3605fb;'>self</span>, <span style='color:#cc0000;'>&quot;Total heat passing through the boundary with id=2&quot;</span>)
+
+        meshes_dir <b><span style='color:#0000ff;'>=</span></b> os.path.join(os.path.dirname(os.path.abspath(<span style='color:#3605fb;'>__file__</span>)), <span style='color:#cc0000;'>'meshes'</span>)
+        mesh_file  <b><span style='color:#0000ff;'>=</span></b> os.path.join(meshes_dir, <span style='color:#cc0000;'>'pipe.msh'</span>)
+
+        dofs <b><span style='color:#0000ff;'>=</span></b> [dealiiFiniteElementDOF_2D(name<b><span style='color:#0000ff;'>=</span></b><span style='color:#cc0000;'>'T'</span>,
+                                          description<b><span style='color:#0000ff;'>=</span></b><span style='color:#cc0000;'>'Temperature'</span>,
+                                          fe <b><span style='color:#0000ff;'>=</span></b> FE_Q_2D(<span style='color:#cc047c;'>1</span>),
+                                          multiplicity<b><span style='color:#0000ff;'>=</span></b><span style='color:#cc047c;'>1</span>)]
+        <span style='color:#3605fb;'>self</span>.n_components <b><span style='color:#0000ff;'>=</span></b> <span style='color:#2a00d6;'>int</span>(numpy.<span style='color:#2a00d6;'>sum</span>([dof.Multiplicity <b>for</b> dof <b>in</b> dofs]))
+
+        <span style='color:#017a31;'># Store the object so it does not go out of scope while still in use by daetools</span>
+        <span style='color:#3605fb;'>self</span>.fe_system <b><span style='color:#0000ff;'>=</span></b> dealiiFiniteElementSystem_2D(meshFilename    <b><span style='color:#0000ff;'>=</span></b> mesh_file,     <span style='color:#017a31;'># path to mesh</span>
+                                                      quadrature      <b><span style='color:#0000ff;'>=</span></b> QGauss_2D(<span style='color:#cc047c;'>3</span>),  <span style='color:#017a31;'># quadrature formula</span>
+                                                      faceQuadrature  <b><span style='color:#0000ff;'>=</span></b> QGauss_1D(<span style='color:#cc047c;'>3</span>),  <span style='color:#017a31;'># face quadrature formula</span>
+                                                      dofs            <b><span style='color:#0000ff;'>=</span></b> dofs)          <span style='color:#017a31;'># degrees of freedom</span>
+
+        <span style='color:#3605fb;'>self</span>.fe_model <b><span style='color:#0000ff;'>=</span></b> daeFiniteElementModel(<span style='color:#cc0000;'>'HeatConduction'</span>, <span style='color:#3605fb;'>self</span>, <span style='color:#cc0000;'>'Transient heat conduction through a pipe wall with an external heat flux'</span>, <span style='color:#3605fb;'>self</span>.fe_system)
+       
+    <b>def</b> DeclareEquations(<span style='color:#3605fb;'>self</span>):
+        daeModel.DeclareEquations(<span style='color:#3605fb;'>self</span>)
+
+        <span style='color:#017a31;'># Thermo-physical properties of copper.</span>
+        rho   <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>8960.0</span>  <span style='color:#017a31;'># kg/m**3</span>
+        cp    <b><span style='color:#0000ff;'>=</span></b>  <span style='color:#cc047c;'>385.0</span>  <span style='color:#017a31;'># J/(kg*K)</span>
+        kappa <b><span style='color:#0000ff;'>=</span></b>  <span style='color:#cc047c;'>401.0</span>  <span style='color:#017a31;'># W/(m*K)</span>
+
+        <span style='color:#017a31;'># Thermal diffusivity (m**2/s)</span>
+        alpha        <b><span style='color:#0000ff;'>=</span></b> kappa <b><span style='color:#0000ff;'>/</span></b> (rho<b><span style='color:#0000ff;'>*</span></b>cp)   <span style='color:#017a31;'># m**2/s</span>
+
+        flux_above   <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>2.0E3</span><b><span style='color:#0000ff;'>/</span></b>(rho<b><span style='color:#0000ff;'>*</span></b>cp) <span style='color:#017a31;'># (W/m**2)/((kg/m**3) * (J/(kg*K))) =</span>
+        flux_beneath <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>5.0E3</span><b><span style='color:#0000ff;'>/</span></b>(rho<b><span style='color:#0000ff;'>*</span></b>cp) <span style='color:#017a31;'># (W/m**2)/((kg/m**3) * (J/(kg*K))) =</span>
+
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'Thermal diffusivity = </span><span style='color:#cc0000;'>%f</span><span style='color:#cc0000;'>'</span> <b><span style='color:#0000ff;'>%</span></b> alpha)
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'Beneath source flux = </span><span style='color:#cc0000;'>%f</span><span style='color:#cc0000;'>'</span> <b><span style='color:#0000ff;'>%</span></b> flux_beneath)
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'Above source flux = </span><span style='color:#cc0000;'>%f</span><span style='color:#cc0000;'> x (1,-1)'</span> <b><span style='color:#0000ff;'>%</span></b> flux_above)
+
+        <span style='color:#017a31;'># Create some auxiliary objects for readability</span>
+        phi_i  <b><span style='color:#0000ff;'>=</span></b>  phi_2D(<span style='color:#cc0000;'>'T'</span>, fe_i, fe_q)
+        phi_j  <b><span style='color:#0000ff;'>=</span></b>  phi_2D(<span style='color:#cc0000;'>'T'</span>, fe_j, fe_q)
+        dphi_i <b><span style='color:#0000ff;'>=</span></b> dphi_2D(<span style='color:#cc0000;'>'T'</span>, fe_i, fe_q)
+        dphi_j <b><span style='color:#0000ff;'>=</span></b> dphi_2D(<span style='color:#cc0000;'>'T'</span>, fe_j, fe_q)
+        dof_T  <b><span style='color:#0000ff;'>=</span></b> dof_2D(<span style='color:#cc0000;'>'T'</span>, fe_i)
+        normal <b><span style='color:#0000ff;'>=</span></b> normal_2D(fe_q)
+        xyz    <b><span style='color:#0000ff;'>=</span></b> xyz_2D(fe_q)
+        JxW    <b><span style='color:#0000ff;'>=</span></b> JxW_2D(fe_q)
+
+        <span style='color:#017a31;'># deal.II Function&lt;dim,Number&gt; wrappers.</span>
+        <span style='color:#3605fb;'>self</span>.fun_Diffusivity <b><span style='color:#0000ff;'>=</span></b> ConstantFunction_2D(alpha)
+        <span style='color:#3605fb;'>self</span>.fun_Generation  <b><span style='color:#0000ff;'>=</span></b> ConstantFunction_2D(<span style='color:#cc047c;'>0.0</span>)
+        <span style='color:#017a31;'># Gradient flux at boundary id=0 (Sun)</span>
+        <span style='color:#3605fb;'>self</span>.fun_Flux_a <b><span style='color:#0000ff;'>=</span></b> GradientFunction_2D(flux_above, direction <b><span style='color:#0000ff;'>=</span></b> (<b><span style='color:#0000ff;'>-</span></b><span style='color:#cc047c;'>1</span>, <span style='color:#cc047c;'>1</span>))
+        <span style='color:#017a31;'># Flux as a function of daetools variables at boundary id=1 (outer tube where y &lt; -0.5)</span>
+        <span style='color:#3605fb;'>self</span>.fun_Flux_b <b><span style='color:#0000ff;'>=</span></b> BottomGradientFunction_2D(flux_beneath)
+
+        <span style='color:#017a31;'># Nota bene:</span>
+        <span style='color:#017a31;'>#   For the Dirichlet BCs only the adouble versions of Function&lt;dim&gt; class can be used.</span>
+        <span style='color:#017a31;'>#   The values allowed include constants and expressions on daeVariable/daeParameter objects.</span>
+        dirichletBC    <b><span style='color:#0000ff;'>=</span></b> {}
+        dirichletBC[<span style='color:#cc047c;'>2</span>] <b><span style='color:#0000ff;'>=</span></b> [ (<span style='color:#cc0000;'>'T'</span>, adoubleConstantFunction_2D( adouble(<span style='color:#cc047c;'>300</span>) )) ] <span style='color:#017a31;'># at boundary id=2 (inner tube)</span>
+
+        surfaceIntegrals <b><span style='color:#0000ff;'>=</span></b> {}
+        surfaceIntegrals[<span style='color:#cc047c;'>0</span>] <b><span style='color:#0000ff;'>=</span></b> [(<span style='color:#3605fb;'>self</span>.Q0_total(), (<b><span style='color:#0000ff;'>-</span></b>kappa <b><span style='color:#0000ff;'>*</span></b> (dphi_i <b><span style='color:#0000ff;'>*</span></b> normal) <b><span style='color:#0000ff;'>*</span></b> JxW) <b><span style='color:#0000ff;'>*</span></b> dof_T)]
+        surfaceIntegrals[<span style='color:#cc047c;'>1</span>] <b><span style='color:#0000ff;'>=</span></b> [(<span style='color:#3605fb;'>self</span>.Q1_total(), (<b><span style='color:#0000ff;'>-</span></b>kappa <b><span style='color:#0000ff;'>*</span></b> (dphi_i <b><span style='color:#0000ff;'>*</span></b> normal) <b><span style='color:#0000ff;'>*</span></b> JxW) <b><span style='color:#0000ff;'>*</span></b> dof_T)]
+        surfaceIntegrals[<span style='color:#cc047c;'>2</span>] <b><span style='color:#0000ff;'>=</span></b> [(<span style='color:#3605fb;'>self</span>.Q2_total(), (<b><span style='color:#0000ff;'>-</span></b>kappa <b><span style='color:#0000ff;'>*</span></b> (dphi_i <b><span style='color:#0000ff;'>*</span></b> normal) <b><span style='color:#0000ff;'>*</span></b> JxW) <b><span style='color:#0000ff;'>*</span></b> dof_T)]
+
+        <span style='color:#017a31;'># Function&lt;dim&gt;::value and Function&lt;dim&gt;::gradient wrappers</span>
+        D      <b><span style='color:#0000ff;'>=</span></b> function_value_2D        (<span style='color:#cc0000;'>'Diffusivity'</span>, <span style='color:#3605fb;'>self</span>.fun_Diffusivity, xyz)
+        G      <b><span style='color:#0000ff;'>=</span></b> function_value_2D        (<span style='color:#cc0000;'>'Generation'</span>,  <span style='color:#3605fb;'>self</span>.fun_Generation,  xyz)
+        Flux_a <b><span style='color:#0000ff;'>=</span></b> function_gradient_2D     (<span style='color:#cc0000;'>'Flux_a'</span>,      <span style='color:#3605fb;'>self</span>.fun_Flux_a,      xyz)
+        Flux_b <b><span style='color:#0000ff;'>=</span></b> function_adouble_value_2D(<span style='color:#cc0000;'>'Flux_b'</span>,      <span style='color:#3605fb;'>self</span>.fun_Flux_b,      xyz)
+
+        <span style='color:#017a31;'># FE weak form terms</span>
+        accumulation <b><span style='color:#0000ff;'>=</span></b> (phi_i <b><span style='color:#0000ff;'>*</span></b> phi_j) <b><span style='color:#0000ff;'>*</span></b> JxW
+        diffusion    <b><span style='color:#0000ff;'>=</span></b> (dphi_i <b><span style='color:#0000ff;'>*</span></b> dphi_j) <b><span style='color:#0000ff;'>*</span></b> D <b><span style='color:#0000ff;'>*</span></b> JxW
+        source       <b><span style='color:#0000ff;'>=</span></b> phi_i <b><span style='color:#0000ff;'>*</span></b> G <b><span style='color:#0000ff;'>*</span></b> JxW
+        faceFluxes   <b><span style='color:#0000ff;'>=</span></b> {
+                         <span style='color:#cc047c;'>0</span>: phi_i <b><span style='color:#0000ff;'>*</span></b> (Flux_a <b><span style='color:#0000ff;'>*</span></b> normal) <b><span style='color:#0000ff;'>*</span></b> JxW,
+                         <span style='color:#cc047c;'>1</span>: phi_i <b><span style='color:#0000ff;'>*</span></b> Flux_b <b><span style='color:#0000ff;'>*</span></b> JxW
+                       }
+
+        cell_Aij <b><span style='color:#0000ff;'>=</span></b> diffusion
+        cell_Mij <b><span style='color:#0000ff;'>=</span></b> accumulation
+        cell_Fi  <b><span style='color:#0000ff;'>=</span></b> source
+        
+        weakForm <b><span style='color:#0000ff;'>=</span></b> dealiiFiniteElementWeakForm_2D(Aij <b><span style='color:#0000ff;'>=</span></b> cell_Aij,
+                                                  Mij <b><span style='color:#0000ff;'>=</span></b> cell_Mij,
+                                                  Fi  <b><span style='color:#0000ff;'>=</span></b> cell_Fi,
+                                                  boundaryFaceFi  <b><span style='color:#0000ff;'>=</span></b> faceFluxes,
+                                                  functionsDirichletBC <b><span style='color:#0000ff;'>=</span></b> dirichletBC,
+                                                  surfaceIntegrals <b><span style='color:#0000ff;'>=</span></b> surfaceIntegrals)
+
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'Transient heat conduction equation:'</span>)
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'    Aij = </span><span style='color:#cc0000;'>%s</span><span style='color:#cc0000;'>'</span> <b><span style='color:#0000ff;'>%</span></b> <span style='color:#2a00d6;'>str</span>(cell_Aij))
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'    Mij = </span><span style='color:#cc0000;'>%s</span><span style='color:#cc0000;'>'</span> <b><span style='color:#0000ff;'>%</span></b> <span style='color:#2a00d6;'>str</span>(cell_Mij))
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>'    Fi  = </span><span style='color:#cc0000;'>%s</span><span style='color:#cc0000;'>'</span> <b><span style='color:#0000ff;'>%</span></b> <span style='color:#2a00d6;'>str</span>(cell_Fi))
+
+        <span style='color:#017a31;'># Setting the weak form of the FE system will declare a set of equations:</span>
+        <span style='color:#017a31;'># [Mij]{dx/dt} + [Aij]{x} = {Fi} and boundary integral equations</span>
+        <span style='color:#3605fb;'>self</span>.fe_system.WeakForm <b><span style='color:#0000ff;'>=</span></b> weakForm
+
+<b>class</b> simTutorial(daeSimulation):
+    <b>def</b> <b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>):
+        daeSimulation.<b><span style='color:#000e52;'>__init__</span></b>(<span style='color:#3605fb;'>self</span>)
+        <span style='color:#3605fb;'>self</span>.m <b><span style='color:#0000ff;'>=</span></b> modTutorial(<span style='color:#cc0000;'>&quot;tutorial_dealii_4&quot;</span>)
+        <span style='color:#3605fb;'>self</span>.m.Description <b><span style='color:#0000ff;'>=</span></b> __doc__
+        <span style='color:#3605fb;'>self</span>.m.fe_model.Description <b><span style='color:#0000ff;'>=</span></b> __doc__
+
+    <b>def</b> SetUpParametersAndDomains(<span style='color:#3605fb;'>self</span>):
+        <b>pass</b>
+
+    <b>def</b> SetUpVariables(<span style='color:#3605fb;'>self</span>):
+        <span style='color:#017a31;'># setFEInitialConditions(daeFiniteElementModel, dealiiFiniteElementSystem_xD, str, float|callable)</span>
+        setFEInitialConditions(<span style='color:#3605fb;'>self</span>.m.fe_model, <span style='color:#3605fb;'>self</span>.m.fe_system, <span style='color:#cc0000;'>'T'</span>, <span style='color:#cc047c;'>293</span>)
+
+<b>def</b> run(<b><span style='color:#0000ff;'>**</span></b>kwargs):
+    guiRun <b><span style='color:#0000ff;'>=</span></b> kwargs.get(<span style='color:#cc0000;'>'guiRun'</span>, <span style='color:#3605fb;'>False</span>)
+    
+    simulation <b><span style='color:#0000ff;'>=</span></b> simTutorial()
+
+    <span style='color:#017a31;'># Create SuperLU LA solver</span>
+    lasolver <b><span style='color:#0000ff;'>=</span></b> pySuperLU.daeCreateSuperLUSolver()
+
+    <span style='color:#017a31;'># Create and setup two data reporters:</span>
+    datareporter <b><span style='color:#0000ff;'>=</span></b> daeDelegateDataReporter()
+    simName <b><span style='color:#0000ff;'>=</span></b> simulation.m.Name <b><span style='color:#0000ff;'>+</span></b> strftime(<span style='color:#cc0000;'>&quot; [</span><span style='color:#cc0000;'>%d</span><span style='color:#cc0000;'>.%m.%Y %H:%M:%S]&quot;</span>, localtime())
+    <b>if</b> guiRun:
+        results_folder <b><span style='color:#0000ff;'>=</span></b> tempfile.mkdtemp(suffix <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc0000;'>'-results'</span>, prefix <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc0000;'>'tutorial_deal_II_4-'</span>)
+        daeQtMessage(<span style='color:#cc0000;'>&quot;deal.II&quot;</span>, <span style='color:#cc0000;'>&quot;The simulation results will be located in: </span><span style='color:#cc0000;'>%s</span><span style='color:#cc0000;'>&quot;</span> <b><span style='color:#0000ff;'>%</span></b> results_folder)
+    <b>else</b>:
+        results_folder <b><span style='color:#0000ff;'>=</span></b> os.path.join(os.path.dirname(os.path.abspath(<span style='color:#3605fb;'>__file__</span>)), <span style='color:#cc0000;'>'tutorial_deal_II_4-results'</span>)
+        <span style='color:#2a00d6;'>print</span>(<span style='color:#cc0000;'>&quot;The simulation results will be located in: </span><span style='color:#cc0000;'>%s</span><span style='color:#cc0000;'>&quot;</span> <b><span style='color:#0000ff;'>%</span></b> results_folder)
+    
+    <span style='color:#017a31;'># 1. deal.II (exports only FE DOFs in .vtk format to the specified directory)</span>
+    feDataReporter <b><span style='color:#0000ff;'>=</span></b> simulation.m.fe_system.CreateDataReporter()
+    datareporter.AddDataReporter(feDataReporter)
+    <b>if</b> <b>not</b> feDataReporter.Connect(results_folder, simName):
+        sys.exit()
+        
+    <span style='color:#017a31;'># 2. TCP/IP</span>
+    tcpipDataReporter <b><span style='color:#0000ff;'>=</span></b> daeTCPIPDataReporter()
+    datareporter.AddDataReporter(tcpipDataReporter)
+    <b>if</b> <b>not</b> tcpipDataReporter.Connect(<span style='color:#cc0000;'>&quot;&quot;</span>, simName):
+        sys.exit()
+
+    <b>return</b> daeActivity.simulate(simulation, reportingInterval <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>60</span>, 
+                                            timeHorizon       <b><span style='color:#0000ff;'>=</span></b> <span style='color:#cc047c;'>2</span><b><span style='color:#0000ff;'>*</span></b><span style='color:#cc047c;'>60</span><b><span style='color:#0000ff;'>*</span></b><span style='color:#cc047c;'>60</span>,
+                                            lasolver          <b><span style='color:#0000ff;'>=</span></b> lasolver,
+                                            datareporter      <b><span style='color:#0000ff;'>=</span></b> datareporter,
+                                            <b><span style='color:#0000ff;'>**</span></b>kwargs)
+
+<b>if</b> <span style='color:#3605fb;'>__name__</span> <b><span style='color:#0000ff;'>==</span></b> <span style='color:#cc0000;'>&quot;__main__&quot;</span>:
+    guiRun <b><span style='color:#0000ff;'>=</span></b> <span style='color:#3605fb;'>False</span> <b>if</b> (<span style='color:#2a00d6;'>len</span>(sys.argv) <b><span style='color:#0000ff;'>&gt;</span></b> <span style='color:#cc047c;'>1</span> <b>and</b> sys.argv[<span style='color:#cc047c;'>1</span>] <b><span style='color:#0000ff;'>==</span></b> <span style='color:#cc0000;'>'console'</span>) <b>else</b> <span style='color:#3605fb;'>True</span>
+    run(guiRun <b><span style='color:#0000ff;'>=</span></b> guiRun)
+</pre>
+</body>
+</html>

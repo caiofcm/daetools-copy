@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="29071600" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+  <Name><![CDATA[opt_tutorial6]]></Name>
+  <Description><![CDATA[
+daeMinpackLeastSq module test.
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables>
+    <Object ID="27578456" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[x]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+    <Object ID="27842168" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[y]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>1</OverallIndex>
+    </Object>
+    <Object ID="27988856" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[A]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>2</OverallIndex>
+    </Object>
+    <Object ID="28295448" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[k]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>3</OverallIndex>
+    </Object>
+    <Object ID="28381256" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[&theta;]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>4</OverallIndex>
+    </Object>
+    <Object ID="28650648" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[V_measured1]]></Name>
+      <Description><![CDATA[Measured variable]]></Description>
+      <VariableType>gradient_function_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>5</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="28132712" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[F_measured1]]></Name>
+      <Description><![CDATA[Measured variable]]></Description>
+      <Residual>$${ { y }  - { V_measured1 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27762720" Class="daeEquationExecutionInfo" Library="" Version="1.9.0">
+          <EquationEvaluationNode>$${ { y }  - { V_measured1 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="28556392" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[y]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { y }  - \left( { { A }  \cdot \sin \left( { \left( { \left( { {6.283185307 {}} \cdot { k } }  \right)  \cdot { x } }  \right)  + { \theta } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="27774768" Class="daeEquationExecutionInfo" Library="" Version="1.9.0">
+          <EquationEvaluationNode>$${ { y }  - \left( { { A }  \cdot \sin \left( { \left( { \left( { {6.283185307 {}} \cdot { k } }  \right)  \cdot { x } }  \right)  + { \theta } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>

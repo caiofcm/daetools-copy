@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+       "http://www.w3.org/TR/MathML2/dtd/xhtml-math11-f.dtd"[ 
+        <!ENTITY mathml "http://www.w3.org/1998/Math/MathML" > 
+]> 
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="94238382070848" Class="daeModel" Library="DAE.Core" Version="1.7.1">
+  <Name>opt_tutorial2</Name>
+  <Description>
+This tutorial introduces Bonmin MINLP solver, its setup and options.
+</Description>
+  <MathMLName>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <msub>
+          <mrow>
+            <mi mathvariant="italic">opt</mi>
+          </mrow>
+          <mrow>
+            <mi mathvariant="italic">tutorial2</mi>
+          </mrow>
+        </msub>
+      </mrow>
+    </math>
+  </MathMLName>
+  <Domains/>
+  <Parameters/>
+  <Variables>
+    <Object ID="94238382326176" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>x</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">x</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382326784" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>y1</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">y1</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382327392" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>y2</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">y2</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382328000" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>z</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">z</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382329440" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>dummy</Name>
+      <Description>A dummy variable to satisfy the condition that there should be at least one-state variable and one equation in a model</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">dummy</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382332688" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>V_obj1</Name>
+      <Description>Objective function</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">V</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">obj1</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>gradient_function_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382334816" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>V_constraint1</Name>
+      <Description>Constraint 1</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">V</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">constraint1</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>gradient_function_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382337696" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>V_constraint2</Name>
+      <Description>Constraint 2</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">V</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">constraint2</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>gradient_function_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="94238382339216" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>V_constraint3</Name>
+      <Description>Constraint 3</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">V</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">constraint3</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>gradient_function_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="94238382332968" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>F_obj1</Name>
+      <Description>Objective function</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">F</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">obj1</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { \left( { \left( { \left( - { x }  \right) }  \right)  - { y1 } }  \right)  - { y2 } }  \right)  - { V_obj1 } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="94238382335096" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>F_constraint1</Name>
+      <Description>Constraint 1</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">F</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">constraint1</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { \left( { \left( { \left( { { y1 }  - {0.5 {}}}  \right)  ^ {2 {}}}  \right)  + \left( { \left( { { y2 }  - {0.5 {}}}  \right)  ^ {2 {}}}  \right) }  \right)  - {0.25 {}}}  \right)  - { V_constraint1 } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="94238382337976" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>F_constraint2</Name>
+      <Description>Constraint 2</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">F</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">constraint2</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { x }  - { y1 } }  \right)  - { V_constraint2 } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="94238382339496" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>F_constraint3</Name>
+      <Description>Constraint 3</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">F</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">constraint3</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { \left( { \left( { { x }  + { y2 } }  \right)  + { z } }  \right)  - {2 {}}}  \right)  - { V_constraint3 } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="94238382341528" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Dummy</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Dummy</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ dummy }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Units/>
+  <UnitArrays/>
+  <PortArrays/>
+</Model>

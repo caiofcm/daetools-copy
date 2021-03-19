@@ -135,7 +135,7 @@ Every model definition requires specification of the model structure and its fun
    phase is not allowed.
 
 A simplest **DAE Tools** model with a description of all steps/tasks necessary to develop a model
-can be found in the :ref:`whats_the_time` tutorial (`whats_the_time.py <../../examples/whats_the_time.html>`_).
+can be found in the :ref:`whats_the_time` tutorial (`whats_the_time.py <./examples/whats_the_time.html>`_).
 
 
 Parameters
