@@ -1,0 +1,1827 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="29870304" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_che_7]]></Name>
+  <Description><![CDATA[
+Steady-state Plug Flow Reactor with energy balance and first order reaction:
+
+.. code-block:: none
+
+    A -> B
+
+The problem is example 9.4.3 from the section 9.4 Nonisothermal Plug Flow Reactor
+from the following book:
+
+- Davis M.E., Davis R.J. (2003) Fundamentals of Chemical Reaction Engineering.
+  McGraw Hill, New York, US. ISBN 007245007X.
+
+The dimensionless concentration plot:
+
+.. image:: _static/tutorial_che_7-results.png
+   :width: 500px
+
+The dimensionless temperature plot (adiabatic and nonisothermal cases):
+
+.. image:: _static/tutorial_che_7-results2.png
+   :width: 500px
+]]></Description>
+  <Domains>
+    <Object ID="139865193608080" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[z]]></Name>
+      <Description><![CDATA[Axial domain]]></Description>
+      <Type>eStructuredGrid</Type>
+      <Units>
+        <m>1</m>
+      </Units>
+      <NumberOfIntervals>50</NumberOfIntervals>
+      <NumberOfPoints>51</NumberOfPoints>
+      <Points>
+        <Item>0</Item>
+        <Item>0.040000000000000</Item>
+        <Item>0.080000000000000</Item>
+        <Item>0.120000000000000</Item>
+        <Item>0.160000000000000</Item>
+        <Item>0.200000000000000</Item>
+        <Item>0.240000000000000</Item>
+        <Item>0.280000000000000</Item>
+        <Item>0.320000000000000</Item>
+        <Item>0.360000000000000</Item>
+        <Item>0.400000000000000</Item>
+        <Item>0.440000000000000</Item>
+        <Item>0.480000000000000</Item>
+        <Item>0.520000000000000</Item>
+        <Item>0.560000000000000</Item>
+        <Item>0.600000000000000</Item>
+        <Item>0.640000000000000</Item>
+        <Item>0.680000000000000</Item>
+        <Item>0.720000000000000</Item>
+        <Item>0.760000000000000</Item>
+        <Item>0.800000000000000</Item>
+        <Item>0.840000000000000</Item>
+        <Item>0.880000000000000</Item>
+        <Item>0.920000000000000</Item>
+        <Item>0.960000000000000</Item>
+        <Item>1</Item>
+        <Item>1.040000000000000</Item>
+        <Item>1.080000000000000</Item>
+        <Item>1.120000000000000</Item>
+        <Item>1.160000000000000</Item>
+        <Item>1.200000000000000</Item>
+        <Item>1.240000000000000</Item>
+        <Item>1.280000000000000</Item>
+        <Item>1.320000000000000</Item>
+        <Item>1.360000000000000</Item>
+        <Item>1.400000000000000</Item>
+        <Item>1.440000000000000</Item>
+        <Item>1.480000000000000</Item>
+        <Item>1.520000000000000</Item>
+        <Item>1.560000000000000</Item>
+        <Item>1.600000000000000</Item>
+        <Item>1.640000000000000</Item>
+        <Item>1.680000000000000</Item>
+        <Item>1.720000000000000</Item>
+        <Item>1.760000000000000</Item>
+        <Item>1.800000000000000</Item>
+        <Item>1.840000000000000</Item>
+        <Item>1.880000000000000</Item>
+        <Item>1.920000000000000</Item>
+        <Item>1.960000000000000</Item>
+        <Item>2</Item>
+      </Points>
+      <LowerBound>0</LowerBound>
+      <UpperBound>2</UpperBound>
+    </Object>
+  </Domains>
+  <Parameters>
+    <Object ID="29871128" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_0]]></Name>
+      <Description><![CDATA[Inlet temperature]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>700</Item>
+      </Values>
+    </Object>
+    <Object ID="29871816" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca0]]></Name>
+      <Description><![CDATA[Inlet concentration of A]]></Description>
+      <Units>
+        <m>-3</m>
+        <mol>1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>300</Item>
+      </Values>
+    </Object>
+    <Object ID="29872280" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u]]></Name>
+      <Description><![CDATA[Velocity]]></Description>
+      <Units>
+        <m>1</m>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>3</Item>
+      </Values>
+    </Object>
+    <Object ID="29872568" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[A]]></Name>
+      <Description><![CDATA[A->B pre-exponential factor]]></Description>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>5</Item>
+      </Values>
+    </Object>
+    <Object ID="29851016" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ea]]></Name>
+      <Description><![CDATA[A->B activation energy]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>100</Item>
+      </Values>
+    </Object>
+    <Object ID="29851544" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[dHra]]></Name>
+      <Description><![CDATA[Heat of reaction A->B]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>-1000000</Item>
+      </Values>
+    </Object>
+    <Object ID="29852072" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&rho;]]></Name>
+      <Description><![CDATA[Density]]></Description>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>1200</Item>
+      </Values>
+    </Object>
+    <Object ID="29852760" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_p]]></Name>
+      <Description><![CDATA[Heat capacity]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>1000</Item>
+      </Values>
+    </Object>
+    <Object ID="29853048" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Tj]]></Name>
+      <Description><![CDATA[Cooling jacket temperature]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>700</Item>
+      </Values>
+    </Object>
+    <Object ID="29853432" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[aj]]></Name>
+      <Description><![CDATA[Cooling jacket specific surface area (area/volume)]]></Description>
+      <Units>
+        <m>-1</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>20</Item>
+      </Values>
+    </Object>
+    <Object ID="29854776" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[U]]></Name>
+      <Description><![CDATA[Cooling jacket heat transfer coefficient]]></Description>
+      <Units>
+        <K>-1</K>
+        <W>1</W>
+        <m>-2</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>70000</Item>
+      </Values>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="29855440" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[tau_r]]></Name>
+      <Description><![CDATA[Residence time]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+    <Object ID="29856048" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ka]]></Name>
+      <Description><![CDATA[Reaction A->B rate constant]]></Description>
+      <VariableType>k</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>1</OverallIndex>
+    </Object>
+    <Object ID="29856704" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[Concentration of A]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>52</OverallIndex>
+    </Object>
+    <Object ID="29857312" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ra]]></Name>
+      <Description><![CDATA[Reaction A->B rate]]></Description>
+      <VariableType>molar_reaction_rate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>103</OverallIndex>
+    </Object>
+    <Object ID="29859584" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Temperature in the reactor]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>154</OverallIndex>
+    </Object>
+    <Object ID="29860416" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[xa]]></Name>
+      <Description><![CDATA[Conversion of A]]></Description>
+      <VariableType>fraction_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>205</OverallIndex>
+    </Object>
+    <Object ID="29861024" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ya]]></Name>
+      <Description><![CDATA[Dimensionless concentration of A]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>256</OverallIndex>
+    </Object>
+    <Object ID="29861632" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[theta]]></Name>
+      <Description><![CDATA[Dimensionless temperature]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>307</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="29867016" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k1]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { ka \left( { z } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { z } \right) } }  \right) } } }  \right) }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30184528" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 0 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 0 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30185616" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 1 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 1 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30187024" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 2 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 2 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30188512" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 3 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 3 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30189952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 4 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 4 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30191584" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 5 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 5 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30193488" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 6 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 6 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30195440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 7 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 7 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30197392" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 8 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 8 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30199488" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 9 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 9 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30201360" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 10 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 10 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30203312" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 11 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 11 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30205264" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 12 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 12 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30207216" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 13 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 13 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30209168" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 14 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 14 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30211120" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 15 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 15 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30213072" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 16 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 16 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30215296" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 17 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 17 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30217120" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 18 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 18 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30219072" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 19 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 19 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30221024" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 20 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 20 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30222976" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 21 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 21 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30224928" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 22 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 22 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30226880" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 23 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 23 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30228832" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 24 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 24 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30230784" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 25 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 25 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30232736" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 26 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 26 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30234688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 27 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 27 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30236640" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 28 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 28 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30238592" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 29 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 29 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30240544" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 30 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 30 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30242496" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 31 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 31 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30244448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 32 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 32 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30215024" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 33 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 33 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30248624" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 34 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 34 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30250576" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 35 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 35 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30252528" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 36 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 36 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30254480" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 37 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 37 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30256432" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 38 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 38 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30258384" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 39 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 39 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30260336" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 40 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 40 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30262288" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 41 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 41 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30264240" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 42 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 42 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30266192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 43 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 43 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30268144" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 44 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 44 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30270096" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 45 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 45 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30272048" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 46 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 46 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30274000" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 47 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 47 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30275952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 48 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 48 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30277904" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 49 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 49 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30279856" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ka \left( { 50 } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { 50 } \right) } }  \right) } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="29864952" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ra]]></Name>
+      <Description><![CDATA[Reaction A->B rate]]></Description>
+      <Residual>$${ { ra \left( { z } \right) }  - \left( { { ka \left( { z } \right) }  \cdot { Ca \left( { z } \right) } }  \right) }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30184112" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 0 } \right) }  - \left( { { ka \left( { 0 } \right) }  \cdot { Ca \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30283376" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 1 } \right) }  - \left( { { ka \left( { 1 } \right) }  \cdot { Ca \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30284528" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 2 } \right) }  - \left( { { ka \left( { 2 } \right) }  \cdot { Ca \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30285664" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 3 } \right) }  - \left( { { ka \left( { 3 } \right) }  \cdot { Ca \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30286752" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 4 } \right) }  - \left( { { ka \left( { 4 } \right) }  \cdot { Ca \left( { 4 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30287952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 5 } \right) }  - \left( { { ka \left( { 5 } \right) }  \cdot { Ca \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30289072" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 6 } \right) }  - \left( { { ka \left( { 6 } \right) }  \cdot { Ca \left( { 6 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30290192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 7 } \right) }  - \left( { { ka \left( { 7 } \right) }  \cdot { Ca \left( { 7 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30291312" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 8 } \right) }  - \left( { { ka \left( { 8 } \right) }  \cdot { Ca \left( { 8 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30292576" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 9 } \right) }  - \left( { { ka \left( { 9 } \right) }  \cdot { Ca \left( { 9 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30293616" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 10 } \right) }  - \left( { { ka \left( { 10 } \right) }  \cdot { Ca \left( { 10 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30294736" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 11 } \right) }  - \left( { { ka \left( { 11 } \right) }  \cdot { Ca \left( { 11 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30295856" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 12 } \right) }  - \left( { { ka \left( { 12 } \right) }  \cdot { Ca \left( { 12 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30296976" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 13 } \right) }  - \left( { { ka \left( { 13 } \right) }  \cdot { Ca \left( { 13 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30298096" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 14 } \right) }  - \left( { { ka \left( { 14 } \right) }  \cdot { Ca \left( { 14 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30299216" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 15 } \right) }  - \left( { { ka \left( { 15 } \right) }  \cdot { Ca \left( { 15 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30300336" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 16 } \right) }  - \left( { { ka \left( { 16 } \right) }  \cdot { Ca \left( { 16 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30301728" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 17 } \right) }  - \left( { { ka \left( { 17 } \right) }  \cdot { Ca \left( { 17 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30302720" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 18 } \right) }  - \left( { { ka \left( { 18 } \right) }  \cdot { Ca \left( { 18 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30303840" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 19 } \right) }  - \left( { { ka \left( { 19 } \right) }  \cdot { Ca \left( { 19 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30304960" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 20 } \right) }  - \left( { { ka \left( { 20 } \right) }  \cdot { Ca \left( { 20 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30306080" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 21 } \right) }  - \left( { { ka \left( { 21 } \right) }  \cdot { Ca \left( { 21 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30307200" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 22 } \right) }  - \left( { { ka \left( { 22 } \right) }  \cdot { Ca \left( { 22 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30308320" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 23 } \right) }  - \left( { { ka \left( { 23 } \right) }  \cdot { Ca \left( { 23 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30309440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 24 } \right) }  - \left( { { ka \left( { 24 } \right) }  \cdot { Ca \left( { 24 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30310560" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 25 } \right) }  - \left( { { ka \left( { 25 } \right) }  \cdot { Ca \left( { 25 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30311680" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 26 } \right) }  - \left( { { ka \left( { 26 } \right) }  \cdot { Ca \left( { 26 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30312800" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 27 } \right) }  - \left( { { ka \left( { 27 } \right) }  \cdot { Ca \left( { 27 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30313920" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 28 } \right) }  - \left( { { ka \left( { 28 } \right) }  \cdot { Ca \left( { 28 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30315040" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 29 } \right) }  - \left( { { ka \left( { 29 } \right) }  \cdot { Ca \left( { 29 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30316160" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 30 } \right) }  - \left( { { ka \left( { 30 } \right) }  \cdot { Ca \left( { 30 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30317280" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 31 } \right) }  - \left( { { ka \left( { 31 } \right) }  \cdot { Ca \left( { 31 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30318400" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 32 } \right) }  - \left( { { ka \left( { 32 } \right) }  \cdot { Ca \left( { 32 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30301456" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 33 } \right) }  - \left( { { ka \left( { 33 } \right) }  \cdot { Ca \left( { 33 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30320912" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 34 } \right) }  - \left( { { ka \left( { 34 } \right) }  \cdot { Ca \left( { 34 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30322032" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 35 } \right) }  - \left( { { ka \left( { 35 } \right) }  \cdot { Ca \left( { 35 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30323152" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 36 } \right) }  - \left( { { ka \left( { 36 } \right) }  \cdot { Ca \left( { 36 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30324272" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 37 } \right) }  - \left( { { ka \left( { 37 } \right) }  \cdot { Ca \left( { 37 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30325392" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 38 } \right) }  - \left( { { ka \left( { 38 } \right) }  \cdot { Ca \left( { 38 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30326512" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 39 } \right) }  - \left( { { ka \left( { 39 } \right) }  \cdot { Ca \left( { 39 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30327632" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 40 } \right) }  - \left( { { ka \left( { 40 } \right) }  \cdot { Ca \left( { 40 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30328752" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 41 } \right) }  - \left( { { ka \left( { 41 } \right) }  \cdot { Ca \left( { 41 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30329872" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 42 } \right) }  - \left( { { ka \left( { 42 } \right) }  \cdot { Ca \left( { 42 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30330992" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 43 } \right) }  - \left( { { ka \left( { 43 } \right) }  \cdot { Ca \left( { 43 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30332112" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 44 } \right) }  - \left( { { ka \left( { 44 } \right) }  \cdot { Ca \left( { 44 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30333232" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 45 } \right) }  - \left( { { ka \left( { 45 } \right) }  \cdot { Ca \left( { 45 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30334352" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 46 } \right) }  - \left( { { ka \left( { 46 } \right) }  \cdot { Ca \left( { 46 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30335472" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 47 } \right) }  - \left( { { ka \left( { 47 } \right) }  \cdot { Ca \left( { 47 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30336592" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 48 } \right) }  - \left( { { ka \left( { 48 } \right) }  \cdot { Ca \left( { 48 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30337712" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 49 } \right) }  - \left( { { ka \left( { 49 } \right) }  \cdot { Ca \left( { 49 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+        <Object ID="30338832" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { ra \left( { 50 } \right) }  - \left( { { ka \left( { 50 } \right) }  \cdot { Ca \left( { 50 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30167624" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[xa]]></Name>
+      <Description><![CDATA[Conversion of A]]></Description>
+      <Residual>$${ \left( { { xa \left( { z } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { z } \right) } }  \right) }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30281808" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 0 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30341472" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 1 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30342608" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 2 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30343728" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 3 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30344800" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 4 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 4 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30345984" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 5 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30347088" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 6 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 6 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30348192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 7 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 7 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30349296" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 8 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 8 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30350544" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 9 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 9 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30351568" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 10 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 10 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30352672" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 11 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 11 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30353776" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 12 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 12 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30354880" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 13 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 13 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30355984" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 14 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 14 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30357088" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 15 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 15 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30358192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 16 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 16 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30359568" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 17 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 17 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30360544" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 18 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 18 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30361648" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 19 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 19 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30362752" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 20 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 20 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30363856" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 21 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 21 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30364960" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 22 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 22 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30366064" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 23 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 23 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30367168" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 24 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 24 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30368272" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 25 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 25 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30369376" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 26 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 26 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30370480" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 27 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 27 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30371584" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 28 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 28 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30372688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 29 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 29 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30373792" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 30 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 30 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30374896" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 31 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 31 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30376000" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 32 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 32 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30359296" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 33 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 33 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30378480" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 34 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 34 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30379584" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 35 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 35 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30380688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 36 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 36 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30381792" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 37 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 37 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30382896" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 38 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 38 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30384000" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 39 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 39 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30385104" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 40 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 40 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30386208" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 41 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 41 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30387312" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 42 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 42 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30388416" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 43 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 43 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30389520" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 44 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 44 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30390624" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 45 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 45 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30391728" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 46 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 46 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30392832" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 47 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 47 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30393936" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 48 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 48 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30395040" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 49 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 49 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30396144" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { xa \left( { 50 } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { 50 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30168712" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ya]]></Name>
+      <Description><![CDATA[Dimensionless concentration of A]]></Description>
+      <Residual>$${ \left( { { ya \left( { z } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30339952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 0 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 0 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30340896" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 1 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 1 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30399520" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 2 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 2 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30400448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 3 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 3 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30401328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 4 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 4 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30402320" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 5 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 5 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30403232" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 6 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 6 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30404144" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 7 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 7 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30405056" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 8 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 8 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30406112" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 9 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 9 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30406944" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 10 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 10 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30407856" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 11 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 11 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30408768" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 12 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 12 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30409680" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 13 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 13 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30410592" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 14 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 14 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30411504" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 15 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 15 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30412416" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 16 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 16 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30413600" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 17 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 17 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30414384" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 18 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 18 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30415296" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 19 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 19 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30416208" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 20 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 20 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30417120" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 21 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 21 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30418032" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 22 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 22 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30418944" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 23 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 23 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30419856" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 24 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 24 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30420768" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 25 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 25 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30421648" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 26 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 26 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30422560" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 27 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 27 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30423472" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 28 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 28 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30424384" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 29 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 29 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30425296" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 30 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 30 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30426208" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 31 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 31 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30427120" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 32 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 32 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30413328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 33 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 33 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30429216" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 34 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 34 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30430128" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 35 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 35 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30431040" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 36 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 36 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30431952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 37 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 37 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30432864" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 38 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 38 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30433776" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 39 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 39 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30434688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 40 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 40 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30435600" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 41 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 41 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30436512" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 42 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 42 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30437424" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 43 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 43 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30438336" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 44 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 44 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30439248" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 45 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 45 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30440160" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 46 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 46 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30441072" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 47 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 47 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30441984" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 48 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 48 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30442896" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 49 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 49 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30443808" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { ya \left( { 50 } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { 50 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30169800" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[theta]]></Name>
+      <Description><![CDATA[Dimensionless temperature]]></Description>
+      <Residual>$${ \left( { { theta \left( { z } \right) }  \cdot { T_0 } }  \right)  - { T \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30397248" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 0 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 0 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30398192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 1 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 1 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30447024" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 2 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 2 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30447952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 3 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 3 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30448832" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 4 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 4 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30449824" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 5 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 5 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30450736" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 6 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 6 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30451648" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 7 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 7 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30452560" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 8 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 8 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30453616" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 9 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 9 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30454448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 10 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 10 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30455360" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 11 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 11 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30456272" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 12 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 12 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30457184" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 13 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 13 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30458096" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 14 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 14 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30459008" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 15 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 15 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30459920" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 16 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 16 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30461104" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 17 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 17 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30461888" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 18 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 18 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30462800" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 19 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 19 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30463712" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 20 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 20 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30464624" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 21 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 21 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30465536" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 22 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 22 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30466448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 23 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 23 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30467360" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 24 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 24 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30468272" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 25 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 25 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30469184" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 26 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 26 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30470096" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 27 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 27 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30471008" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 28 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 28 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30471920" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 29 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 29 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30472832" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 30 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 30 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30473744" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 31 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 31 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30474656" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 32 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 32 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30460832" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 33 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 33 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30476752" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 34 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 34 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30477664" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 35 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 35 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30478576" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 36 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 36 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30479488" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 37 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 37 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30480400" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 38 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 38 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30481312" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 39 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 39 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30482224" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 40 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 40 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30483136" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 41 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 41 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30484048" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 42 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 42 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30484960" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 43 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 43 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30485872" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 44 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 44 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30486784" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 45 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 45 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30487696" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 46 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 46 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30488608" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 47 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 47 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30489520" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 48 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 48 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30490432" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 49 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 49 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30491344" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { theta \left( { 50 } \right) }  \cdot { T_0 } }  \right)  - { T \left( { 50 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30170808" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[Mass balance for the reactor]]></Description>
+      <Residual>$${ \left( { { u }  \cdot \left( { { \partial { { \left( { Ca \left( { z } \right) }  \right) } } } \over { \partial {z} } }  \right) }  \right)  + { ra \left( { z } \right) } }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30444720" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 2 } \right) }  - { Ca \left( { 0 } \right) } }  \right)  \over \left( { { z \left( 2 \right)  }  - { z \left( 0 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 1 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30445952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 3 } \right) }  - { Ca \left( { 1 } \right) } }  \right)  \over \left( { { z \left( 3 \right)  }  - { z \left( 1 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 2 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30495184" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 4 } \right) }  - { Ca \left( { 2 } \right) } }  \right)  \over \left( { { z \left( 4 \right)  }  - { z \left( 2 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 3 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30496448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 5 } \right) }  - { Ca \left( { 3 } \right) } }  \right)  \over \left( { { z \left( 5 \right)  }  - { z \left( 3 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 4 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30497664" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 6 } \right) }  - { Ca \left( { 4 } \right) } }  \right)  \over \left( { { z \left( 6 \right)  }  - { z \left( 4 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 5 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30498992" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 7 } \right) }  - { Ca \left( { 5 } \right) } }  \right)  \over \left( { { z \left( 7 \right)  }  - { z \left( 5 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 6 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30500192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 8 } \right) }  - { Ca \left( { 6 } \right) } }  \right)  \over \left( { { z \left( 8 \right)  }  - { z \left( 6 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 7 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30501440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 9 } \right) }  - { Ca \left( { 7 } \right) } }  \right)  \over \left( { { z \left( 9 \right)  }  - { z \left( 7 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 8 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30502688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 10 } \right) }  - { Ca \left( { 8 } \right) } }  \right)  \over \left( { { z \left( 10 \right)  }  - { z \left( 8 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 9 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30504080" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 11 } \right) }  - { Ca \left( { 9 } \right) } }  \right)  \over \left( { { z \left( 11 \right)  }  - { z \left( 9 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 10 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30505328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 12 } \right) }  - { Ca \left( { 10 } \right) } }  \right)  \over \left( { { z \left( 12 \right)  }  - { z \left( 10 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 11 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30506576" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 13 } \right) }  - { Ca \left( { 11 } \right) } }  \right)  \over \left( { { z \left( 13 \right)  }  - { z \left( 11 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 12 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30507824" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 14 } \right) }  - { Ca \left( { 12 } \right) } }  \right)  \over \left( { { z \left( 14 \right)  }  - { z \left( 12 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 13 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30509072" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 15 } \right) }  - { Ca \left( { 13 } \right) } }  \right)  \over \left( { { z \left( 15 \right)  }  - { z \left( 13 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 14 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30510320" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 16 } \right) }  - { Ca \left( { 14 } \right) } }  \right)  \over \left( { { z \left( 16 \right)  }  - { z \left( 14 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 15 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30511568" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 17 } \right) }  - { Ca \left( { 15 } \right) } }  \right)  \over \left( { { z \left( 17 \right)  }  - { z \left( 15 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 16 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30512816" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 18 } \right) }  - { Ca \left( { 16 } \right) } }  \right)  \over \left( { { z \left( 18 \right)  }  - { z \left( 16 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 17 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30514336" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 19 } \right) }  - { Ca \left( { 17 } \right) } }  \right)  \over \left( { { z \left( 19 \right)  }  - { z \left( 17 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 18 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30515456" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 20 } \right) }  - { Ca \left( { 18 } \right) } }  \right)  \over \left( { { z \left( 20 \right)  }  - { z \left( 18 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 19 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30516704" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 21 } \right) }  - { Ca \left( { 19 } \right) } }  \right)  \over \left( { { z \left( 21 \right)  }  - { z \left( 19 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 20 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30517952" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 22 } \right) }  - { Ca \left( { 20 } \right) } }  \right)  \over \left( { { z \left( 22 \right)  }  - { z \left( 20 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 21 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30519200" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 23 } \right) }  - { Ca \left( { 21 } \right) } }  \right)  \over \left( { { z \left( 23 \right)  }  - { z \left( 21 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 22 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30520448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 24 } \right) }  - { Ca \left( { 22 } \right) } }  \right)  \over \left( { { z \left( 24 \right)  }  - { z \left( 22 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 23 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30521696" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 25 } \right) }  - { Ca \left( { 23 } \right) } }  \right)  \over \left( { { z \left( 25 \right)  }  - { z \left( 23 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 24 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30522944" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 26 } \right) }  - { Ca \left( { 24 } \right) } }  \right)  \over \left( { { z \left( 26 \right)  }  - { z \left( 24 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 25 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30524192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 27 } \right) }  - { Ca \left( { 25 } \right) } }  \right)  \over \left( { { z \left( 27 \right)  }  - { z \left( 25 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 26 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30525440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 28 } \right) }  - { Ca \left( { 26 } \right) } }  \right)  \over \left( { { z \left( 28 \right)  }  - { z \left( 26 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 27 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30526688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 29 } \right) }  - { Ca \left( { 27 } \right) } }  \right)  \over \left( { { z \left( 29 \right)  }  - { z \left( 27 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 28 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30527936" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 30 } \right) }  - { Ca \left( { 28 } \right) } }  \right)  \over \left( { { z \left( 30 \right)  }  - { z \left( 28 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 29 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30529184" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 31 } \right) }  - { Ca \left( { 29 } \right) } }  \right)  \over \left( { { z \left( 31 \right)  }  - { z \left( 29 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 30 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30530432" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 32 } \right) }  - { Ca \left( { 30 } \right) } }  \right)  \over \left( { { z \left( 32 \right)  }  - { z \left( 30 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 31 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30531680" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 33 } \right) }  - { Ca \left( { 31 } \right) } }  \right)  \over \left( { { z \left( 33 \right)  }  - { z \left( 31 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 32 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30532928" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 34 } \right) }  - { Ca \left( { 32 } \right) } }  \right)  \over \left( { { z \left( 34 \right)  }  - { z \left( 32 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 33 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30514064" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 35 } \right) }  - { Ca \left( { 33 } \right) } }  \right)  \over \left( { { z \left( 35 \right)  }  - { z \left( 33 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 34 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30535696" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 36 } \right) }  - { Ca \left( { 34 } \right) } }  \right)  \over \left( { { z \left( 36 \right)  }  - { z \left( 34 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 35 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30536944" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 37 } \right) }  - { Ca \left( { 35 } \right) } }  \right)  \over \left( { { z \left( 37 \right)  }  - { z \left( 35 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 36 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30538192" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 38 } \right) }  - { Ca \left( { 36 } \right) } }  \right)  \over \left( { { z \left( 38 \right)  }  - { z \left( 36 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 37 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30539440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 39 } \right) }  - { Ca \left( { 37 } \right) } }  \right)  \over \left( { { z \left( 39 \right)  }  - { z \left( 37 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 38 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30540688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 40 } \right) }  - { Ca \left( { 38 } \right) } }  \right)  \over \left( { { z \left( 40 \right)  }  - { z \left( 38 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 39 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30541936" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 41 } \right) }  - { Ca \left( { 39 } \right) } }  \right)  \over \left( { { z \left( 41 \right)  }  - { z \left( 39 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 40 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30543184" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 42 } \right) }  - { Ca \left( { 40 } \right) } }  \right)  \over \left( { { z \left( 42 \right)  }  - { z \left( 40 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 41 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30544432" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 43 } \right) }  - { Ca \left( { 41 } \right) } }  \right)  \over \left( { { z \left( 43 \right)  }  - { z \left( 41 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 42 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30545680" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 44 } \right) }  - { Ca \left( { 42 } \right) } }  \right)  \over \left( { { z \left( 44 \right)  }  - { z \left( 42 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 43 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30546928" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 45 } \right) }  - { Ca \left( { 43 } \right) } }  \right)  \over \left( { { z \left( 45 \right)  }  - { z \left( 43 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 44 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30548176" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 46 } \right) }  - { Ca \left( { 44 } \right) } }  \right)  \over \left( { { z \left( 46 \right)  }  - { z \left( 44 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 45 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30549424" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 47 } \right) }  - { Ca \left( { 45 } \right) } }  \right)  \over \left( { { z \left( 47 \right)  }  - { z \left( 45 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 46 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30550672" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 48 } \right) }  - { Ca \left( { 46 } \right) } }  \right)  \over \left( { { z \left( 48 \right)  }  - { z \left( 46 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 47 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30551920" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 49 } \right) }  - { Ca \left( { 47 } \right) } }  \right)  \over \left( { { z \left( 49 \right)  }  - { z \left( 47 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 48 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30553168" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { u }  \cdot \left( { \left( { { Ca \left( { 50 } \right) }  - { Ca \left( { 48 } \right) } }  \right)  \over \left( { { z \left( 50 \right)  }  - { z \left( 48 \right)  } }  \right) }  \right) }  \right)  + { ra \left( { 49 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30171912" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca_inlet]]></Name>
+      <Description><![CDATA[Inlet boundary conditions for Ca]]></Description>
+      <Residual>$${ { Ca \left( { z } \right) }  - { Ca0 } }  = 0; {{ z }  = { z } _{0}}$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30492256" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Ca \left( { 0 } \right) }  - { Ca0 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30172824" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca_outlet]]></Name>
+      <Description><![CDATA[Outlet boundary conditions for Ca]]></Description>
+      <Residual>$${ { \partial { { \left( { Ca \left( { z } \right) }  \right) } } } \over { \partial {z} } }  = 0; {{ z }  = { z } _{n}}$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30492800" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { \left( { {3 {}} \cdot { Ca \left( { 50 } \right) } }  \right)  - \left( { {4 {}} \cdot { Ca \left( { 49 } \right) } }  \right) }  \right)  + { Ca \left( { 48 } \right) } }  \right)  \over \left( { { z \left( 50 \right)  }  - { z \left( 48 \right)  } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30173720" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Energy balance for the reactor]]></Description>
+      <Residual>$${ \left( { \left( { { u }  \cdot \left( { { \partial { { \left( { T \left( { z } \right) }  \right) } } } \over { \partial {z} } }  \right) }  \right)  + \left( { \left( { { ra \left( { z } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { z } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30493776" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 2 } \right) }  - { T \left( { 0 } \right) } }  \right)  \over \left( { { z \left( 2 \right)  }  - { z \left( 0 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 1 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 1 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30556784" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 3 } \right) }  - { T \left( { 1 } \right) } }  \right)  \over \left( { { z \left( 3 \right)  }  - { z \left( 1 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 2 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 2 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30562592" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 4 } \right) }  - { T \left( { 2 } \right) } }  \right)  \over \left( { { z \left( 4 \right)  }  - { z \left( 2 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 3 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 3 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30565440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 5 } \right) }  - { T \left( { 3 } \right) } }  \right)  \over \left( { { z \left( 5 \right)  }  - { z \left( 3 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 4 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 4 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30568288" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 6 } \right) }  - { T \left( { 4 } \right) } }  \right)  \over \left( { { z \left( 6 \right)  }  - { z \left( 4 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 5 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 5 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30571248" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 7 } \right) }  - { T \left( { 5 } \right) } }  \right)  \over \left( { { z \left( 7 \right)  }  - { z \left( 5 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 6 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 6 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30574080" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 8 } \right) }  - { T \left( { 6 } \right) } }  \right)  \over \left( { { z \left( 8 \right)  }  - { z \left( 6 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 7 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 7 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30576960" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 9 } \right) }  - { T \left( { 7 } \right) } }  \right)  \over \left( { { z \left( 9 \right)  }  - { z \left( 7 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 8 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 8 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30579840" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 10 } \right) }  - { T \left( { 8 } \right) } }  \right)  \over \left( { { z \left( 10 \right)  }  - { z \left( 8 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 9 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 9 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30582864" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 11 } \right) }  - { T \left( { 9 } \right) } }  \right)  \over \left( { { z \left( 11 \right)  }  - { z \left( 9 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 10 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 10 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30585744" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 12 } \right) }  - { T \left( { 10 } \right) } }  \right)  \over \left( { { z \left( 12 \right)  }  - { z \left( 10 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 11 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 11 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30588624" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 13 } \right) }  - { T \left( { 11 } \right) } }  \right)  \over \left( { { z \left( 13 \right)  }  - { z \left( 11 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 12 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 12 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30591504" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 14 } \right) }  - { T \left( { 12 } \right) } }  \right)  \over \left( { { z \left( 14 \right)  }  - { z \left( 12 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 13 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 13 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30594384" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 15 } \right) }  - { T \left( { 13 } \right) } }  \right)  \over \left( { { z \left( 15 \right)  }  - { z \left( 13 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 14 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 14 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30597264" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 16 } \right) }  - { T \left( { 14 } \right) } }  \right)  \over \left( { { z \left( 16 \right)  }  - { z \left( 14 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 15 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 15 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30600144" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 17 } \right) }  - { T \left( { 15 } \right) } }  \right)  \over \left( { { z \left( 17 \right)  }  - { z \left( 15 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 16 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 16 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30603024" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 18 } \right) }  - { T \left( { 16 } \right) } }  \right)  \over \left( { { z \left( 18 \right)  }  - { z \left( 16 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 17 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 17 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30606176" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 19 } \right) }  - { T \left( { 17 } \right) } }  \right)  \over \left( { { z \left( 19 \right)  }  - { z \left( 17 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 18 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 18 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30608928" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 20 } \right) }  - { T \left( { 18 } \right) } }  \right)  \over \left( { { z \left( 20 \right)  }  - { z \left( 18 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 19 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 19 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30611808" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 21 } \right) }  - { T \left( { 19 } \right) } }  \right)  \over \left( { { z \left( 21 \right)  }  - { z \left( 19 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 20 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 20 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30614688" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 22 } \right) }  - { T \left( { 20 } \right) } }  \right)  \over \left( { { z \left( 22 \right)  }  - { z \left( 20 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 21 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 21 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30617568" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 23 } \right) }  - { T \left( { 21 } \right) } }  \right)  \over \left( { { z \left( 23 \right)  }  - { z \left( 21 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 22 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 22 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30620448" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 24 } \right) }  - { T \left( { 22 } \right) } }  \right)  \over \left( { { z \left( 24 \right)  }  - { z \left( 22 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 23 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 23 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30623328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 25 } \right) }  - { T \left( { 23 } \right) } }  \right)  \over \left( { { z \left( 25 \right)  }  - { z \left( 23 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 24 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 24 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30626208" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 26 } \right) }  - { T \left( { 24 } \right) } }  \right)  \over \left( { { z \left( 26 \right)  }  - { z \left( 24 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 25 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 25 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30629088" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 27 } \right) }  - { T \left( { 25 } \right) } }  \right)  \over \left( { { z \left( 27 \right)  }  - { z \left( 25 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 26 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 26 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30631968" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 28 } \right) }  - { T \left( { 26 } \right) } }  \right)  \over \left( { { z \left( 28 \right)  }  - { z \left( 26 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 27 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 27 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30634848" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 29 } \right) }  - { T \left( { 27 } \right) } }  \right)  \over \left( { { z \left( 29 \right)  }  - { z \left( 27 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 28 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 28 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30637728" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 30 } \right) }  - { T \left( { 28 } \right) } }  \right)  \over \left( { { z \left( 30 \right)  }  - { z \left( 28 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 29 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 29 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30640608" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 31 } \right) }  - { T \left( { 29 } \right) } }  \right)  \over \left( { { z \left( 31 \right)  }  - { z \left( 29 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 30 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 30 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30643488" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 32 } \right) }  - { T \left( { 30 } \right) } }  \right)  \over \left( { { z \left( 32 \right)  }  - { z \left( 30 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 31 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 31 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30646368" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 33 } \right) }  - { T \left( { 31 } \right) } }  \right)  \over \left( { { z \left( 33 \right)  }  - { z \left( 31 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 32 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 32 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30649248" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 34 } \right) }  - { T \left( { 32 } \right) } }  \right)  \over \left( { { z \left( 34 \right)  }  - { z \left( 32 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 33 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 33 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30605904" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 35 } \right) }  - { T \left( { 33 } \right) } }  \right)  \over \left( { { z \left( 35 \right)  }  - { z \left( 33 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 34 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 34 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30655280" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 36 } \right) }  - { T \left( { 34 } \right) } }  \right)  \over \left( { { z \left( 36 \right)  }  - { z \left( 34 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 35 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 35 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30658160" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 37 } \right) }  - { T \left( { 35 } \right) } }  \right)  \over \left( { { z \left( 37 \right)  }  - { z \left( 35 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 36 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 36 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30661040" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 38 } \right) }  - { T \left( { 36 } \right) } }  \right)  \over \left( { { z \left( 38 \right)  }  - { z \left( 36 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 37 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 37 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30663920" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 39 } \right) }  - { T \left( { 37 } \right) } }  \right)  \over \left( { { z \left( 39 \right)  }  - { z \left( 37 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 38 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 38 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30666800" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 40 } \right) }  - { T \left( { 38 } \right) } }  \right)  \over \left( { { z \left( 40 \right)  }  - { z \left( 38 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 39 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 39 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30669680" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 41 } \right) }  - { T \left( { 39 } \right) } }  \right)  \over \left( { { z \left( 41 \right)  }  - { z \left( 39 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 40 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 40 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30672560" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 42 } \right) }  - { T \left( { 40 } \right) } }  \right)  \over \left( { { z \left( 42 \right)  }  - { z \left( 40 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 41 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 41 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30675440" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 43 } \right) }  - { T \left( { 41 } \right) } }  \right)  \over \left( { { z \left( 43 \right)  }  - { z \left( 41 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 42 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 42 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30678320" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 44 } \right) }  - { T \left( { 42 } \right) } }  \right)  \over \left( { { z \left( 44 \right)  }  - { z \left( 42 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 43 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 43 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30681200" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 45 } \right) }  - { T \left( { 43 } \right) } }  \right)  \over \left( { { z \left( 45 \right)  }  - { z \left( 43 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 44 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 44 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30684080" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 46 } \right) }  - { T \left( { 44 } \right) } }  \right)  \over \left( { { z \left( 46 \right)  }  - { z \left( 44 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 45 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 45 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30686960" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 47 } \right) }  - { T \left( { 45 } \right) } }  \right)  \over \left( { { z \left( 47 \right)  }  - { z \left( 45 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 46 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 46 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30689840" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 48 } \right) }  - { T \left( { 46 } \right) } }  \right)  \over \left( { { z \left( 48 \right)  }  - { z \left( 46 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 47 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 47 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30692640" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 49 } \right) }  - { T \left( { 47 } \right) } }  \right)  \over \left( { { z \left( 49 \right)  }  - { z \left( 47 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 48 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 48 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30695520" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { { u }  \cdot \left( { \left( { { T \left( { 50 } \right) }  - { T \left( { 48 } \right) } }  \right)  \over \left( { { z \left( 50 \right)  }  - { z \left( 48 \right)  } }  \right) }  \right) }  \right)  + \left( { \left( { { ra \left( { 49 } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { 49 } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30175688" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_inlet]]></Name>
+      <Description><![CDATA[Inlet boundary conditions for T]]></Description>
+      <Residual>$${ { T \left( { z } \right) }  - { T_0 } }  = 0; {{ z }  = { z } _{0}}$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30559328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { T \left( { 0 } \right) }  - { T_0 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30176696" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_outlet]]></Name>
+      <Description><![CDATA[Outlet boundary conditions for T]]></Description>
+      <Residual>$${ { \partial { { \left( { T \left( { z } \right) }  \right) } } } \over { \partial {z} } }  = 0; {{ z }  = { z } _{n}}$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30559872" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { \left( { {3 {}} \cdot { T \left( { 50 } \right) } }  \right)  - \left( { {4 {}} \cdot { T \left( { 49 } \right) } }  \right) }  \right)  + { T \left( { 48 } \right) } }  \right)  \over \left( { { z \left( 50 \right)  }  - { z \left( 48 \right)  } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30177688" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ResidenceTime]]></Name>
+      <Description><![CDATA[Residence time of the reactor]]></Description>
+      <Residual>$${ \left( { { tau_r }  \cdot { u } }  \right)  - {2 {{m}}}}  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30561856" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { tau_r }  \cdot { u } }  \right)  - {2 {{m}}}}  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>

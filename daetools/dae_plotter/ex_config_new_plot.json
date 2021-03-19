@@ -1,0 +1,8 @@
+{
+    "new_plotter": [
+        {
+            "type": "2d-anim",
+            "variable": "T"
+        }
+    ]
+}

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="29870304" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_che_7]]></Name>
+  <Description><![CDATA[
+Steady-state Plug Flow Reactor with energy balance and first order reaction:
+
+.. code-block:: none
+
+    A -> B
+
+The problem is example 9.4.3 from the section 9.4 Nonisothermal Plug Flow Reactor
+from the following book:
+
+- Davis M.E., Davis R.J. (2003) Fundamentals of Chemical Reaction Engineering.
+  McGraw Hill, New York, US. ISBN 007245007X.
+
+The dimensionless concentration plot:
+
+.. image:: _static/tutorial_che_7-results.png
+   :width: 500px
+
+The dimensionless temperature plot (adiabatic and nonisothermal cases):
+
+.. image:: _static/tutorial_che_7-results2.png
+   :width: 500px
+]]></Description>
+  <Domains>
+    <Object ID="139865193608080" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[z]]></Name>
+      <Description><![CDATA[Axial domain]]></Description>
+      <Type>eStructuredGrid</Type>
+      <Units>
+        <m>1</m>
+      </Units>
+    </Object>
+  </Domains>
+  <Parameters>
+    <Object ID="29871128" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_0]]></Name>
+      <Description><![CDATA[Inlet temperature]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29871816" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca0]]></Name>
+      <Description><![CDATA[Inlet concentration of A]]></Description>
+      <Units>
+        <m>-3</m>
+        <mol>1</mol>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29872280" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[u]]></Name>
+      <Description><![CDATA[Velocity]]></Description>
+      <Units>
+        <m>1</m>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29872568" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[A]]></Name>
+      <Description><![CDATA[A->B pre-exponential factor]]></Description>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29851016" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ea]]></Name>
+      <Description><![CDATA[A->B activation energy]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29851544" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[dHra]]></Name>
+      <Description><![CDATA[Heat of reaction A->B]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29852072" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&rho;]]></Name>
+      <Description><![CDATA[Density]]></Description>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29852760" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_p]]></Name>
+      <Description><![CDATA[Heat capacity]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29853048" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Tj]]></Name>
+      <Description><![CDATA[Cooling jacket temperature]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29853432" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[aj]]></Name>
+      <Description><![CDATA[Cooling jacket specific surface area (area/volume)]]></Description>
+      <Units>
+        <m>-1</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29854776" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[U]]></Name>
+      <Description><![CDATA[Cooling jacket heat transfer coefficient]]></Description>
+      <Units>
+        <K>-1</K>
+        <W>1</W>
+        <m>-2</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="29855440" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[tau_r]]></Name>
+      <Description><![CDATA[Residence time]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29856048" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ka]]></Name>
+      <Description><![CDATA[Reaction A->B rate constant]]></Description>
+      <VariableType>k</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="29856704" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[Concentration of A]]></Description>
+      <VariableType>molar_concentration_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="29857312" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ra]]></Name>
+      <Description><![CDATA[Reaction A->B rate]]></Description>
+      <VariableType>molar_reaction_rate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="29859584" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Temperature in the reactor]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="29860416" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[xa]]></Name>
+      <Description><![CDATA[Conversion of A]]></Description>
+      <VariableType>fraction_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="29861024" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ya]]></Name>
+      <Description><![CDATA[Dimensionless concentration of A]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="29861632" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[theta]]></Name>
+      <Description><![CDATA[Dimensionless temperature]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="139865193608080">z</ObjectRef>
+      </DomainRefs>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="29867016" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[k1]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { ka \left( { z } \right) }  - \left( { { A }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { {8.314 {{J}{K ^ {-1}}{mol ^ {-1}}}} \cdot { T \left( { z } \right) } }  \right) } } }  \right) }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="29665560" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="29864952" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ra]]></Name>
+      <Description><![CDATA[Reaction A->B rate]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { ra \left( { z } \right) }  - \left( { { ka \left( { z } \right) }  \cdot { Ca \left( { z } \right) } }  \right) }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30167304" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30167624" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[xa]]></Name>
+      <Description><![CDATA[Conversion of A]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { xa \left( { z } \right) }  \cdot { Ca0 } }  \right)  - \left( { { Ca0 }  - { Ca \left( { z } \right) } }  \right) }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30168200" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30168712" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ya]]></Name>
+      <Description><![CDATA[Dimensionless concentration of A]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { ya \left( { z } \right) }  \cdot { Ca0 } }  \right)  - { Ca \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30169352" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30169800" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[theta]]></Name>
+      <Description><![CDATA[Dimensionless temperature]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { theta \left( { z } \right) }  \cdot { T_0 } }  \right)  - { T \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30170376" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30170808" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[Mass balance for the reactor]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { u }  \cdot \left( { { \partial { { \left( { Ca \left( { z } \right) }  \right) } } } \over { \partial {z} } }  \right) }  \right)  + { ra \left( { z } \right) } }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30171384" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eOpenOpen</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30171912" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca_inlet]]></Name>
+      <Description><![CDATA[Inlet boundary conditions for Ca]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Ca \left( { z } \right) }  - { Ca0 } }  = 0; {{ z }  = { z } _{0}}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30172552" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eLowerBound</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30172824" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ca_outlet]]></Name>
+      <Description><![CDATA[Outlet boundary conditions for Ca]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { \partial { { \left( { Ca \left( { z } \right) }  \right) } } } \over { \partial {z} } }  = 0; {{ z }  = { z } _{n}}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30173336" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eUpperBound</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30173720" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Energy balance for the reactor]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { \left( { { u }  \cdot \left( { { \partial { { \left( { T \left( { z } \right) }  \right) } } } \over { \partial {z} } }  \right) }  \right)  + \left( { \left( { { ra \left( { z } \right) }  \cdot { dHra } }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { U }  \cdot { aj } }  \right)  \cdot \left( { { T \left( { z } \right) }  - { Tj } }  \right) }  \right)  \over \left( { { \rho }  \cdot { c_p } }  \right) }  \right) }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30174248" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eOpenOpen</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30175688" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_inlet]]></Name>
+      <Description><![CDATA[Inlet boundary conditions for T]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { T \left( { z } \right) }  - { T_0 } }  = 0; {{ z }  = { z } _{0}}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30176424" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eLowerBound</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30176696" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_outlet]]></Name>
+      <Description><![CDATA[Outlet boundary conditions for T]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { \partial { { \left( { T \left( { z } \right) }  \right) } } } \over { \partial {z} } }  = 0; {{ z }  = { z } _{n}}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="30177304" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="139865193608080">z</Domain>
+          <Type>eUpperBound</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="30177688" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ResidenceTime]]></Name>
+      <Description><![CDATA[Residence time of the reactor]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { tau_r }  \cdot { u } }  \right)  - {2 {{m}}}}  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Introduction &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Programming Paradigms" href="paradigms.html" />
+    <link rel="prev" title="DAE Tools Documentation" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">1. Introduction</a><ul>
+<li><a class="reference internal" href="#about-dae-tools">1.1. About DAE Tools</a></li>
+<li><a class="reference internal" href="#licence">1.2. Licence</a></li>
+<li><a class="reference internal" href="#how-to-cite">1.3. How to cite</a></li>
+<li><a class="reference internal" href="#history">1.4. History</a></li>
+<li><a class="reference internal" href="#acknowledgements">1.5. Acknowledgements</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="introduction">
+<h1>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="about-dae-tools">
+<h2>1.1. About DAE Tools<a class="headerlink" href="#about-dae-tools" title="Permalink to this headline">¶</a></h2>
+<p><strong>DAE Tools</strong> is a cross-platform equation-based object-oriented modelling, simulation
+and optimisation software. It is not a modelling language nor a collection of numerical
+libraries but rather a higher level structure – an architectural design of interdependent
+software components providing an API for:</p>
+<ul class="simple">
+<li>Model development/specification</li>
+<li>Activities on developed models, such as simulation, sensitivity analysis, optimisation and parameter estimation</li>
+<li>Processing of the results, such as plotting and exporting to various file formats</li>
+<li>Report generation</li>
+<li>Code generation, co-simulation and model exchange</li>
+</ul>
+<p>The following class of problems can be solved by <strong>DAE Tools</strong>:</p>
+<ul class="simple">
+<li>Initial value problems of implicit form, described by a system of linear, non-linear, and (partial-)differential
+algebraic equations</li>
+<li>Index-1 DAE systems</li>
+<li>With lumped or distributed parameters: Finite Difference, Finite Volume or Finite Elements Methods</li>
+<li>Steady-state or dynamic</li>
+<li>Continuous with some elements of event-driven systems (discontinuous equations, state transition networks
+and discrete events)</li>
+</ul>
+<p>Type of activities that can be performed on models developed in <strong>DAE Tools</strong>:</p>
+<ul class="simple">
+<li>Simulation (steady-state or dynamic, with simple or complex schedules)</li>
+<li>Sensitivity analysis (local or global methods)</li>
+<li>Optimisation (NLP and MINLP problems)</li>
+<li>Parameter estimation</li>
+<li>Generation of model reports (in XML + MathML/LaTex format with XSL transformations for XHTML code generation)</li>
+<li>Code generation for other modelling or general-purpose programming languages<ul>
+<li><a class="reference external" href="http://www.modelica.org">Modelica</a></li>
+<li><a class="reference external" href="http://www.psenterprise.com/gproms.html">gPROMS</a></li>
+<li><a class="reference external" href="http://www.open-std.org/jtc1/sc22/wg14/www/standards">Standard ISO C (c99)</a></li>
+<li><a class="reference external" href="http://www.daetools.com/opencs">OpenCS</a> (including message-passing systems)</li>
+</ul>
+</li>
+<li>Simulation in other simulators using standard co-simulation interfaces<ul>
+<li><a class="reference external" href="https://www.fmi-standard.org">Functional Mockup Interface (FMI) for Co-Simulation</a></li>
+<li><a class="reference external" href="http://www.mathworks.com/help/matlab/matlab_external/introducing-mex-files.html">Matlab MEX-functions</a></li>
+<li><a class="reference external" href="http://www.mathworks.com/help/simulink/sfg/what-is-an-s-function.html">Simulink user-defined S-functions</a></li>
+</ul>
+</li>
+<li>Export of the simulation results to various file formats:<ul>
+<li><a class="reference external" href="http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf">Matlab MAT (.mat)</a></li>
+<li><a class="reference external" href="http://office.microsoft.com/en-gb/excel">Microsoft Excel (.xls)</a></li>
+<li>Comma Separated Values (.csv)</li>
+<li><a class="reference external" href="http://www.json.org">JSON (.json)</a></li>
+<li><a class="reference external" href="http://www.w3.org/XML">XML (.xml)</a></li>
+<li><a class="reference external" href="http://www.hdfgroup.org/HDF5">Hierarchical Data Format (.hdf5)</a></li>
+<li><a class="reference external" href="http://pandas.pydata.org">Pandas (Python Data Analysis) data sets</a></li>
+<li><a class="reference external" href="http://www.vtk.org">VTK (.vtk)</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>DAE Tools</strong> run on all major operating systems (Windows, GNU Linux and Mac OS X)
+and architectures (x86, x86_64, arm).</p>
+<p>It is free to use, since it is <a class="reference external" href="http://www.gnu.org/">free software</a> and released
+under the <a class="reference external" href="http://www.gnu.org/licenses/licenses.html#GPL">GNU General Public Licence</a>.</p>
+<p><strong>DAE Tools</strong> is initially developed to model and simulate processes in chemical process industry
+(mass, heat and momentum transfers, chemical reactions, separation processes, thermodynamics).
+However, <strong>DAE Tools</strong> can be used to develop high-accuracy models of (in general) many different
+kind of processes/phenomena, simulate/optimise them, visualise and analyse the results.</p>
+<p>The following approaches/paradigms are adopted in <strong>DAE Tools</strong>:</p>
+<ul class="simple">
+<li>A hybrid approach between general-purpose programming languages (such as c++ and Python) and
+domain-specific modelling languages (such as <a class="reference external" href="http://www.modelica.org">Modelica</a>,
+<a class="reference external" href="http://www.psenterprise.com/gproms">gPROMS</a>, <a class="reference external" href="http://ascend4.org">Ascend</a> etc.)
+(more information: <a class="reference internal" href="paradigms.html#hybrid-approach"><span class="std std-ref">The Hybrid approach</span></a>).</li>
+<li>An object-oriented approach to process modelling (more information: <a class="reference internal" href="paradigms.html#object-oriented-approach"><span class="std std-ref">The Object-Oriented approach</span></a>).</li>
+<li>An Equation-Oriented (acausal) approach where all model variables and equations are generated and
+gathered together and solved simultaneously using a suitable mathematical algorithm
+(more information: <a class="reference internal" href="paradigms.html#equation-oriented-approach"><span class="std std-ref">The Equation-Oriented approach</span></a>).</li>
+<li>Separation of the model definition from the activities that can be carried out on that model.
+The structure of the model (parameters, variables, equations, state transition networks etc.)
+is given in the model class while the runtime information in the simulation class. This way,
+based on a single model definition, one or more different simulation/optimisation scenarios
+can be defined.</li>
+<li>Core libraries are written in standard c++, however <a class="reference external" href="http://www.python.org">Python</a> is used as
+the main modelling language (more information: <a class="reference internal" href="paradigms.html#python-programming-language"><span class="std std-ref">Programming language</span></a>).</li>
+</ul>
+<p>All core libraries are written in standard c++. It is highly portable - it runs on all
+major operating systems (GNU/Linux, MacOS, Windows) and all platforms with a decent c++ compiler,
+Boost and standard c/c++ libraries (by now it is tested on 32/64 bit x86 and ARM architectures
+making it suitable for use in embedded systems). Models can be developed in Python
+(<strong>pyDAE</strong> module) or c++ (<strong>cDAE</strong> module), compiled into an independent
+executable and deployed without a need for any run time libraries.</p>
+<p>Parallel computation is supported using the shared-memory parallel programming model at the moment.
+The following part of the code support parallelisation:</p>
+<ul class="simple">
+<li>Evaluation of equations, Jacobian matrix and sensitivity residuals using OpenMP API or OpenCL framework</li>
+<li>Assembly of Finite Element systems using OpenMP API</li>
+<li>Solution of systems of linear equations (SuperLU_MT, Pardiso and Intel Pardiso solvers)</li>
+</ul>
+<p>In addition, there is an experimental code generator that generates C++ source code with the
+support for MPI interface.</p>
+<p><strong>DAE Tools</strong> support a large number of solvers. Currently <a class="reference external" href="https://computation.llnl.gov/casc/sundials/main.html">Sundials IDAS</a>
+solver is used to solve DAE systems and calculate sensitivities, while <a class="reference external" href="https://projects.coin-or.org/Bonmin">BONMIN</a>,
+<a class="reference external" href="https://projects.coin-or.org/IPOPT">IPOPT</a>, and <a class="reference external" href="http://ab-initio.mit.edu/wiki/index.php/NLopt">NLOPT</a>
+solvers are used to solve NLP/MINLP problems.
+<strong>DAE Tools</strong> support direct dense and sparse matrix linear solvers (sequential and multi-threaded versions)
+at the moment. In addition to the built-in Sundials linear solvers, several third party libraries are interfaced:
+<a class="reference external" href="http://crd.lbl.gov/~xiaoye/SuperLU/index.html">SuperLU/SuperLU_MT</a>,
+<a class="reference external" href="http://www.pardiso-project.org">Pardiso</a>,
+<a class="reference external" href="http://software.intel.com/en-us/intel-mkl">Intel Pardiso</a>,
+<a class="reference external" href="http://trilinos.sandia.gov/packages/amesos/">Trilinos Amesos</a> (KLU, Umfpack, SuperLU, Lapack),
+and <a class="reference external" href="http://trilinos.sandia.gov/packages/aztecoo">Trilinos AztecOO</a> (with built-in, Ifpack or ML preconditioners)
+which can take advantage of multi-core/cpu computers.</p>
+<p>The quality of the software is a very important aspect and the formal code verification techniques are applied
+to test almost all aspects of the software. Several tests using the most rigorous methods (such as the Method of Exact
+Solutions and the Method of Manufactured Solutions) and the most rigorous acceptance criteria (such as the order-of-accuracy)
+have been developed and successfully passed.</p>
+</div>
+<div class="section" id="licence">
+<h2>1.2. Licence<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
+<p><strong>DAE Tools</strong> is <a class="reference external" href="http://www.gnu.org/">free software</a> and you can redistribute it and/or modify it under the terms of
+the <a class="reference external" href="http://www.gnu.org/licenses/licenses.html#GPL">GNU General Public Licence</a> version 3 as published by
+the Free Software Foundation (<a class="reference external" href="http://www.gnu.org/philosophy/free-sw.html">GNU philosophy</a>).</p>
+</div>
+<div class="section" id="how-to-cite">
+<h2>1.3. How to cite<a class="headerlink" href="#how-to-cite" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>If you use DAE Tools in your work then please cite the following article:</dt>
+<dd>Nikolić DD. (2016) <em>DAE Tools: equation-based object-oriented modelling, simulation and optimisation software</em>.
+<strong>PeerJ Computer Science</strong> 2:e54. <a class="reference external" href="https://doi.org/10.7717/peerj-cs.54">https://doi.org/10.7717/peerj-cs.54</a>
+(<a class="reference external" href="http://www.daetools.com/docs/presentations/daetools-peerj-cs-54.bib">bib file</a>)</dd>
+</dl>
+<p>More details can be found on <a class="reference external" href="../publications.html">Publications</a> page.</p>
+</div>
+<div class="section" id="history">
+<h2>1.4. History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>&#8220;Necessity, who is the mother of invention&#8221;</strong></dt>
+<dd><em>Plato, Greek author &amp; philosopher (427 BC - 347 BC), The Republic</em></dd>
+<dt><strong>&#8220;Every good work of software starts by scratching a developer&#8217;s personal itch&#8221;</strong></dt>
+<dd><em>Eric S. Raymond, hacker, The Cathedral and the Bazaar, 1997</em></dd>
+</dl>
+<p>The latter cannot be more true <a class="footnote-reference" href="#ericraymond" id="id5">[1]</a>.
+The early ideas of starting a project like this go back into 2007. At that time I have been working on my
+PhD thesis using one of commercially available process modelling software. It was everything nice and well
+until I discovered some annoying bugs and lack of certain highly appreciated features. The developers of that
+proprietary program (as it is a case with all proprietary computer programs) had their own agenda fixing only
+what they wanted to fix and introducing new features that they anticipated. Although I was able to improve
+the code and introduce certain features which will help (not only) me - I was helpless. The source code was
+not available and nobody will ever consider giving it to me to create patches with bugs fixes/new features.
+Not even if I swear on the holy (c++) bible!!</p>
+<p>Very soon the contours of a new process modelling software slowly began to form. It took me a while until
+I made a definite plan and initial features, and I had to abandon a couple of initial versions...</p>
+<dl class="docutils">
+<dt><strong>&#8220;Plan to throw one away; you will, anyhow&#8221;</strong></dt>
+<dd><em>Eric S. Raymond, hacker, The Cathedral and the Bazaar, 1997</em></dd>
+</dl>
+<p>Damn you Eric Raymond, interfering with my business again! :-)
+The new project was officially born early next year - 2008.</p>
+<table class="docutils footnote" frame="void" id="ericraymond" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[1]</a></td><td>However, I do not agree with Eric Raymond and the Open Source Iniative views - they miss the point IMO, but let us leave it beside at the moment.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="acknowledgements">
+<h2>1.5. Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+<p>DAE Tools use the following third party free software libraries (GNU GPL, GNU LGPL, CPL, EPL, BSD or some other type of free/permissive/copy-left licences):</p>
+<ul class="simple">
+<li>Sundials IDAS: <a class="reference external" href="https://computation.llnl.gov/casc/sundials/main.html">https://computation.llnl.gov/casc/sundials/main.html</a></li>
+<li>Boost: <a class="reference external" href="http://www.boost.org">http://www.boost.org</a></li>
+<li>ADOL-C: <a class="reference external" href="https://projects.coin-or.org/ADOL-C">https://projects.coin-or.org/ADOL-C</a></li>
+<li>Numpy: <a class="reference external" href="http://numpy.scipy.orghttp://numpy.scipy.org">http://numpy.scipy.orghttp://numpy.scipy.org</a></li>
+<li>Scipy: <a class="reference external" href="http://www.scipy.org">http://www.scipy.org</a></li>
+<li>Blas/Lapack/CLapack: <a class="reference external" href="http://www.netlib.org">http://www.netlib.org</a></li>
+<li>Minpack: <a class="reference external" href="http://www.netlib.org/minpack">http://www.netlib.org/minpack</a></li>
+<li>Trilinos Amesos: <a class="reference external" href="http://trilinos.sandia.gov/packages/amesos">http://trilinos.sandia.gov/packages/amesos</a></li>
+<li>Trilinos AztecOO: <a class="reference external" href="http://trilinos.sandia.gov/packages/aztecoo">http://trilinos.sandia.gov/packages/aztecoo</a></li>
+<li>SuperLU/SuperLU_MT: <a class="reference external" href="http://crd.lbl.gov/~xiaoye/SuperLU/index.html">http://crd.lbl.gov/~xiaoye/SuperLU/index.html</a></li>
+<li>Umfpack: <a class="reference external" href="http://www.cise.ufl.edu/research/sparse/umfpack">http://www.cise.ufl.edu/research/sparse/umfpack</a></li>
+<li>MUMPS:  <a class="reference external" href="http://graal.ens-lyon.fr/MUMPS">http://graal.ens-lyon.fr/MUMPS</a></li>
+<li>IPOPT: <a class="reference external" href="https://projects.coin-or.org/Ipopt">https://projects.coin-or.org/Ipopt</a></li>
+<li>Bonmin: <a class="reference external" href="https://projects.coin-or.org/Bonmin">https://projects.coin-or.org/Bonmin</a></li>
+<li>NLOPT: <a class="reference external" href="http://ab-initio.mit.edu/wiki/index.php/NLopt">http://ab-initio.mit.edu/wiki/index.php/NLopt</a></li>
+<li>pyQt: <a class="reference external" href="http://www.riverbankcomputing.co.uk/software/pyqt">http://www.riverbankcomputing.co.uk/software/pyqt</a></li>
+<li>Matplotlib: <a class="reference external" href="http://matplotlib.sourceforge.net">http://matplotlib.sourceforge.net</a></li>
+<li>SALib: <a class="reference external" href="https://github.com/SALib/SALib">https://github.com/SALib/SALib</a></li>
+<li>lxml: <a class="reference external" href="http://lxml.de">http://lxml.de</a></li>
+<li>openpyxl: <a class="reference external" href="http://www.python-excel.org">http://www.python-excel.org</a></li>
+<li>HDF5 for Python: <a class="reference external" href="http://www.h5py.org">http://www.h5py.org</a></li>
+<li>Pandas: <a class="reference external" href="http://pandas.pydata.org">http://pandas.pydata.org</a></li>
+<li>Mayavi2: <a class="reference external" href="http://docs.enthought.com/mayavi/mayavi">http://docs.enthought.com/mayavi/mayavi</a></li>
+<li>PyGraphviz: <a class="reference external" href="https://pygraphviz.github.io">https://pygraphviz.github.io</a></li>
+<li>PyEVTK: <a class="reference external" href="https://pypi.python.org/pypi/PyEVTK">https://pypi.python.org/pypi/PyEVTK</a></li>
+</ul>
+<p><strong>DAE Tools</strong> can optionally use the following proprietary software libraries:</p>
+<ul class="simple">
+<li>Pardiso linear solver (pyPardiso module): <a class="reference external" href="http://www.pardiso-project.org">http://www.pardiso-project.org</a></li>
+<li>Intel Pardiso linear solver (pyIntelPardiso module): <a class="reference external" href="http://software.intel.com/en-us/articles/intel-mkl">http://software.intel.com/en-us/articles/intel-mkl</a></li>
+<li>OpenCL drivers/runtime libraries
+(Intel: <a class="reference external" href="https://software.intel.com/en-us/articles/opencl-drivers">https://software.intel.com/en-us/articles/opencl-drivers</a>;
+AMD: <a class="reference external" href="https://support.amd.com/en-us/kb-articles/Pages/OpenCL2-Driver.aspx">https://support.amd.com/en-us/kb-articles/Pages/OpenCL2-Driver.aspx</a>;
+NVidia: <a class="reference external" href="https://developer.nvidia.com/opencl">https://developer.nvidia.com/opencl</a>)</li>
+</ul>
+<p>Please see the corresponding websites for more details about the licences.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/introduction.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

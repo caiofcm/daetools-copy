@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.9. Chemical Engineering Optimisation Examples &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="8.8. Optimisation Tutorials" href="tutorials-optimisation.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">8.9. Chemical Engineering Optimisation Examples</a><ul>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_che_opt_1">8.9.1. Chem. Eng. Optimisation Example 1</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_che_opt_2">8.9.2. Chem. Eng. Optimisation Example 2</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_che_opt_3">8.9.3. Chem. Eng. Optimisation Example 3</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_che_opt_4">8.9.4. Chem. Eng. Optimisation Example 4</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_che_opt_5">8.9.5. Chem. Eng. Optimisation Example 5</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_che_opt_6">8.9.6. Chem. Eng. Optimisation Example 6</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="chemical-engineering-optimisation-examples">
+<h1>8.9. Chemical Engineering Optimisation Examples<a class="headerlink" href="#chemical-engineering-optimisation-examples" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-che-opt-1"><span class="std std-ref">Chem. Eng. Optimisation Example 1</span></a></td>
+<td>Optimisation of the CSTR with energy balance and Van de Vusse reactions
+(not fully implemented yet).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-che-opt-2"><span class="std std-ref">Chem. Eng. Optimisation Example 2</span></a></td>
+<td>COPS test 5 (parameter estimation): Determination of the reaction coefficients
+in the thermal isometrization of α-pinene.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-che-opt-3"><span class="std std-ref">Chem. Eng. Optimisation Example 3</span></a></td>
+<td>COPS test 6 (parameter estimation): Determine stage specific growth and mortality rates
+for species at each stage as a function of time.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-che-opt-4"><span class="std std-ref">Chem. Eng. Optimisation Example 4</span></a></td>
+<td>COPS test 12 (parameter estimation): Determination of the reaction coefficients
+for the catalytic cracking of gas oil and other byproducts.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-che-opt-5"><span class="std std-ref">Chem. Eng. Optimisation Example 5</span></a></td>
+<td>COPS test 13 (parameter estimation): Determination of the reaction coefficients
+for the conversion of methanol into various hydrocarbons.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-che-opt-6"><span class="std std-ref">Chem. Eng. Optimisation Example 6</span></a></td>
+<td>COPS test 14 (optimal control): Catalyst mixing in a tubular plug flow reactor.</td>
+</tr>
+</tbody>
+</table>
+<p>The implementations of the <a class="reference external" href="http://www.mcs.anl.gov/~more/cops">COPS</a> tests differ from the
+original ones in following:</p>
+<ul class="simple">
+<li>The Direct Sequential Approach has been applied while the original tests use
+the Direct Simultaneous Approach</li>
+<li>The analytical sensitivity Hessian matrix is not available. The limited memory
+Broyden–Fletcher–Goldfarb–Shanno (L-BFGS) algorithm from IPOPT is used.</li>
+</ul>
+<p>As a consequence, the results slightly differ from the published results.
+In addition, the solver options should be tuned to achieve faster convergence.</p>
+<div class="section" id="module-daetools.examples.tutorial_che_opt_1">
+<span id="chem-eng-optimisation-example-1"></span><span id="tutorial-che-opt-1"></span><h2>8.9.1. Chem. Eng. Optimisation Example 1<a class="headerlink" href="#module-daetools.examples.tutorial_che_opt_1" title="Permalink to this headline">¶</a></h2>
+<p>Optimisation of the CSTR model and Van de Vusse reactions given in tutorial_che_1:</p>
+<p>Not fully implemented yet.</p>
+<p>Reference: G.A. Ridlehoover, R.C. Seagrave. Optimization of Van de Vusse Reaction Kinetics
+Using Semibatch Reactor Operation, Ind. Eng. Chem. Fundamen. 1973;12(4):444-447.
+<a class="reference external" href="https://doi.org/10.1021/i160048a700">doi:10.1021/i160048a700</a></p>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_1.xml">tutorial_che_opt_1.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_1-rt.xml">tutorial_che_opt_1-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_1.html">tutorial_che_opt_1.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_che_opt_2">
+<span id="chem-eng-optimisation-example-2"></span><span id="tutorial-che-opt-2"></span><h2>8.9.2. Chem. Eng. Optimisation Example 2<a class="headerlink" href="#module-daetools.examples.tutorial_che_opt_2" title="Permalink to this headline">¶</a></h2>
+<p>COPS test 5: Isomerization of α-pinene (parameter estimation of a dynamic system).</p>
+<p>Very slow convergence.</p>
+<p>Determine the reaction coefficients in the thermal isometrization of α-pinene (y1) to
+dipentene (y2) and allo-ocimen (y3) which in turn produces α- and β-pyronene (y4)
+and a dimer (y5).</p>
+<p>Reference: Benchmarking Optimization Software with COPS 3.0, Mathematics and Computer
+Science Division, Argonne National Laboratory, Technical Report ANL/MCS-273, 2004.
+<a class="reference external" href="http://www.mcs.anl.gov/~more/cops/cops3.pdf">PDF</a></p>
+<p>Experimental data taken from:  Rocha A.M.A.C., Martins M.C., Costa M.F.P.,
+Fernandes, E.M.G.P. (2016) Direct sequential based firefly algorithm for the α-pinene
+isomerization problem. 16th International Conference on Computational Science and Its
+Applications, ICCSA 2016, Beijing, China.
+<a class="reference external" href="http://doi.org/10.1007/978-3-319-42085-1_30">doi:10.1007/978-3-319-42085-1_30</a></p>
+<p>Run options:</p>
+<ul class="simple">
+<li>Simulation with optimal parameters: python tutorial_che_opt_2.py simulation</li>
+<li>Parameter estimation console run:   python tutorial_che_opt_2.py console</li>
+<li>Parameter estimation GUI run:       python tutorial_che_opt_2.py gui</li>
+</ul>
+<p>Currently, the parameter estimation results are (solver options/scaling should be tuned):</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Fobj  57.83097
+p1    5.63514e-05
+p2    2.89711e-05
+p3    1.39979e-05
+p4   18.67874e-05
+p5    2.23770e-05
+</pre></div>
+</div>
+<p>The concentration plots (for optimal &#8216;p&#8217; from the literature):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_2-results.png"><img alt="_images/tutorial_che_opt_2-results.png" src="_images/tutorial_che_opt_2-results.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_2.xml">tutorial_che_opt_2.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_2-rt.xml">tutorial_che_opt_2-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_2.html">tutorial_che_opt_2.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_che_opt_3">
+<span id="chem-eng-optimisation-example-3"></span><span id="tutorial-che-opt-3"></span><h2>8.9.3. Chem. Eng. Optimisation Example 3<a class="headerlink" href="#module-daetools.examples.tutorial_che_opt_3" title="Permalink to this headline">¶</a></h2>
+<p>COPS test 6: Marine Population Dynamics. (Not working properly)</p>
+<p>Given estimates of the abundance of the population of a marine species at each stage
+(for example, nauplius, juvenile, adult) as a function of time, determine stage specific
+growth and mortality rates.</p>
+<p>Reference: Benchmarking Optimization Software with COPS 3.0, Mathematics and Computer
+Science Division, Argonne National Laboratory, Technical Report ANL/MCS-273, 2004.
+<a class="reference external" href="http://www.mcs.anl.gov/~more/cops/cops3.pdf">PDF</a></p>
+<p>Experimental data generated following the procedure described in the COPS test.</p>
+<p>Run options:</p>
+<ul class="simple">
+<li>Simulation with optimal parameters: python tutorial_che_opt_3.py simulation</li>
+<li>Parameter estimation console run:   python tutorial_che_opt_3.py console</li>
+<li>Parameter estimation GUI run:       python tutorial_che_opt_3.py gui</li>
+</ul>
+<p>Currently, the parameter estimation results are (suboptimal results obtained, solver
+options/scaling should be tuned):</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Fobj =  1.920139e+8
+m(0)    3.358765e-01
+m(1)    4.711709e-01
+m(2)    1.120524e-01
+m(3)    8.509170e-02
+m(4)    9.683579e-02
+m(5)    1.919142e-01
+m(6)    2.418778e-01
+m(7)    2.421000e-01
+g(0)    1.152995e+00
+g(1)    7.529383e-01
+g(2)    5.024174e-01
+g(3)    5.704327e-01
+g(4)    4.180333e-01
+g(5)    3.185407e-01
+g(6)    2.250250e-01
+</pre></div>
+</div>
+<p>The distribution moments 1,2,5,6 plots (for optimal results from the literature):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_3-results.png"><img alt="_images/tutorial_che_opt_3-results.png" src="_images/tutorial_che_opt_3-results.png" style="width: 500px;" /></a>
+<p>The distribution moments 3,4,7,8 plots (for optimal results from the literature):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_3-results2.png"><img alt="_images/tutorial_che_opt_3-results2.png" src="_images/tutorial_che_opt_3-results2.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_3.xml">tutorial_che_opt_3.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_3-rt.xml">tutorial_che_opt_3-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_3.html">tutorial_che_opt_3.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_che_opt_4">
+<span id="chem-eng-optimisation-example-4"></span><span id="tutorial-che-opt-4"></span><h2>8.9.4. Chem. Eng. Optimisation Example 4<a class="headerlink" href="#module-daetools.examples.tutorial_che_opt_4" title="Permalink to this headline">¶</a></h2>
+<p>COPS test 12: Catalytic Cracking of Gas Oil.</p>
+<p>Determine the reaction coefficients for the catalytic cracking of gas oil into gas and other
+byproducts.</p>
+<p>Reference: Benchmarking Optimization Software with COPS 3.0, Mathematics and Computer
+Science Division, Argonne National Laboratory, Technical Report ANL/MCS-273, 2004.
+<a class="reference external" href="http://www.mcs.anl.gov/~more/cops/cops3.pdf">PDF</a></p>
+<p>Experimental data generated following the procedure described in the COPS test.</p>
+<p>Run options:</p>
+<ul class="simple">
+<li>Simulation with optimal parameters: python tutorial_che_opt_4.py simulation</li>
+<li>Parameter estimation console run:   python tutorial_che_opt_4.py console</li>
+<li>Parameter estimation GUI run:       python tutorial_che_opt_4.py gui</li>
+</ul>
+<p>Currently, the parameter estimation results are (solver options/scaling should be tuned):</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Fobj = 4.841995e-3
+p1   = 10.95289
+p2   =  7.70601
+p3   =  2.89625
+</pre></div>
+</div>
+<p>The concentration plots (for optimal &#8216;p&#8217; from the literature):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_4-results.png"><img alt="_images/tutorial_che_opt_4-results.png" src="_images/tutorial_che_opt_4-results.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_4.xml">tutorial_che_opt_4.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_4-rt.xml">tutorial_che_opt_4-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_4.html">tutorial_che_opt_4.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_che_opt_5">
+<span id="chem-eng-optimisation-example-5"></span><span id="tutorial-che-opt-5"></span><h2>8.9.5. Chem. Eng. Optimisation Example 5<a class="headerlink" href="#module-daetools.examples.tutorial_che_opt_5" title="Permalink to this headline">¶</a></h2>
+<p>COPS test 13: Methanol to Hydrocarbons.</p>
+<p>Determine the reaction coefficients for the conversion of methanol into various hydrocarbons.</p>
+<p>Reference: Benchmarking Optimization Software with COPS 3.0, Mathematics and Computer
+Science Division, Argonne National Laboratory, Technical Report ANL/MCS-273, 2004.
+<a class="reference external" href="http://www.mcs.anl.gov/~more/cops/cops3.pdf">PDF</a></p>
+<p>Experimental data generated following the procedure described in the COPS test.</p>
+<p>Run options:</p>
+<ul class="simple">
+<li>Simulation with optimal parameters: python tutorial_che_opt_5.py simulation</li>
+<li>Parameter estimation console run:   python tutorial_che_opt_5.py console</li>
+<li>Parameter estimation GUI run:       python tutorial_che_opt_5.py gui</li>
+</ul>
+<p>Currently, the parameter estimation results are (solver options/scaling should be tuned):</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Fobj = 1.274997e-2
+p1 = 2.641769
+p2 = 1.466245
+p3 = 1.884254
+p4 = 1.023885
+p5 = 0.471067
+</pre></div>
+</div>
+<p>The concentration plots (for optimal &#8216;p&#8217; from the literature):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_5-results.png"><img alt="_images/tutorial_che_opt_5-results.png" src="_images/tutorial_che_opt_5-results.png" style="width: 500px;" /></a>
+<p>The concentration plots (for optimal &#8216;p&#8217; from this optimisation):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_5-results2.png"><img alt="_images/tutorial_che_opt_5-results2.png" src="_images/tutorial_che_opt_5-results2.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_5.xml">tutorial_che_opt_5.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_5-rt.xml">tutorial_che_opt_5-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_5.html">tutorial_che_opt_5.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_che_opt_6">
+<span id="chem-eng-optimisation-example-6"></span><span id="tutorial-che-opt-6"></span><h2>8.9.6. Chem. Eng. Optimisation Example 6<a class="headerlink" href="#module-daetools.examples.tutorial_che_opt_6" title="Permalink to this headline">¶</a></h2>
+<p>COPS optimisation test 14: Catalyst Mixing.</p>
+<p>Determine the optimal mixing policy of two catalysts along the length of a tubular
+plug flow reactor involving several reactions.</p>
+<p>Reference: Benchmarking Optimization Software with COPS 3.0, Mathematics and Computer
+Science Division, Argonne National Laboratory, Technical Report ANL/MCS-273, 2004.
+<a class="reference external" href="http://www.mcs.anl.gov/~more/cops/cops3.pdf">PDF</a></p>
+<p>In DAE Tools numerical solution of dynamic optimisation problems is obtained using
+the Direct Sequential Approach where, given a set of values for the decision variables,
+the system of ODEs are accurately integrated over the entire time interval using specific
+numerical integration formulae so that the objective functional can be evaluated.
+Therefore, the differential equations are satisfied at each iteration of the
+optimisation procedure.</p>
+<p>In the COPS test, the problem is solved using the Direct Simultaneous Approach where
+the equations that result from a discretisation of an ODE model using orthogonal
+collocation on finite elements (OCFE), are incorporated directly into the optimisation
+problem, and the combined problem is then solved using a large-scale optimisation strategy.</p>
+<p>The results: fobj = -4.79479E-2 (for Nh = 100) and -4.78676E-02 (for Nh = 200).</p>
+<p>The control variables plot (for Nh = 100):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_6-results.png"><img alt="_images/tutorial_che_opt_6-results.png" src="_images/tutorial_che_opt_6-results.png" style="width: 500px;" /></a>
+<p>The control variables plot (for Nh = 200):</p>
+<a class="reference internal image-reference" href="_images/tutorial_che_opt_6-results2.png"><img alt="_images/tutorial_che_opt_6-results2.png" src="_images/tutorial_che_opt_6-results2.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_6.xml">tutorial_che_opt_6.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_6-rt.xml">tutorial_che_opt_6-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_che_opt_6.html">tutorial_che_opt_6.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/tutorials-chemeng-optimisation.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

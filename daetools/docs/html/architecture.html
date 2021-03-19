@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Architecture &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Getting DAE Tools" href="getting_daetools.html" />
+    <link rel="prev" title="2. Programming Paradigms" href="paradigms.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">3. Architecture</a><ul>
+<li><a class="reference internal" href="#package-core">3.1. Package “core”</a></li>
+<li><a class="reference internal" href="#package-activity">3.2. Package “activity”</a></li>
+<li><a class="reference internal" href="#package-solvers">3.3. Package “solvers”</a></li>
+<li><a class="reference internal" href="#package-datareporting">3.4. Package “datareporting”</a></li>
+<li><a class="reference internal" href="#package-logging">3.5. Package “logging”</a></li>
+<li><a class="reference internal" href="#package-units">3.6. Package “units”</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="architecture">
+<span id="id1"></span><h1>3. Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
+<p>DAE Tools consists of six packages: <a class="reference internal" href="core.html#module-pyCore" title="pyCore"><code class="xref py py-mod docutils literal"><span class="pre">core</span></code></a>, <a class="reference internal" href="activity.html#module-pyActivity" title="pyActivity"><code class="xref py py-mod docutils literal"><span class="pre">activity</span></code></a>, <a class="reference internal" href="dae_solver.html#module-pyIDAS" title="pyIDAS"><code class="xref py py-mod docutils literal"><span class="pre">solvers</span></code></a>,
+<a class="reference internal" href="data_reporting.html#module-pyDataReporting" title="pyDataReporting"><code class="xref py py-mod docutils literal"><span class="pre">datareporting</span></code></a>, <a class="reference internal" href="core.html#module-pyCore" title="pyCore"><code class="xref py py-mod docutils literal"><span class="pre">logging</span></code></a>, and <a class="reference internal" href="units.html#module-pyUnits" title="pyUnits"><code class="xref py py-mod docutils literal"><span class="pre">units</span></code></a>.
+All packages provide a set of interfaces (abstract classes) that define the required functionality.
+Interfaces are realised by the implementation classes.
+The implementation classes share the same name with the interface they realise
+with the suffix <em>_t</em> dropped (i.e. the class <em>daeVariable</em> implements interface <em>daeVariable_t</em>).</p>
+<div class="section" id="package-core">
+<h2>3.1. Package “core”<a class="headerlink" href="#package-core" title="Permalink to this headline">¶</a></h2>
+<p>This package contains the key modelling concepts. The class diagram with interfaces (abstract classes) and their
+interdepedency is presented in <a class="reference internal" href="#figure-arch-1"><span class="std std-numref">Fig. 3.1</span></a>. The key modelling concepts in DAE Tools are given in <a class="reference internal" href="#table-arch-1"><span class="std std-numref">Table 3.1</span></a>.
+Interface realisations are given in <a class="reference internal" href="#figure-arch-2"><span class="std std-numref">Fig. 3.2</span></a>.</p>
+<div class="figure align-center" id="id2" style="width: 650pt">
+<span id="figure-arch-1"></span><a class="reference internal image-reference" href="_images/architecture_1.png"><img alt="_images/architecture_1.png" src="_images/architecture_1.png" style="width: 600pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.1 </span><span class="caption-text">UML class diagram: the <strong>core</strong> package interfaces</span></p>
+</div>
+<table border="1" class="colwidths-given docutils" id="id3">
+<span id="table-arch-1"></span><caption><span class="caption-number">Table 3.1 </span><span class="caption-text">The key modelling concepts in DAE Tools</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Concept</th>
+<th class="head">Implementation class</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em>daeVariableType_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeVariableType" title="pyCore.daeVariableType"><code class="xref py py-class docutils literal"><span class="pre">daeVariableType</span></code></a></td>
+<td>Defines a variable type that has the units, lower and upper bounds, a default value and an absolute tolerance</td>
+</tr>
+<tr class="row-odd"><td><em>daeDomain_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeDomain" title="pyCore.daeDomain"><code class="xref py py-class docutils literal"><span class="pre">daeDomain</span></code></a></td>
+<td>Defines ordinary arrays or spatial distributions such as structured and unstructured grids;
+parameters, variables, equations and even models and ports can be distributed on domains</td>
+</tr>
+<tr class="row-even"><td><em>daeParameter_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeParameter" title="pyCore.daeParameter"><code class="xref py py-class docutils literal"><span class="pre">daeParameter</span></code></a></td>
+<td>Defines time invariant quantities that do not change during a simulation, such as
+a physical constant, number of discretisation points in a domain etc.</td>
+</tr>
+<tr class="row-odd"><td><em>daeVariable_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeVariable" title="pyCore.daeVariable"><code class="xref py py-class docutils literal"><span class="pre">daeVariable</span></code></a></td>
+<td>Defines time varying quantities that change during a simulation</td>
+</tr>
+<tr class="row-even"><td><em>daePort_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daePort" title="pyCore.daePort"><code class="xref py py-class docutils literal"><span class="pre">daePort</span></code></a></td>
+<td>Defines connection points between model instances for exchange of continuous
+quantities; similar to the models, ports can contain domains, parameters and variables</td>
+</tr>
+<tr class="row-odd"><td><em>daeEventPort_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeEventPort" title="pyCore.daeEventPort"><code class="xref py py-class docutils literal"><span class="pre">daeEventPort</span></code></a></td>
+<td>Defines connection points between model instances for exchange of discrete messages/events;
+events can be triggered manually or when a specified condition is satisfied;
+the main difference between event and ordinary ports is that the former allow a discrete
+communication between models while latter allow a continuous exchange of information</td>
+</tr>
+<tr class="row-even"><td><em>daePortConnection_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daePortConnection" title="pyCore.daePortConnection"><code class="xref py py-class docutils literal"><span class="pre">daePortConnection</span></code></a></td>
+<td>Defines connections between two ports</td>
+</tr>
+<tr class="row-odd"><td><em>daeEventPortConnection_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeEventPortConnection" title="pyCore.daeEventPortConnection"><code class="xref py py-class docutils literal"><span class="pre">daeEventPortConnection</span></code></a></td>
+<td>Defines connections between two event ports</td>
+</tr>
+<tr class="row-even"><td><em>daeEquation_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeEquation" title="pyCore.daeEquation"><code class="xref py py-class docutils literal"><span class="pre">daeEquation</span></code></a></td>
+<td>Defines model equations given in an implicit/acausal form</td>
+</tr>
+<tr class="row-odd"><td><em>daeSTN_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeSTN" title="pyCore.daeSTN"><code class="xref py py-class docutils literal"><span class="pre">daeSTN</span></code></a>, <a class="reference internal" href="core.html#pyCore.daeIF" title="pyCore.daeIF"><code class="xref py py-class docutils literal"><span class="pre">daeIF</span></code></a></td>
+<td>Defines state transition networks used to model discontinuous equations, that is equations that
+take different forms subject to certain conditions; symmetrical/non-symmetrical and
+reversible/irreversible state transitions are supported</td>
+</tr>
+<tr class="row-even"><td><em>daeOnConditionActions_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeOnConditionActions" title="pyCore.daeOnConditionActions"><code class="xref py py-class docutils literal"><span class="pre">daeOnConditionActions</span></code></a></td>
+<td>Defines actions to be performed when a specified condition is satisfied</td>
+</tr>
+<tr class="row-odd"><td><em>daeOnEventActions_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeOnEventActions" title="pyCore.daeOnEventActions"><code class="xref py py-class docutils literal"><span class="pre">daeOnEventActions</span></code></a></td>
+<td>Defines actions to be performed when an event is triggered on the specified event port</td>
+</tr>
+<tr class="row-even"><td><em>daeState_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeState" title="pyCore.daeState"><code class="xref py py-class docutils literal"><span class="pre">daeState</span></code></a></td>
+<td>Defines a state in a state transition network; contains equations and on_event/condition action handlers</td>
+</tr>
+<tr class="row-odd"><td><em>daeModel_t</em></td>
+<td><a class="reference internal" href="core.html#pyCore.daeModel" title="pyCore.daeModel"><code class="xref py py-class docutils literal"><span class="pre">daeModel</span></code></a></td>
+<td>Represents a model</td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-center" id="id4" style="width: 550pt">
+<span id="figure-arch-2"></span><a class="reference internal image-reference" href="_images/architecture_2.png"><img alt="_images/architecture_2.png" src="_images/architecture_2.png" style="width: 500pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.2 </span><span class="caption-text">UML class diagram: the <strong>core</strong> package interface implementations</span></p>
+</div>
+<p>Models in DAE Tools are represented by the <a class="reference internal" href="core.html#pyCore.daeModel" title="pyCore.daeModel"><code class="xref py py-class docutils literal"><span class="pre">daeModel</span></code></a> class and contain the following elements: domains,
+parameters, variables, equations, state transition networks, ports, event ports, actions to be performed when a given
+condition is satisfied, actions to be performed when an event is triggered on a given event port, and components
+(instances of other models, used to form a hierarchy of models). The <a class="reference internal" href="core.html#pyCore.daeModel" title="pyCore.daeModel"><code class="xref py py-class docutils literal"><span class="pre">daeModel</span></code></a> UML class diagram
+is presented in <a class="reference internal" href="#figure-arch-3"><span class="std std-numref">Fig. 3.3</span></a>.</p>
+<div class="figure align-center" id="id5" style="width: 550pt">
+<span id="figure-arch-3"></span><a class="reference internal image-reference" href="_images/architecture_3.png"><img alt="_images/architecture_3.png" src="_images/architecture_3.png" style="width: 500pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.3 </span><span class="caption-text">UML class diagram: <em>daeModel</em> class</span></p>
+</div>
+</div>
+<div class="section" id="package-activity">
+<h2>3.2. Package “activity”<a class="headerlink" href="#package-activity" title="Permalink to this headline">¶</a></h2>
+<p>This package contains interfaces that define an API for activities that can be performed on developed
+models. To date, only two interfaces are defined and implemented:
+<code class="xref py py-class docutils literal"><span class="pre">daeSimulation_t</span></code> (defines a functionality used to perfom simulations) and
+<code class="xref py py-class docutils literal"><span class="pre">daeOptimization_t</span></code> (defines a functionality used to perform optimisations).</p>
+</div>
+<div class="section" id="package-solvers">
+<h2>3.3. Package “solvers”<a class="headerlink" href="#package-solvers" title="Permalink to this headline">¶</a></h2>
+<p>This package contains interfaces that define an API for numerical solution of systems of differential
+algebraic equations (DAE), systems of linear equations (LA), and (mixed-integer) nonlinear programming problems
+(NLP or MINLP), and auxiliary classes. The class diagram with the defined interfaces is presented in <a class="reference internal" href="#figure-arch-4"><span class="std std-numref">Fig. 3.4</span></a>.</p>
+<div class="figure align-center" id="id6" style="width: 250pt">
+<span id="figure-arch-4"></span><a class="reference internal image-reference" href="_images/architecture_4.png"><img alt="_images/architecture_4.png" src="_images/architecture_4.png" style="width: 200pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.4 </span><span class="caption-text">UML class diagram: the <strong>solvers</strong> package interfaces</span></p>
+</div>
+<table border="1" class="colwidths-given docutils" id="id7">
+<span id="table-2"></span><caption><span class="caption-number">Table 3.2 </span><span class="caption-text">The key concepts in the <strong>solvers</strong> pakage</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Concept</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em>daeDAESolver_t</em></td>
+<td>Defines a functionality for the solution of DAE systems</td>
+</tr>
+<tr class="row-odd"><td><em>daeNLPSolver_t</em></td>
+<td>Defines a functionality for the solution of (MI)NLP problems</td>
+</tr>
+<tr class="row-even"><td><em>daeLASolver_t</em></td>
+<td>Defines functionality for the solution of systems of linear equations</td>
+</tr>
+<tr class="row-odd"><td><em>daeIDALASolver_t</em></td>
+<td>Derived from <em>daeLASolver_t,</em> used by Sundials IDAS linear solvers</td>
+</tr>
+</tbody>
+</table>
+<p>Interface realizations are given in <a class="reference internal" href="#figure-arch-5"><span class="std std-numref">Fig. 3.5</span></a>.
+Current implementations include Sundials IDAS DAE solver, IPOPT, BONMIN and NLOPT (MI)NLP
+solvers and SuperLU, SuperLU_MT, PARDISO, Intel PARDISO and Trilinos (Amesos and AztecOO) sparse matrix linear
+solvers. Since all these linear equation solvers use different sparse matrix representations, a generic interface
+(template <code class="xref cpp cpp-class docutils literal"><span class="pre">daeMatrix&lt;typename</span> <span class="pre">FLOAT&gt;</span></code>) has been developed for the basic
+operations performed by DAE Tools software such as setting/getting the values and obtaining the matrix properties. This
+way, DAE Tools objects can access the matrix data in a generic fashion while hiding the internal implementation
+details. To date, three matrix types have been implemented:
+<code class="xref cpp cpp-class docutils literal"><span class="pre">daeDenseMatrix</span></code>, <code class="xref cpp cpp-class docutils literal"><span class="pre">daeLapackMatrix</span></code> (basically wrappers around C/C++ and Fortran
+two-dimensional arrays), a template class <code class="xref cpp cpp-class docutils literal"><span class="pre">daeSparseMatrix&lt;typename</span> <span class="pre">FLOAT,</span> <span class="pre">typename</span> <span class="pre">INT&gt;</span></code> (sparse matrix)
+and its realization <code class="xref cpp cpp-class docutils literal"><span class="pre">daeCSRMatrix&lt;typename</span> <span class="pre">FLOAT,</span> <span class="pre">typename</span> <span class="pre">INT&gt;</span></code> implementing the compressed row storage
+(CSR) sparse matrix representation.</p>
+<div class="figure align-center" id="id8" style="width: 450pt">
+<span id="figure-arch-5"></span><a class="reference internal image-reference" href="_images/architecture_5.png"><img alt="_images/architecture_5.png" src="_images/architecture_5.png" style="width: 400pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.5 </span><span class="caption-text">UML class diagram: the <strong>solvers</strong> package interface implementations</span></p>
+</div>
+</div>
+<div class="section" id="package-datareporting">
+<h2>3.4. Package “datareporting”<a class="headerlink" href="#package-datareporting" title="Permalink to this headline">¶</a></h2>
+<p>This package contains interfaces that define an API for processing of simulation results by the <em>daeSimulation_t</em>
+and <em>daeDAESolver_t</em> classes, and the data structures available to access those data by the users.
+Two interfaces are defined:
+<em>daeDataReporter_t</em> (defines a functionality used by a simulation object to report the simulation results) and
+<em>daeDataReceiver_t</em> (defines a functionality/data structures for accessing the simulation results).
+A number of data reporters have been developed for:
+(a) sending the results via TCP/IP protocol to the DAE Tools Plotter application (<a class="reference internal" href="data_reporting.html#pyDataReporting.daeTCPIPDataReporter" title="pyDataReporting.daeTCPIPDataReporter"><code class="xref py py-class docutils literal"><span class="pre">daeTCPIPDataReporter</span></code></a>),
+(b) plotting the results using the Matplotlib Python library (<code class="xref py py-class docutils literal"><span class="pre">daePlotDataReporter</span></code>), and
+(c) exporting the results to various file formats (such as Matlab MAT, Microsoft Excel, html, xml, json and HDF5).
+An overview of the implemented classes is given in <a class="reference internal" href="#figure-arch-6"><span class="std std-numref">Fig. 3.6</span></a>.</p>
+<div class="figure align-center" id="id9" style="width: 650pt">
+<span id="figure-arch-6"></span><a class="reference internal image-reference" href="_images/architecture_6.png"><img alt="_images/architecture_6.png" src="_images/architecture_6.png" style="width: 600pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.6 </span><span class="caption-text">UML class diagram: the <strong>datareporting</strong> package interface implementations</span></p>
+</div>
+</div>
+<div class="section" id="package-logging">
+<h2>3.5. Package “logging”<a class="headerlink" href="#package-logging" title="Permalink to this headline">¶</a></h2>
+<p>This package contains only one interface <em>daeLog_t</em> that define an API for sending messages from
+the simulation to the user. Interface realizations are given in <a class="reference internal" href="#figure-arch-7"><span class="std std-numref">Fig. 3.7</span></a>. Three implementations exist:
+<a class="reference internal" href="log.html#pyCore.daeStdOutLog" title="pyCore.daeStdOutLog"><code class="xref py py-class docutils literal"><span class="pre">daeStdOutLog</span></code></a> (prints messages to the standard output),
+<a class="reference internal" href="log.html#pyCore.daeFileLog" title="pyCore.daeFileLog"><code class="xref py py-class docutils literal"><span class="pre">daeFileLog</span></code></a> (stores messages to the specified text file), and
+<a class="reference internal" href="log.html#pyCore.daeTCPIPLog" title="pyCore.daeTCPIPLog"><code class="xref py py-class docutils literal"><span class="pre">daeTCPIPLog</span></code></a> (sends messages via TCP/IP protocol to the <a class="reference internal" href="log.html#pyCore.daeTCPIPLogServer" title="pyCore.daeTCPIPLogServer"><code class="xref py py-class docutils literal"><span class="pre">daeTCPIPLogServer</span></code></a>;
+used when a simulation is running on a remote computer).</p>
+<div class="figure align-center" id="id10" style="width: 450pt">
+<span id="figure-arch-7"></span><a class="reference internal image-reference" href="_images/architecture_7.png"><img alt="_images/architecture_7.png" src="_images/architecture_7.png" style="width: 400pt;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3.7 </span><span class="caption-text">UML class diagram: the <strong>logging</strong> interface implementations</span></p>
+</div>
+</div>
+<div class="section" id="package-units">
+<h2>3.6. Package “units”<a class="headerlink" href="#package-units" title="Permalink to this headline">¶</a></h2>
+<p>Parameters and variables in DAE Tools have a numerical value in terms of a unit of measurement (quantity) and
+units-consistency of equations and logical conditions is strictly enforced (although it can be switched off, if
+required). The package contains only two classes: <a class="reference internal" href="units.html#pyUnits.unit" title="pyUnits.unit"><code class="xref py py-class docutils literal"><span class="pre">unit</span></code></a> and <a class="reference internal" href="units.html#pyUnits.quantity" title="pyUnits.quantity"><code class="xref py py-class docutils literal"><span class="pre">quantity</span></code></a>.
+Both classes have overloaded operators +, -, *, / and ** to support creation of derived units
+and operations on quantities that contain a numerical value and units. In addition, the package defines the basic
+mathematical functions that operate on <a class="reference internal" href="units.html#pyUnits.quantity" title="pyUnits.quantity"><code class="xref py py-class docutils literal"><span class="pre">quantity</span></code></a> objects (such as <em>sin</em>, <em>cos</em>, <em>tan</em>,
+<em>sqrt</em>, <em>pow</em>, <em>log</em>, <em>log10</em>, <em>exp</em>, <em>min</em>, <em>max</em>, <em>floor</em>, <em>ceil</em>, <em>abs</em> etc.).</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/architecture.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

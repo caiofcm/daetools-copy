@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="25224272" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_dealii_7]]></Name>
+  <Description><![CDATA[
+In this example 2D transient Stokes flow driven by the differences in buoyancy caused
+by the temperature differences in the fluid is solved 
+(`deal.II step-31 <https://www.dealii.org/8.5.0/doxygen/deal.II/step_31.html>`_).
+
+The differences to the original problem are that the grid is not adaptive and no 
+stabilisation method is used.
+
+The problem can be described using the following equations (the Boussinesq equations):
+
+.. code-block:: none
+
+   -div(2 * eta * eps(u)) + nabla(p) = -rho * beta * g * T in Omega
+   -div(u) = 0 in Omega
+   dT/dt + div(u * T) - div(k * nabla(T)) = gamma in Omega
+
+The mesh is a simple square (0,1)x(0,1):
+
+.. image:: _static/square(0,1)x(0,1)-50x50.png
+   :width: 300 px
+
+The temperature and the velocity vectors plot:
+
+.. image:: _static/tutorial_dealii_7-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_7-animation.gif
+   :height: 400 px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables/>
+  <Ports/>
+  <EventPorts/>
+  <Equations/>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components>
+    <Object ID="26906000" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Boussinesq]]></Name>
+      <Description><![CDATA[
+In this example 2D transient Stokes flow driven by the differences in buoyancy caused
+by the temperature differences in the fluid is solved 
+(`deal.II step-31 <https://www.dealii.org/8.5.0/doxygen/deal.II/step_31.html>`_).
+
+The differences to the original problem are that the grid is not adaptive and no 
+stabilisation method is used.
+
+The problem can be described using the following equations (the Boussinesq equations):
+
+.. code-block:: none
+
+   -div(2 * eta * eps(u)) + nabla(p) = -rho * beta * g * T in Omega
+   -div(u) = 0 in Omega
+   dT/dt + div(u * T) - div(k * nabla(T)) = gamma in Omega
+
+The mesh is a simple square (0,1)x(0,1):
+
+.. image:: _static/square(0,1)x(0,1)-50x50.png
+   :width: 300 px
+
+The temperature and the velocity vectors plot:
+
+.. image:: _static/tutorial_dealii_7-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_7-animation.gif
+   :height: 400 px
+]]></Description>
+      <Domains>
+        <Object ID="26905736" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;]]></Name>
+          <Description><![CDATA[Omega]]></Description>
+          <Type>eUnstructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="25264336" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_0]]></Name>
+          <Description><![CDATA[FE sub domain 0]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+        <Object ID="26908832" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_1]]></Name>
+          <Description><![CDATA[FE sub domain 1]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+        <Object ID="26909808" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_2]]></Name>
+          <Description><![CDATA[FE sub domain 2]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters/>
+      <Variables>
+        <Object ID="26908432" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[u]]></Name>
+          <Description><![CDATA[Velocity]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="25264336"><![CDATA[&Omega;_0]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26909472" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[p]]></Name>
+          <Description><![CDATA[Pressure]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="26908832"><![CDATA[&Omega;_1]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26910416" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[T]]></Name>
+          <Description><![CDATA[Temperature]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="26909808"><![CDATA[&Omega;_2]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="44857528" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[dealIIFESystem_0]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="64179112" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[&Omega;]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="26905736"><![CDATA[&Omega;]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+  </Components>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

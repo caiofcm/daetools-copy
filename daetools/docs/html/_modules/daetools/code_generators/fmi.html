@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>daetools.code_generators.fmi &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../../_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for daetools.code_generators.fmi</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">                            fmi.py</span>
+<span class="sd">                DAE Tools: pyDAE module, www.daetools.com</span>
+<span class="sd">                Copyright (C) Dragan Nikolic</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span class="sd">terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span class="sd">Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span class="sd">ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span class="sd">PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span class="sd">You should have received a copy of the GNU General Public License along with the</span>
+<span class="sd">DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">************************************************************************************</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">shutil</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">traceback</span><span class="o">,</span> <span class="nn">uuid</span><span class="o">,</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">daetools</span>
+<span class="kn">from</span> <span class="nn">daetools.pyDAE</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.c99</span> <span class="k">import</span> <span class="n">daeCodeGenerator_c99</span>
+<span class="kn">from</span> <span class="nn">.fmi_xml_support</span> <span class="k">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="daeCodeGenerator_FMI"><a class="viewcode-back" href="../../../code_generators.html#daetools.code_generators.fmi.daeCodeGenerator_FMI">[docs]</a><span class="k">class</span> <span class="nc">daeCodeGenerator_FMI</span><span class="p">(</span><span class="n">fmiModelDescription</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml_stylesheet</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">fmiModelDescription</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> 
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">useWebService</span> <span class="o">=</span> <span class="kc">False</span>
+    
+<div class="viewcode-block" id="daeCodeGenerator_FMI.generateSimulation"><a class="viewcode-back" href="../../../code_generators.html#daetools.code_generators.fmi.daeCodeGenerator_FMI.generateSimulation">[docs]</a>    <span class="k">def</span> <span class="nf">generateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">,</span> 
+                                 <span class="n">directory</span><span class="p">,</span> 
+                                 <span class="n">py_simulation_file</span><span class="p">,</span> 
+                                 <span class="n">callable_object_name</span><span class="p">,</span> 
+                                 <span class="n">arguments</span><span class="p">,</span> 
+                                 <span class="n">additional_files</span> <span class="o">=</span> <span class="p">[],</span> 
+                                 <span class="n">localsAsOutputs</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">add_xml_stylesheet</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">useWebService</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tmp_folder</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">simulation</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid simulation object&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">additional_files</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Additional python files must be a list of tuples&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable_object_name</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;No python callable object name specified for FMU&#39;</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">useWebService</span>       <span class="o">=</span> <span class="n">useWebService</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">localsAsOutputs</span>     <span class="o">=</span> <span class="n">localsAsOutputs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wrapperInstanceName</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span>
+            <span class="n">modelIdentifier</span>          <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">GetStrippedName</span><span class="p">()</span>
+            
+            <span class="n">fmu_directory</span>            <span class="o">=</span> <span class="n">directory</span>
+            <span class="n">tmp_folder</span>               <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;daetools-fmu-&#39;</span><span class="p">)</span>
+            <span class="n">xml_description_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;modelDescription.xml&#39;</span><span class="p">)</span>
+            <span class="n">sources_dir</span>              <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;sources&#39;</span><span class="p">)</span>
+            <span class="n">resources_dir</span>            <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;resources&#39;</span><span class="p">)</span>
+            <span class="n">binaries_dir</span>             <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries&#39;</span><span class="p">)</span>
+            <span class="n">fmu_filename</span>             <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmu_directory</span><span class="p">,</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span> <span class="o">+</span> <span class="s1">&#39;.fmu&#39;</span><span class="p">)</span>
+
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">tmp_folder</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;documentation&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;sources&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;resources&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries/win32&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries/win64&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries/linux32&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries/linux64&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries/darwin32&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="s1">&#39;binaries/darwin64&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+            <span class="c1"># Copy the python file with the simulation class and all additional files to the &#39;resources&#39; folder</span>
+            <span class="c1"># py_simulation_file argument is often specified using the __file__ attribute.</span>
+            <span class="c1"># In Python 2.7 __file__ points to &#39;file.pyc&#39; - correct it to &#39;file.py&#39;</span>
+            <span class="k">if</span> <span class="n">py_simulation_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.pyc&#39;</span><span class="p">):</span>
+                <span class="n">py_simulation_file</span> <span class="o">=</span> <span class="n">py_simulation_file</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">py_path</span><span class="p">,</span> <span class="n">py_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">py_simulation_file</span><span class="p">))</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">py_simulation_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resources_dir</span><span class="p">,</span> <span class="n">py_filename</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">add_xml_stylesheet</span><span class="p">:</span>
+                <span class="n">fmi_py_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+                <span class="c1">#xsl_name = os.path.basename(self.xml_stylesheet)</span>
+                <span class="c1">#xsl_name = os.path.splitext(xsl_name)[0]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">xml_stylesheet</span> <span class="o">=</span> <span class="s1">&#39;resources/daetools-fmi.xsl&#39;</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmi_py_dir</span><span class="p">,</span> <span class="s1">&#39;daetools-fmi.xsl&#39;</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resources_dir</span><span class="p">,</span> <span class="s1">&#39;daetools-fmi.xsl&#39;</span><span class="p">))</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmi_py_dir</span><span class="p">,</span> <span class="s1">&#39;daetools-fmi.css&#39;</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resources_dir</span><span class="p">,</span> <span class="s1">&#39;daetools-fmi.css&#39;</span><span class="p">))</span>
+            
+            <span class="c1"># Copy the additional files to the locations relative to the &#39;resources&#39; folder</span>
+            <span class="c1"># Additional files are a list of tuples: [(&#39;file_path&#39;, &#39;resources_dir_relative_path&#39;), ...]</span>
+            <span class="k">for</span> <span class="n">py_file</span><span class="p">,</span> <span class="n">relative_path</span> <span class="ow">in</span> <span class="n">additional_files</span><span class="p">:</span>
+                <span class="n">destination_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resources_dir</span><span class="p">,</span> <span class="n">relative_path</span><span class="p">)</span>
+                <span class="n">py_path</span><span class="p">,</span> <span class="n">py_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">destination_file</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">py_path</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">py_path</span><span class="p">)</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">py_file</span><span class="p">,</span> <span class="n">destination_file</span><span class="p">)</span>
+
+            <span class="c1"># Copy all available libcdaeFMU_CS-pyXY.[so/dll/dynlib] to the &#39;binaries/platform[32/64]&#39; folder</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_copy_solib</span><span class="p">(</span><span class="s1">&#39;Linux&#39;</span><span class="p">,</span>   <span class="s1">&#39;x86_64&#39;</span><span class="p">,</span> <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_copy_solib</span><span class="p">(</span><span class="s1">&#39;Linux&#39;</span><span class="p">,</span>   <span class="s1">&#39;i386&#39;</span><span class="p">,</span>   <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_copy_solib</span><span class="p">(</span><span class="s1">&#39;Windows&#39;</span><span class="p">,</span> <span class="s1">&#39;win32&#39;</span><span class="p">,</span>  <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_copy_solib</span><span class="p">(</span><span class="s1">&#39;Windows&#39;</span><span class="p">,</span> <span class="s1">&#39;win64&#39;</span><span class="p">,</span>  <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_copy_solib</span><span class="p">(</span><span class="s1">&#39;Darwin&#39;</span><span class="p">,</span>  <span class="s1">&#39;x86_64&#39;</span><span class="p">,</span> <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_copy_solib</span><span class="p">(</span><span class="s1">&#39;Darwin&#39;</span><span class="p">,</span>  <span class="s1">&#39;i386&#39;</span><span class="p">,</span>   <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">)</span>
+
+            <span class="c1"># Generate settings.json file</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resources_dir</span><span class="p">,</span> <span class="s1">&#39;settings.json&#39;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="n">settings</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;simulationFile&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">py_simulation_file</span><span class="p">)</span>
+            <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;callableObjectName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">callable_object_name</span>
+            <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;arguments&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="n">arguments</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="c1"># Generate initialization.json file </span>
+            <span class="c1"># daeSimulationExplorer.saveJSONSettings(os.path.join(resources_dir, &#39;init.json&#39;), simulation, callable_object_name)</span>
+
+            <span class="c1"># Fill in the xml data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">modelName</span>                  <span class="o">=</span> <span class="n">modelIdentifier</span> <span class="c1">#*</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">guid</span>                       <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">()</span> <span class="c1">#*</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">description</span>                <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Description</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">author</span>                     <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">version</span>                    <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">copyright</span>                  <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">license</span>                    <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generationTool</span>             <span class="o">=</span> <span class="s1">&#39;DAE Tools v</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">daeVersion</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generationDateAndTime</span>      <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">variableNamingConvention</span>   <span class="o">=</span> <span class="n">fmiModelDescription</span><span class="o">.</span><span class="n">variableNamingConventionStructured</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">numberOfEventIndicators</span>    <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span> <span class="o">=</span> <span class="n">fmiCoSimulation</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">modelIdentifier</span>                        <span class="o">=</span> <span class="n">modelIdentifier</span> <span class="c1">#*</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">needsExecutionTool</span>                     <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canHandleVariableCommunicationStepSize</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canHandleEvents</span>                        <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canInterpolateInputs</span>                   <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">maxOutputDerivativeOrder</span>               <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canRunAsynchronuously</span>                  <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canSignalEvents</span>                        <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canBeInstantiatedOnlyOncePerProcess</span>    <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canNotUseMemoryManagementFunctions</span>     <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canGetAndSetFMUstate</span>                   <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">canSerializeFMUstate</span>                   <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">providesPartialDerivativesOf_DerivativeFunction_wrt_States</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">providesPartialDerivativesOf_DerivativeFunction_wrt_Inputs</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">providesPartialDerivativesOf_OutputFunction_wrt_States</span>     <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CoSimulation</span><span class="o">.</span><span class="n">providesPartialDerivativesOf_OutputFunction_wrt_Inputs</span>     <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ModelStructure</span>    <span class="o">=</span> <span class="n">fmiModelStructure</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span>    <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">UnitDefinitions</span>   <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">TypeDefinitions</span>   <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">VendorAnnotations</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DefaultExperiment</span> <span class="o">=</span> <span class="n">fmiDefaultExperiment</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LogCategories</span>     <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Setup a default experiment</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DefaultExperiment</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DefaultExperiment</span><span class="o">.</span><span class="n">stopTime</span>  <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">TimeHorizon</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DefaultExperiment</span><span class="o">.</span><span class="n">tolerance</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">RelativeTolerance</span>
+
+            <span class="c1"># Add model variables</span>
+            <span class="n">fmi_interface</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">GetFMIInterface</span><span class="p">()</span>
+            <span class="c1">#print fmi_interface</span>
+
+            <span class="n">variableTypesUsed</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">unitsUsed</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">ref</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fmi_interface</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;Input&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_addInput</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span> <span class="ow">in</span> <span class="n">variableTypesUsed</span><span class="p">:</span>
+                        <span class="n">variableTypesUsed</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unitsUsed</span><span class="p">:</span>
+                        <span class="n">unitsUsed</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span>
+
+                <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;Output&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_addOutput</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span> <span class="ow">in</span> <span class="n">variableTypesUsed</span><span class="p">:</span>
+                        <span class="n">variableTypesUsed</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unitsUsed</span><span class="p">:</span>
+                        <span class="n">unitsUsed</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span>
+
+                <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;Local&#39;</span><span class="p">:</span>
+                    <span class="c1"># If localsAsOutputs is true treat all locals as outputs.</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">localsAsOutputs</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_addOutput</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_addLocal</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span> <span class="ow">in</span> <span class="n">variableTypesUsed</span><span class="p">:</span>
+                        <span class="n">variableTypesUsed</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unitsUsed</span><span class="p">:</span>
+                        <span class="n">unitsUsed</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span>
+
+                <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_addParameter</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">Units</span><span class="p">)</span> <span class="ow">in</span> <span class="n">unitsUsed</span><span class="p">:</span>
+                        <span class="n">unitsUsed</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">Units</span><span class="p">)]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">Units</span>
+
+                <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;STN&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_addSTN</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid variable reference type&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Add unit definitions</span>
+            <span class="k">for</span> <span class="n">unit_name</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">unitsUsed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_addUnitDefinition</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+            <span class="c1"># Add variable types</span>
+            <span class="k">for</span> <span class="n">vartype_name</span><span class="p">,</span> <span class="n">var_type</span> <span class="ow">in</span> <span class="n">variableTypesUsed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_addTypeDefinition</span><span class="p">(</span><span class="n">var_type</span><span class="p">)</span>
+
+            <span class="c1"># Add log categories</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">fmiLogCategory</span><span class="p">()</span>
+            <span class="n">cat</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;logAll&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LogCategories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+
+            <span class="c1"># Save model description xml file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">to_xml</span><span class="p">(</span><span class="n">xml_description_filename</span><span class="p">)</span>
+
+            <span class="n">files_to_zip</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                    <span class="n">filename</span>      <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+                    <span class="n">relative_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">tmp_folder</span><span class="p">)</span>
+                    <span class="n">files_to_zip</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">relative_path</span><span class="p">)</span> <span class="p">)</span>
+
+            <span class="nb">zip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">fmu_filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">relative_path</span> <span class="ow">in</span> <span class="n">files_to_zip</span><span class="p">:</span>
+                <span class="nb">zip</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">relative_path</span><span class="p">)</span>
+            <span class="nb">zip</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Remove temporary directory</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">):</span>
+                <span class="c1">#shutil.rmtree(tmp_folder)</span>
+                <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">_formatUnits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">):</span>
+        <span class="c1"># Format: m.kg2/s-2 meaning m * kg**2 / s**2</span>
+        <span class="n">positive</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">negative</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">exp</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">units</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">exp</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">exp</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">positive</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span> <span class="o">==</span> <span class="n">exp</span><span class="p">:</span>
+                    <span class="n">positive</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">^</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">exp</span><span class="p">)))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">positive</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">^</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">exp</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">exp</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">units</span><span class="o">.</span><span class="n">toDict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">exp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">exp</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">negative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span> <span class="o">==</span> <span class="n">exp</span><span class="p">:</span>
+                    <span class="n">negative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">^</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">exp</span><span class="p">))))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">negative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">^</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">exp</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positive</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sPositive</span> <span class="o">=</span> <span class="s1">&#39;rad&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sPositive</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">positive</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">negative</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sNegative</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">negative</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">sNegative</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">negative</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sNegative</span> <span class="o">=</span> <span class="s1">&#39;/(&#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">negative</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+
+        <span class="k">return</span> <span class="n">sPositive</span> <span class="o">+</span> <span class="n">sNegative</span>
+        
+    <span class="k">def</span> <span class="nf">_copy_solib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">platform_system</span><span class="p">,</span> <span class="n">platform_machine</span><span class="p">,</span> <span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">binaries_dir</span><span class="p">):</span>
+        <span class="c1"># Copy libcdaeFMU_CS-pyXY.[so/dll/dynlib] and libcdaeSimulationLoader-pyXY.[so/dll/dynlib]</span>
+        <span class="c1"># to the &#39;binaries/platform[32/64]&#39; folder</span>
+        <span class="k">if</span> <span class="n">platform_system</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
+            <span class="n">so_ext</span> <span class="o">=</span> <span class="s1">&#39;so&#39;</span>
+            <span class="n">so_ext_pattern</span> <span class="o">=</span> <span class="s1">&#39;so.*&#39;</span>
+            <span class="n">shared_lib_prefix</span> <span class="o">=</span> <span class="s1">&#39;lib&#39;</span>
+            <span class="n">shared_lib_postfix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">platform_machine</span> <span class="o">==</span> <span class="s1">&#39;x86_64&#39;</span><span class="p">:</span>
+                <span class="n">platform_binaries_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binaries_dir</span><span class="p">,</span> <span class="s1">&#39;linux64&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">platform_binaries_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binaries_dir</span><span class="p">,</span> <span class="s1">&#39;linux32&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">platform_system</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
+            <span class="n">so_ext</span> <span class="o">=</span> <span class="s1">&#39;dll&#39;</span>
+            <span class="n">so_ext_pattern</span> <span class="o">=</span> <span class="s1">&#39;dll&#39;</span>
+            <span class="n">shared_lib_prefix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">shared_lib_postfix</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+            <span class="k">if</span> <span class="n">platform_machine</span> <span class="o">==</span> <span class="s1">&#39;win64&#39;</span><span class="p">:</span>
+                <span class="n">platform_binaries_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binaries_dir</span><span class="p">,</span> <span class="s1">&#39;win64&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">platform_binaries_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binaries_dir</span><span class="p">,</span> <span class="s1">&#39;win32&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">platform_system</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+            <span class="n">so_ext</span> <span class="o">=</span> <span class="s1">&#39;dylib&#39;</span>
+            <span class="n">so_ext_pattern</span> <span class="o">=</span> <span class="s1">&#39;dylib&#39;</span>
+            <span class="n">shared_lib_prefix</span> <span class="o">=</span> <span class="s1">&#39;lib&#39;</span>
+            <span class="n">shared_lib_postfix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">platform_machine</span> <span class="o">==</span> <span class="s1">&#39;x86_64&#39;</span><span class="p">:</span>
+                <span class="n">platform_binaries_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binaries_dir</span><span class="p">,</span> <span class="s1">&#39;darwin64&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">platform_binaries_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">binaries_dir</span><span class="p">,</span> <span class="s1">&#39;darwin32&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Unsupported platform: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">platform_system</span><span class="p">)</span>
+
+        <span class="n">solibs_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">daetools</span><span class="o">.</span><span class="n">daetools_dir</span><span class="p">,</span> <span class="s1">&#39;solibs&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">platform_system</span><span class="p">,</span> <span class="n">platform_machine</span><span class="p">))</span>
+        <span class="n">daetools_fmu_solib</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">modelIdentifier</span><span class="p">,</span> <span class="n">so_ext</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">useWebService</span><span class="p">:</span>
+            <span class="n">daetools_fmi_cs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">cdaeFMU_CS_WS</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shared_lib_prefix</span><span class="p">,</span>
+                                                        <span class="n">shared_lib_postfix</span><span class="p">,</span>
+                                                        <span class="n">so_ext</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">daetools_fmi_cs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">cdaeFMU_CS-py</span><span class="si">%s%s%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shared_lib_prefix</span><span class="p">,</span>
+                                                            <span class="n">daetools</span><span class="o">.</span><span class="n">python_version_major</span><span class="p">,</span>
+                                                            <span class="n">daetools</span><span class="o">.</span><span class="n">python_version_minor</span><span class="p">,</span>
+                                                            <span class="n">shared_lib_postfix</span><span class="p">,</span>
+                                                            <span class="n">so_ext</span><span class="p">)</span>
+        
+        <span class="n">daetools_simulation_loader</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">cdaeSimulationLoader-py</span><span class="si">%s%s%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shared_lib_prefix</span><span class="p">,</span>
+                                                                             <span class="n">daetools</span><span class="o">.</span><span class="n">python_version_major</span><span class="p">,</span>
+                                                                             <span class="n">daetools</span><span class="o">.</span><span class="n">python_version_minor</span><span class="p">,</span>
+                                                                             <span class="n">shared_lib_postfix</span><span class="p">,</span>
+                                                                             <span class="n">so_ext</span><span class="p">)</span>
+        <span class="n">boost_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">iglob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">solibs_dir</span><span class="p">,</span> <span class="s2">&quot;*boost_*-daetools-py</span><span class="si">%s%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">daetools</span><span class="o">.</span><span class="n">python_version_major</span><span class="p">,</span>
+                                                                                           <span class="n">daetools</span><span class="o">.</span><span class="n">python_version_minor</span><span class="p">,</span>
+                                                                                           <span class="n">so_ext_pattern</span><span class="p">)))</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Copy FMU_CS</span>
+            <span class="n">_source</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">solibs_dir</span><span class="p">,</span>            <span class="n">daetools_fmi_cs</span><span class="p">)</span>
+            <span class="n">_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">platform_binaries_dir</span><span class="p">,</span> <span class="n">daetools_fmu_solib</span><span class="p">)</span>
+            <span class="c1">#print(&#39;copy %s %s&#39; % (_source, _target))</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">_source</span><span class="p">,</span> <span class="n">_target</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># Ignore exceptions, since some of binaries are certainly not available</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">useWebService</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Copy SimulationLoader</span>
+                <span class="n">_source</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">solibs_dir</span><span class="p">,</span> <span class="n">daetools_simulation_loader</span><span class="p">)</span>
+                <span class="n">_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">platform_binaries_dir</span><span class="p">)</span>
+                <span class="c1">#print(&#39;copy %s %s&#39; % (_source, _target))</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">_source</span><span class="p">,</span> <span class="n">_target</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># Ignore exceptions, since some of binaries are certainly not available</span>
+                <span class="k">pass</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Copy boost libs</span>
+                <span class="n">_target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">platform_binaries_dir</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">_source</span> <span class="ow">in</span> <span class="n">boost_files</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">_source</span><span class="p">):</span>
+                        <span class="c1">#print(&#39;copy %s %s&#39; % (_source, _target))</span>
+                        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">_source</span><span class="p">,</span> <span class="n">_target</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># Ignore exceptions, since some of binaries are certainly not available</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_addInput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmi_obj</span><span class="p">):</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">valueReference</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">description</span>    <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">causality</span>      <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">causalityInput</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">variability</span>    <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">variabilityContinuous</span> <span class="c1"># Set it to continuous (page 49 FMI-v2.0.pdf)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">initial</span>        <span class="o">=</span> <span class="kc">None</span> <span class="c1"># It is not allowed to provide a value for initial if causality = &quot;input&quot; or &quot;independent&quot;</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span>           <span class="o">=</span> <span class="n">fmiReal</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">declaredType</span> <span class="o">=</span> <span class="n">fmi_obj</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">start</span>        <span class="o">=</span> <span class="n">fmi_obj</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">GetValue</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">indexes</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_addOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmi_obj</span><span class="p">):</span>
+        <span class="c1"># In general, the index is not equal to he reference but to the index in the ModelVariables list.</span>
+        <span class="c1"># But, the references in daetools start at 1 and increase and they are added in the sorted order.</span>
+        <span class="c1"># So it should be fine to use reference as an index.</span>
+        <span class="c1"># Anyway, the index in the ModelStructure.Outputs is used.</span>
+        <span class="c1"># The indexes in FMI start at 1 (not at zero).</span>
+        <span class="n">var_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        
+        <span class="n">unknown</span> <span class="o">=</span> <span class="n">fmiVariableDependency</span><span class="p">()</span>
+        <span class="n">unknown</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">var_index</span> <span class="c1">#*</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelStructure</span><span class="o">.</span><span class="n">Outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span>
+
+        <span class="n">unknown</span> <span class="o">=</span> <span class="n">fmiVariableDependency</span><span class="p">()</span>
+        <span class="n">unknown</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">var_index</span> <span class="c1">#*</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelStructure</span><span class="o">.</span><span class="n">InitialUnknowns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span>
+        
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">valueReference</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">description</span>    <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">causality</span>      <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">causalityOutput</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">variability</span>    <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">variabilityContinuous</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">initial</span>        <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">initialCalculated</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span>           <span class="o">=</span> <span class="n">fmiReal</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">declaredType</span> <span class="o">=</span> <span class="n">fmi_obj</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_addLocal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmi_obj</span><span class="p">):</span>
+        <span class="c1"># Here, do not add anything in the ModelStructure</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">valueReference</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">description</span>    <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">causality</span>      <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">causalityLocal</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">variability</span>    <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">variabilityContinuous</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">initial</span>        <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">initialCalculated</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span>           <span class="o">=</span> <span class="n">fmiReal</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">declaredType</span> <span class="o">=</span> <span class="n">fmi_obj</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_addParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmi_obj</span><span class="p">):</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">valueReference</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">description</span>    <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">causality</span>      <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">causalityParameter</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">variability</span>    <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">variabilityTunable</span> <span class="c1"># If it is tunable it can be changed during the simulation</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">initial</span>        <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">initialExact</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span>           <span class="o">=</span> <span class="n">fmiReal</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">unit</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formatUnits</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">Units</span><span class="p">)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">fmi_obj</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">GetValue</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">indexes</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_addSTN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmi_obj</span><span class="p">):</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">name</span>           <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">valueReference</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span> <span class="c1">#*</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">description</span>    <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fmi_obj</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">causality</span>      <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">causalityParameter</span> <span class="c1"># If it is input then it can be changed by the simulator</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">variability</span>    <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">variabilityTunable</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">initial</span>        <span class="o">=</span> <span class="n">fmiScalarVariable</span><span class="o">.</span><span class="n">initialExact</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span>           <span class="o">=</span> <span class="n">fmiString</span><span class="p">()</span>
+        <span class="n">sv</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">start</span>     <span class="o">=</span> <span class="n">fmi_obj</span><span class="o">.</span><span class="n">stn</span><span class="o">.</span><span class="n">ActiveState</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ModelVariables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sv</span><span class="p">)</span>
+        
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    def _addNumberOfPointsInDomain(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityLocal</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityConstant</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialExact</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+
+<span class="sd">    def _addDomainPoints(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityParameter</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityTunable</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialExact</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+
+<span class="sd">    def _addAssignedVariable(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityParameter</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityTunable</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialExact</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+
+<span class="sd">    def _addAlgebraicVariable(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityLocal</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityContinuous</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialCalculated</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+
+<span class="sd">    def _addDifferentialVariable(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityLocal</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityContinuous</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialCalculated</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+
+<span class="sd">    def _addInletPortVariable(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityInput</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityContinuous</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialExact</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+
+<span class="sd">    def _addOutletPortVariable(self, fmi_obj):</span>
+<span class="sd">        sv = fmiScalarVariable()</span>
+<span class="sd">        sv.name           = str(fmi_obj.name) #*</span>
+<span class="sd">        sv.valueReference = int(fmi_obj.reference) #*</span>
+<span class="sd">        sv.description    = str(fmi_obj.description) + &#39; [%s]&#39; % fmi_obj.units</span>
+<span class="sd">        sv.causality      = fmiScalarVariable.causalityOutput</span>
+<span class="sd">        sv.variability    = fmiScalarVariable.variabilityContinuous</span>
+<span class="sd">        sv.initial        = fmiScalarVariable.initialCalculated</span>
+<span class="sd">        self.ModelVariables.append(sv)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">_addUnitDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dae_unit</span><span class="p">):</span>
+        <span class="n">dae_bu</span> <span class="o">=</span> <span class="n">dae_unit</span><span class="o">.</span><span class="n">baseUnit</span>
+        
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">fmiUnit</span><span class="p">()</span>
+        <span class="n">unit</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formatUnits</span><span class="p">(</span><span class="n">dae_unit</span><span class="p">)</span> <span class="c1"># *</span>
+        
+        <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span> <span class="o">=</span> <span class="n">fmiBaseUnit</span><span class="p">()</span>
+        <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">multiplier</span>
+        <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">L</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">L</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">M</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">kg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">T</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">C</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">cd</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">I</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">O</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">K</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">O</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">N</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">mol</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dae_bu</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+
+        <span class="c1"># If all are 0, set rad = 1</span>
+        <span class="k">if</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">L</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">M</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">T</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">C</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">I</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">O</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">dae_bu</span><span class="o">.</span><span class="n">N</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span><span class="o">.</span><span class="n">baseUnit</span><span class="o">.</span><span class="n">rad</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">UnitDefinitions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_addTypeDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_type</span><span class="p">):</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">fmiSimpleType</span><span class="p">()</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">var_type</span><span class="o">.</span><span class="n">Name</span> <span class="c1">#*</span>
+ 
+        <span class="n">st</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">fmiReal</span><span class="p">()</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">unit</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formatUnits</span><span class="p">(</span><span class="n">var_type</span><span class="o">.</span><span class="n">Units</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">min</span>     <span class="o">=</span> <span class="n">var_type</span><span class="o">.</span><span class="n">LowerBound</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">max</span>     <span class="o">=</span> <span class="n">var_type</span><span class="o">.</span><span class="n">UpperBound</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">nominal</span> <span class="o">=</span> <span class="n">var_type</span><span class="o">.</span><span class="n">InitialGuess</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">TypeDefinitions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">st</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

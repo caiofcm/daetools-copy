@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>daetools.dae_simulator.simulation_inspector &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../../_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for daetools.dae_simulator.simulation_inspector</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">                            simulation_inspector.py</span>
+<span class="sd">                 DAE Tools: pyDAE module, www.daetools.com</span>
+<span class="sd">                 Copyright (C) Dragan Nikolic</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span class="sd">terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span class="sd">Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span class="sd">ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span class="sd">PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span class="sd">You should have received a copy of the GNU General Public License along with the</span>
+<span class="sd">DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">daetools.pyDAE</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.tree_item</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">_collectParameters</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">model_or_port</span><span class="p">,</span> <span class="n">dictParameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively looks for parameters in the model/port and all its child-models and</span>
+<span class="sd">    adds a new treeItem object to the parent item &#39;nodeItem&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="p">(</span><span class="n">daePort</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid type of object in _collectDOFs function&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Process parameters in the current port/model</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">model_or_port</span><span class="o">.</span><span class="n">Parameters</span>
+
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Name</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">NumberOfPoints</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">Domains</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">GetValue</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">npyValues</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Units</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Description</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">treeItem_Quantity</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">checkIfItemsAreFloats</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">dictParameters</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">CanonicalName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model_or_port</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Ports</span><span class="p">:</span>
+            <span class="n">portItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectParameters</span><span class="p">(</span><span class="n">portItem</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dictParameters</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Components</span><span class="p">:</span>
+            <span class="n">componentItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectParameters</span><span class="p">(</span><span class="n">componentItem</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">dictParameters</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_collectDomains</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">model_or_port</span><span class="p">,</span> <span class="n">dictDomains</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively looks for domains in the &#39;model&#39; and all its child-models and</span>
+<span class="sd">    adds a new treeItem object to the parent item &#39;nodeItem&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="p">(</span><span class="n">daePort</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid type of object in _collectDOFs function&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Process domains in the current port/model</span>
+    <span class="n">domains</span> <span class="o">=</span> <span class="n">model_or_port</span><span class="o">.</span><span class="n">Domains</span>
+
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+        <span class="n">name</span>  <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Name</span>
+        <span class="nb">type</span>  <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Type</span> 
+        <span class="n">units</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Units</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Description</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="n">eArray</span><span class="p">:</span>
+            <span class="n">numberOfPoints</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">treeItem_Domain</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="n">numberOfPoints</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="n">eStructuredGrid</span><span class="p">:</span>
+            <span class="c1">#discrMethod        = obj.DiscretizationMethod # not edited</span>
+            <span class="c1">#order              = obj.DiscretizationOrder  # not edited</span>
+            <span class="n">numberOfIntervals</span>  <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">NumberOfIntervals</span>    <span class="c1"># not edited</span>
+            <span class="n">points</span>             <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Points</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">treeItem_Domain</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">numberOfIntervals</span> <span class="o">=</span> <span class="n">numberOfIntervals</span><span class="p">,</span> <span class="n">points</span> <span class="o">=</span> <span class="n">points</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="n">units</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="n">eUnstructuredGrid</span><span class="p">:</span>
+            <span class="n">numberOfPoints</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">NumberOfPoints</span>       <span class="c1"># not edited</span>
+            <span class="n">points</span>         <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Coordinates</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">treeItem_Domain</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="n">numberOfPoints</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">)</span>
+        
+        <span class="n">dictDomains</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">CanonicalName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model_or_port</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Ports</span><span class="p">:</span>
+            <span class="n">portItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectDomains</span><span class="p">(</span><span class="n">portItem</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dictDomains</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Components</span><span class="p">:</span>
+            <span class="n">componentItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectDomains</span><span class="p">(</span><span class="n">componentItem</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">dictDomains</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_collectOutputVariables</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">model_or_port</span><span class="p">,</span> <span class="n">dictOutputVariables</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively looks for variables in the &#39;model&#39; and all its child-models and</span>
+<span class="sd">    adds a new treeItem object to the parent item &#39;nodeItem&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="p">(</span><span class="n">daePort</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid type of object in _collectDOFs function&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Process variables/parameters in the current port/model</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">model_or_port</span><span class="o">.</span><span class="n">Variables</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="n">model_or_port</span><span class="o">.</span><span class="n">Parameters</span>
+
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">name</span>  <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Name</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">ReportingOn</span>
+        <span class="n">item</span>  <span class="o">=</span> <span class="n">treeItem_OutputVariable</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">dictOutputVariables</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">CanonicalName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="n">name</span>  <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Name</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">ReportingOn</span>
+        <span class="n">item</span>  <span class="o">=</span> <span class="n">treeItem_OutputVariable</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">dictOutputVariables</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">CanonicalName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model_or_port</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Ports</span><span class="p">:</span>
+            <span class="n">portItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectOutputVariables</span><span class="p">(</span><span class="n">portItem</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dictOutputVariables</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Components</span><span class="p">:</span>
+            <span class="n">componentItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectOutputVariables</span><span class="p">(</span><span class="n">componentItem</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">dictOutputVariables</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_checkIfAnyOfNestedSTNsIsdaeSTN</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="c1"># Returns True if there is any daeSTN type of STN in any of nested STNs</span>
+    <span class="c1"># or in any of states in those nestedSTNs etc...</span>
+    
+    <span class="c1"># If there are no  nested STNs return False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">NestedSTNs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># Iterate over nested STNs</span>
+    <span class="k">for</span> <span class="n">nestedSTN</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">NestedSTNs</span><span class="p">:</span>
+        <span class="c1"># If a nested STN is daeSTN return true</span>
+        <span class="k">if</span> <span class="n">nestedSTN</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="n">eSTN</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        
+        <span class="c1"># Iterate over states in the current nested state and check</span>
+        <span class="c1"># if nested STNs within it have daeSTN type of STNs </span>
+        <span class="k">for</span> <span class="n">nested_state</span> <span class="ow">in</span> <span class="n">nestedSTN</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_checkIfAnyOfNestedSTNsIsdaeSTN</span><span class="p">(</span><span class="n">nested_state</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="k">return</span> <span class="kc">False</span>
+    
+<span class="k">def</span> <span class="nf">_processSTN</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">stn</span><span class="p">,</span> <span class="n">dictSTNs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively process states in the STN and all nestedSTNs that exist in those states</span>
+<span class="sd">    and adds new treeItem objects to the parent item &#39;nodeItem&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">stn</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="n">eSTN</span><span class="p">:</span>
+        <span class="c1"># Add an empty item for the STN</span>
+        <span class="n">stnName</span> <span class="o">=</span> <span class="n">stn</span><span class="o">.</span><span class="n">Name</span>
+        <span class="n">stnItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">stnName</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        
+        <span class="c1"># Iterate over states and add a checkable item for each of them </span>
+        <span class="n">listStates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dictSTNs</span><span class="p">[</span><span class="n">stn</span><span class="o">.</span><span class="n">CanonicalName</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">stn</span><span class="p">,</span> <span class="n">listStates</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">stn</span><span class="o">.</span><span class="n">States</span><span class="p">:</span>
+            <span class="n">name</span>        <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">Name</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">Description</span>
+            <span class="n">isActive</span>    <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">stn</span><span class="o">.</span><span class="n">ActiveState</span> <span class="o">==</span> <span class="n">state</span><span class="o">.</span><span class="n">Name</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="n">item</span>        <span class="o">=</span> <span class="n">treeItem_State</span><span class="p">(</span><span class="n">stnItem</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">isActive</span><span class="p">)</span>
+            <span class="n">listStates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">state</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
+            
+            <span class="c1"># Process nested STNs (if existing)</span>
+            <span class="k">for</span> <span class="n">nestedSTN</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">NestedSTNs</span><span class="p">:</span>
+                <span class="n">_processSTN</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">nestedSTN</span><span class="p">,</span> <span class="n">dictSTNs</span><span class="p">)</span>
+    
+    <span class="k">elif</span> <span class="n">stn</span><span class="o">.</span><span class="n">Type</span> <span class="o">==</span> <span class="n">eIF</span><span class="p">:</span>
+        <span class="c1"># Here we process only Nested states (if existing)        </span>
+        <span class="c1"># If there is a nested STN in any of states add the ifItem</span>
+        <span class="c1"># which represents a parent to states with nested STNs</span>
+        <span class="n">ifItem</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">stn</span><span class="o">.</span><span class="n">States</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_checkIfAnyOfNestedSTNsIsdaeSTN</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+                <span class="n">stnName</span> <span class="o">=</span> <span class="n">stn</span><span class="o">.</span><span class="n">Name</span>
+                <span class="n">ifItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">stnName</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+                <span class="k">break</span>
+        
+        <span class="c1"># If ifItem is None that means there are no nested STNs in any of states - immediately return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ifItem</span><span class="p">:</span>
+            <span class="k">return</span>
+            
+        <span class="c1"># Now we have a parent for states with nested STNs</span>
+        <span class="c1"># Iterate over states and add an item for each of them </span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">stn</span><span class="o">.</span><span class="n">States</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_checkIfAnyOfNestedSTNsIsdaeSTN</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+                <span class="c1"># If there are STNs of type daeSTN in the current state add a new empty item</span>
+                <span class="n">stateName</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">Name</span>
+                <span class="n">stateItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">ifItem</span><span class="p">,</span> <span class="n">stateName</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+                
+                <span class="c1"># Process nested STNs (if existing)</span>
+                <span class="k">for</span> <span class="n">nestedSTN</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">NestedSTNs</span><span class="p">:</span>
+                    <span class="n">_processSTN</span><span class="p">(</span><span class="n">stateItem</span><span class="p">,</span> <span class="n">nestedSTN</span><span class="p">,</span> <span class="n">dictSTNs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_collectStates</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">dictSTNs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively looks for STNs in the &#39;model&#39; and all its child-models</span>
+<span class="sd">    and process them accordingly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">stn</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">STNs</span><span class="p">:</span>
+        <span class="n">_processSTN</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">stn</span><span class="p">,</span> <span class="n">dictSTNs</span><span class="p">)</span>
+        
+    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Components</span><span class="p">:</span>
+        <span class="n">componentItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectStates</span><span class="p">(</span><span class="n">componentItem</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">dictSTNs</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_collectInitialConditions</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">model_or_port</span><span class="p">,</span> <span class="n">dictInitialConditions</span><span class="p">,</span> <span class="n">IDs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively looks for variables in the model/port and all models child-models and</span>
+<span class="sd">    adds a new treeItem object to the parent item &#39;nodeItem&#39; for all those</span>
+<span class="sd">    who are differential and need an initial conditions to be set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="p">(</span><span class="n">daePort</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid type of object in _collectDOFs function&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Process variables in the current port/model</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">model_or_port</span><span class="o">.</span><span class="n">Variables</span>
+
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">name</span>              <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">Name</span>
+        <span class="n">domainsIndexesMap</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">GetDomainsIndexesMap</span><span class="p">(</span><span class="n">indexBase</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">units</span>             <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span>
+        <span class="n">description</span>       <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">Description</span>
+        
+        <span class="c1"># Check if there is diff. flag set for any point in the variable</span>
+        <span class="c1"># If there is not - skip the variable</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cnDifferential</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">OverallIndex</span> <span class="p">:</span> <span class="n">var</span><span class="o">.</span><span class="n">OverallIndex</span> <span class="o">+</span> <span class="n">var</span><span class="o">.</span><span class="n">NumberOfPoints</span><span class="p">]:</span>
+            <span class="k">continue</span>
+        
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">NumberOfPoints</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">Domains</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">npyValues</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+            <span class="c1"># Iterate over points and set None for the points which are *not* differential</span>
+            <span class="k">for</span> <span class="n">var_index</span><span class="p">,</span> <span class="n">domainIndexes</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">domainsIndexesMap</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="c1">#print var_index, domainIndexes, values[tuple(domainIndexes)]</span>
+                <span class="k">if</span> <span class="n">IDs</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">OverallIndex</span> <span class="o">+</span> <span class="n">var_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">cnDifferential</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">domainIndexes</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        
+        <span class="n">item</span> <span class="o">=</span> <span class="n">treeItem_Quantity</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">checkIfItemsAreFloats</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">dictInitialConditions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model_or_port</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Ports</span><span class="p">:</span>
+            <span class="n">portItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectInitialConditions</span><span class="p">(</span><span class="n">portItem</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dictInitialConditions</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Components</span><span class="p">:</span>
+            <span class="n">componentItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectInitialConditions</span><span class="p">(</span><span class="n">componentItem</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">dictInitialConditions</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">_collectDOFs</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">model_or_port</span><span class="p">,</span> <span class="n">dictDOFs</span><span class="p">,</span> <span class="n">IDs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively looks for variables in the &#39;model&#39; and all its child-models and</span>
+<span class="sd">    adds a new treeItem object to the parent item &#39;nodeItem&#39; for all those</span>
+<span class="sd">    who are differential and need an initial conditions to be set.</span>
+<span class="sd">    ACHTUNG, ACHTUNG!!!!!</span>
+<span class="sd">    DOFs should be collected from models and ports.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="p">(</span><span class="n">daePort</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid type of object in _collectDOFs function&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Process variables in the current port/model</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">model_or_port</span><span class="o">.</span><span class="n">Variables</span>
+    
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">name</span>              <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">Name</span>
+        <span class="n">domainsIndexesMap</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">GetDomainsIndexesMap</span><span class="p">(</span><span class="n">indexBase</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">units</span>             <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span>
+        <span class="n">description</span>       <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">Description</span>
+
+        <span class="c1"># Check if there is assigned flag set for any point in the variable</span>
+        <span class="c1"># If there is not then skip the variable</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cnAssigned</span> <span class="ow">in</span> <span class="n">IDs</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">OverallIndex</span> <span class="p">:</span> <span class="n">var</span><span class="o">.</span><span class="n">OverallIndex</span> <span class="o">+</span> <span class="n">var</span><span class="o">.</span><span class="n">NumberOfPoints</span><span class="p">]:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">NumberOfPoints</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">Domains</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">npyValues</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+            <span class="c1"># Iterate over points and set None for the points which are *not* differential</span>
+            <span class="k">for</span> <span class="n">var_index</span><span class="p">,</span> <span class="n">domainIndexes</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">domainsIndexesMap</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">IDs</span><span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">OverallIndex</span> <span class="o">+</span> <span class="n">var_index</span><span class="p">]</span> <span class="o">!=</span> <span class="n">cnAssigned</span><span class="p">:</span>
+                    <span class="n">values</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">domainIndexes</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="n">item</span> <span class="o">=</span> <span class="n">treeItem_Quantity</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">checkIfItemsAreFloats</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">dictDOFs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_or_port</span><span class="p">,</span> <span class="n">daeModel</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model_or_port</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Ports</span><span class="p">:</span>
+            <span class="n">portItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectDOFs</span><span class="p">(</span><span class="n">portItem</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dictDOFs</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">Components</span><span class="p">:</span>
+            <span class="n">componentItem</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="n">nodeItem</span><span class="p">,</span> <span class="n">component</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+            <span class="n">_collectDOFs</span><span class="p">(</span><span class="n">componentItem</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span> <span class="n">dictDOFs</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="daeSimulationInspector"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_inspector.daeSimulationInspector">[docs]</a><span class="k">class</span> <span class="nc">daeSimulationInspector</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">categoryParameters</span>              <span class="o">=</span> <span class="s1">&#39;___PARAMETERS___&#39;</span>
+    <span class="n">categoryInitialConditions</span>       <span class="o">=</span> <span class="s1">&#39;___INITIAL_CONDITIONS___&#39;</span>
+    <span class="n">categoryActiveStates</span>            <span class="o">=</span> <span class="s1">&#39;___ACTIVE_STATES___&#39;</span>
+    <span class="n">categoryDOFs</span>                    <span class="o">=</span> <span class="s1">&#39;___DOFS___&#39;</span>
+    <span class="n">categoryDomains</span>                 <span class="o">=</span> <span class="s1">&#39;___DOMAINS___&#39;</span>
+    <span class="n">categoryVariablesToReport</span>       <span class="o">=</span> <span class="s1">&#39;___VARIABLES_TO_REPORT___&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span> <span class="o">=</span> <span class="n">simulation</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">domains</span>            <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span>         <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_conditions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dofs</span>               <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stns</span>               <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_variables</span>   <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeDomains</span>            <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeParameters</span>         <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeInitialConditions</span>  <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeDOFs</span>               <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeStates</span>             <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeOutputVariables</span>    <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="n">IDs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">VariableTypes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeDomains</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectDomains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeDomains</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domains</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeParameters</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeParameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeInitialConditions</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectInitialConditions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_conditions</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeDOFs</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectDOFs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeDOFs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dofs</span><span class="p">,</span> <span class="n">IDs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeStates</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectStates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeStates</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stns</span><span class="p">)</span>
+        <span class="c1"># Checks whether there are some unchecked items that have some of its children checked and corrects it</span>
+        <span class="n">correctSelections</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeStates</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeOutputVariables</span> <span class="o">=</span> <span class="n">treeItem</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeNone</span><span class="p">)</span>
+        <span class="n">_collectOutputVariables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_variables</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_generateHTMLForm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;General&lt;/legend&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;label for=&quot;testName&quot;&gt;Test name&lt;/label&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;input class=&quot;ninemlString required&quot; id=&quot;id_testName&quot; type=&quot;text&quot; name=&quot;testName&quot; value=&quot;&quot;/&gt;&lt;br/&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;label for=&quot;testDescription&quot;&gt;Test description&lt;/label&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;textarea class=&quot;ninemlMultilineString&quot; id=&quot;id_testDescription&quot; name=&quot;testDescription&quot; rows=&quot;2&quot; cols=&quot;2&quot;&gt;&lt;/textarea&gt;&lt;br/&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;Simulation&lt;/legend&gt;&#39;</span>
+        <span class="c1">#content += &#39;&lt;label for=&quot;timeHorizon&quot;&gt;Time horizon&lt;/label&gt;&#39;</span>
+        <span class="c1">#content += &#39;&lt;input class=&quot;ninemlFloat required number&quot; id=&quot;id_timeHorizon&quot; type=&quot;text&quot; name=&quot;timeHorizon&quot; value=&quot;{0}&quot;/&gt;&lt;br/&gt;&#39;.format(self.timeHorizon)</span>
+        <span class="c1">#content += &#39;&lt;label for=&quot;reportingInterval&quot;&gt;Reporting interval&lt;/label&gt;&#39;</span>
+        <span class="c1">#content += &#39;&lt;input class=&quot;ninemlFloat required number&quot; id=&quot;id_reportingInterval&quot; type=&quot;text&quot; name=&quot;reportingInterval&quot; value=&quot;{0}&quot;/&gt;&lt;br/&gt;&#39;.format(self.reportingInterval)</span>
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeParameters</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;Parameters&lt;/legend&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeParameters</span><span class="p">,</span> <span class="n">daeSimulationInspector</span><span class="o">.</span><span class="n">categoryParameters</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeDomains</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;Domains&lt;/legend&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeDomains</span><span class="p">,</span> <span class="n">daeSimulationInspector</span><span class="o">.</span><span class="n">categoryDomains</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;Initial conditions&lt;/legend&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="p">,</span> <span class="n">daeSimulationInspector</span><span class="o">.</span><span class="n">categoryInitialConditions</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeDOFs</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;Degrees Of Freedom&lt;/legend&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeDOFs</span><span class="p">,</span> <span class="n">daeSimulationInspector</span><span class="o">.</span><span class="n">categoryDOFs</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeStates</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;legend&gt;Initially active states&lt;/legend&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeStates</span><span class="p">,</span> <span class="n">daeSimulationInspector</span><span class="o">.</span><span class="n">categoryActiveStates</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;fieldset&gt;&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span><span class="s1">&#39;&lt;legend&gt;Output variables&lt;/legend&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="p">,</span> <span class="n">daeSimulationInspector</span><span class="o">.</span><span class="n">categoryVariablesToReport</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/fieldset&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">content</span>
+
+    <span class="k">def</span> <span class="nf">_generateHTMLFormTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal function to recursively generate a HTML form for the given treeItem root item.</span>
+
+<span class="sd">        :param item: treeItem object</span>
+<span class="sd">        :param category: string</span>
+<span class="sd">        :param required: boolean</span>
+
+<span class="sd">        :rtype: string</span>
+<span class="sd">        :raises:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">category</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">inputName</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">canonicalName</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">inputName</span> <span class="o">=</span> <span class="n">category</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">item</span><span class="o">.</span><span class="n">canonicalName</span>
+
+        <span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;&lt;ul&gt;&#39;</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeQuantity</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;&lt;label for=&quot;</span><span class="si">{1}</span><span class="s1">&quot;&gt;</span><span class="si">{0}</span><span class="s1">&lt;/label&gt;&lt;input class=&quot;ninemlFloat required number&quot; type=&quot;text&quot; name=&quot;</span><span class="si">{1}</span><span class="s1">&quot; value=&quot;</span><span class="si">{2}</span><span class="s1">&quot;/&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inputName</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">getValueAsText</span><span class="p">())</span>
+
+        <span class="k">elif</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeDomain</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;&lt;label for=&quot;</span><span class="si">{1}</span><span class="s1">&quot;&gt;</span><span class="si">{0}</span><span class="s1">&lt;/label&gt;&lt;input class=&quot;ninemlString&quot; type=&quot;text&quot; name=&quot;</span><span class="si">{1}</span><span class="s1">&quot; value=&quot;</span><span class="si">{2}</span><span class="s1">&quot;/&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inputName</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">getValueAsText</span><span class="p">())</span>
+
+        <span class="k">elif</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeState</span><span class="p">:</span>
+            <span class="c1">#    if isinstance(item.data, collections.Iterable) and len(item.data) &gt; 0:</span>
+            <span class="c1">#        content += &#39;&lt;li&gt;&lt;label for=&quot;{1}&quot;&gt;{0}&lt;/label&gt; &lt;select class=&quot;ninemlComboBox&quot; name=&quot;{1}&quot;&gt;&#39;.format(item.name, inputName)</span>
+            <span class="c1">#        for available_regime in item.data:</span>
+            <span class="c1">#            if available_regime == item.value:</span>
+            <span class="c1">#                content += &#39;&lt;option value=&quot;{0}&quot; selected&gt;{0}&lt;/option&gt;&#39;.format(available_regime)</span>
+            <span class="c1">#            else:</span>
+            <span class="c1">#                content += &#39;&lt;option value=&quot;{0}&quot;&gt;{0}&lt;/option&gt;&#39;.format(available_regime)</span>
+            <span class="c1">#        content += &#39;&lt;/select&gt;&lt;/li&gt;&#39;</span>
+            <span class="c1">#    else:</span>
+            <span class="c1">#        content += &#39;&lt;li&gt;{0}&lt;/li&gt;&#39;.format(item.name)</span>
+            <span class="k">if</span> <span class="n">required</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;&lt;label for=&quot;</span><span class="si">{1}</span><span class="s1">&quot;&gt;</span><span class="si">{0}</span><span class="s1">&lt;/label&gt;&lt;input class=&quot;ninemlString required&quot; type=&quot;text&quot; name=&quot;</span><span class="si">{1}</span><span class="s1">&quot; value=&quot;</span><span class="si">{2}</span><span class="s1">&quot;/&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inputName</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">getValueAsText</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;&lt;label for=&quot;</span><span class="si">{1}</span><span class="s1">&quot;&gt;</span><span class="si">{0}</span><span class="s1">&lt;/label&gt;&lt;input class=&quot;ninemlString&quot; type=&quot;text&quot; name=&quot;</span><span class="si">{1}</span><span class="s1">&quot; value=&quot;</span><span class="si">{2}</span><span class="s1">&quot;/&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inputName</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">getValueAsText</span><span class="p">())</span>
+
+        <span class="k">elif</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeOutputVariable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">():</span>
+                <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;&lt;label for=&quot;</span><span class="si">{1}</span><span class="s1">&quot;&gt;</span><span class="si">{0}</span><span class="s1">&lt;/label&gt;&lt;input class=&quot;ninemlCheckBox&quot; type=&quot;checkbox&quot; name=&quot;</span><span class="si">{1}</span><span class="s1">&quot; checked/&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inputName</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;&lt;label for=&quot;</span><span class="si">{1}</span><span class="s1">&quot;&gt;</span><span class="si">{0}</span><span class="s1">&lt;/label&gt;&lt;input class=&quot;ninemlCheckBox&quot; type=&quot;checkbox&quot; name=&quot;</span><span class="si">{1}</span><span class="s1">&quot;/&gt;&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">inputName</span><span class="p">)</span>
+                
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;li&gt;</span><span class="si">{0}</span><span class="s1">&lt;/li&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generateHTMLFormTree</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">required</span><span class="p">)</span>
+
+        <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/ul&gt;&#39;</span>
+        <span class="k">return</span> <span class="n">content</span></div>
+        
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

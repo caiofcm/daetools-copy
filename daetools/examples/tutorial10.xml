@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="46512656" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial10]]></Name>
+  <Description><![CDATA[
+This tutorial introduces the following concepts:
+
+- Initialization files
+- Domains which bounds depend on parameter values
+- Evaluation of integrals
+
+In this example we use the same conduction problem as in the tutorial 1.
+]]></Description>
+  <Domains>
+    <Object ID="140595799703856" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[x]]></Name>
+      <Description><![CDATA[X axis domain]]></Description>
+      <Type>eStructuredGrid</Type>
+      <Units>
+        <m>1</m>
+      </Units>
+    </Object>
+    <Object ID="140595799704160" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[y]]></Name>
+      <Description><![CDATA[Y axis domain]]></Description>
+      <Type>eStructuredGrid</Type>
+      <Units>
+        <m>1</m>
+      </Units>
+    </Object>
+    <Object ID="140595799704464" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c]]></Name>
+      <Description><![CDATA[Domain for a circle]]></Description>
+      <Type>eStructuredGrid</Type>
+      <Units>
+        <m>1</m>
+      </Units>
+    </Object>
+  </Domains>
+  <Parameters>
+    <Object ID="46513480" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&delta;_x]]></Name>
+      <Description><![CDATA[Width of the plate]]></Description>
+      <Units>
+        <m>1</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46513848" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&delta;_y]]></Name>
+      <Description><![CDATA[Height of the plate]]></Description>
+      <Units>
+        <m>1</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46514616" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Q_b]]></Name>
+      <Description><![CDATA[Heat flux at the bottom edge of the plate]]></Description>
+      <Units>
+        <W>1</W>
+        <m>-2</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46514904" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T_t]]></Name>
+      <Description><![CDATA[Temperature at the top edge of the plate]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46493960" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&rho;]]></Name>
+      <Description><![CDATA[Density of the plate]]></Description>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46494712" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_p]]></Name>
+      <Description><![CDATA[Specific heat capacity of the plate]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46495336" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[&lambda;_p]]></Name>
+      <Description><![CDATA[Thermal conductivity of the plate]]></Description>
+      <Units>
+        <K>-1</K>
+        <W>1</W>
+        <m>-1</m>
+      </Units>
+      <DomainRefs/>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="46495936" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Q_int]]></Name>
+      <Description><![CDATA[The heat flux]]></Description>
+      <VariableType>heat_flux_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="46496544" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Temperature of the plate]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140595799703856">x</ObjectRef>
+        <ObjectRef ID="140595799704160">y</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="46497792" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[SemiCircle]]></Name>
+      <Description><![CDATA[Semi-circle]]></Description>
+      <VariableType>length_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140595799704464">c</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="46498400" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[area]]></Name>
+      <Description><![CDATA[Area of the semi-circle]]></Description>
+      <VariableType>area_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="46508200" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[HeatBalance]]></Name>
+      <Description><![CDATA[Heat balance equation. Valid on the open x and y domains]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { \left( { { \rho }  \cdot { c_p } }  \right)  \cdot { T \left( { x, y } \right) } }  \right) }  } } \over { \partial { t  } } }  \right)  - \left( { { \lambda_p }  \cdot \left( { \left( { { \partial { { \left( { { \partial { { \left( { T \left( { x, y } \right) }  \right) } } } \over { \partial {x} } }  \right) } } } \over { \partial {x} } }  \right)  + \left( { { \partial { { \left( { { \partial { { \left( { T \left( { x, y } \right) }  \right) } } } \over { \partial {y} } }  \right) } } } \over { \partial {y} } }  \right) }  \right) }  \right) }  = 0; {\forall { x }  \in \left( { x } _{0}, { x } _{n} \right) }, {\forall { y }  \in \left( { y } _{0}, { y } _{n} \right) }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="46508488" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[x]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799703856">x</Domain>
+          <Type>eOpenOpen</Type>
+        </Object>
+        <Object ID="46508696" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[y]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799704160">y</Domain>
+          <Type>eOpenOpen</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="46503144" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[BC_bottom]]></Name>
+      <Description><![CDATA[Neumann boundary conditions at the bottom edge (constant flux)]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { \left( { \left( - { \lambda_p }  \right) }  \right)  \cdot \left( { { \partial { { \left( { T \left( { x, y } \right) }  \right) } } } \over { \partial {y} } }  \right) }  \right)  - { Q_b } }  = 0; {\forall { x }  \in \left( { x } _{0}, { x } _{n} \right) }, {{ y }  = { y } _{0}}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="46509560" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[x]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799703856">x</Domain>
+          <Type>eOpenOpen</Type>
+        </Object>
+        <Object ID="46800072" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[y]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799704160">y</Domain>
+          <Type>eLowerBound</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="46800344" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[BC_top]]></Name>
+      <Description><![CDATA[Dirichlet boundary conditions at the top edge (constant temperature)]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { T \left( { x, y } \right) }  - { T_t } }  = 0; {\forall { x }  \in \left( { x } _{0}, { x } _{n} \right) }, {{ y }  = { y } _{n}}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="46800856" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[x]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799703856">x</Domain>
+          <Type>eOpenOpen</Type>
+        </Object>
+        <Object ID="46801064" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[y]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799704160">y</Domain>
+          <Type>eUpperBound</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="46801464" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[BC_left]]></Name>
+      <Description><![CDATA[Neumann boundary conditions at the left edge (insulated)]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { \partial { { \left( { T \left( { x, y } \right) }  \right) } } } \over { \partial {x} } }  = 0; {{ x }  = { x } _{0}}, {\forall { y }  \in \left[ { y } _{0}, { y } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="46802008" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[x]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799703856">x</Domain>
+          <Type>eLowerBound</Type>
+        </Object>
+        <Object ID="46802216" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[y]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799704160">y</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="46802696" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[BC_right]]></Name>
+      <Description><![CDATA[Neumann boundary conditions at the right edge (insulated)]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { \partial { { \left( { T \left( { x, y } \right) }  \right) } } } \over { \partial {x} } }  = 0; {{ x }  = { x } _{n}}, {\forall { y }  \in \left[ { y } _{0}, { y } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="46803144" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[x]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799703856">x</Domain>
+          <Type>eUpperBound</Type>
+        </Object>
+        <Object ID="46803352" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[y]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799704160">y</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="46804024" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Q_int]]></Name>
+      <Description><![CDATA[Integral of the heat flux per x domain; just an example of the integral function]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Q_int }  - \left( \int { { \left( { \left( { \left( - { \lambda_p }  \right) }  \right)  \times \left( { { \partial { { T.d_array\left( { *, 0} \right) } } } \over { \partial {y} } }  \right) }  \right)  \over \left( { \delta_x }  \right) }  \mathrm{d}x }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="46806376" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Semicircle]]></Name>
+      <Description><![CDATA[Semi-circle around domain c]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { SemiCircle \left( { c } \right) }  - \sqrt { { {1 {{m ^ {2}}}} - \left( { { c }  ^ {2 {}}}  \right) }  } }  = 0; {\forall { c }  \in \left[ { c } _{0}, { c } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="46805736" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[c]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140595799704464">c</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="46806936" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Area]]></Name>
+      <Description><![CDATA[Area of the semi-circle]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { area }  - \left( \int { { SemiCircle.array \left( { * } \right) }  \mathrm{d}c }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

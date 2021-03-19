@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="37529376" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial6]]></Name>
+  <Description><![CDATA[
+This tutorial introduces the following concepts:
+
+- Ports
+- Port connections
+- Units (instances of other models)
+
+A simple port type 'portSimple' is defined which contains only one variable 't'.
+Two models 'modPortIn' and 'modPortOut' are defined, each having one port of type 'portSimple'.
+The wrapper model 'modTutorial' instantiate these two models as its units and connects them
+by connecting their ports.
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables/>
+  <Ports/>
+  <EventPorts/>
+  <Equations/>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections>
+    <Object ID="37537544" Class="daePortConnection" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[P_out_P_in]]></Name>
+      <Description><![CDATA[]]></Description>
+      <PortFrom ID="139964700021344"><![CDATA[Port_Out.P_out]]></PortFrom>
+      <PortTo ID="139964700021040"><![CDATA[Port_In.P_in]]></PortTo>
+    </Object>
+  </PortConnections>
+  <EventPortConnections/>
+  <Components>
+    <Object ID="37532688" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Port_In]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Domains/>
+      <Parameters/>
+      <Variables/>
+      <Ports>
+        <Object ID="139964700021040" Class="daePort" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[P_in]]></Name>
+          <Description><![CDATA[The simple port]]></Description>
+          <PortType>eInletPort</PortType>
+          <Domains/>
+          <Parameters/>
+          <Variables>
+            <Object ID="37533824" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[t]]></Name>
+              <Description><![CDATA[Time elapsed in the process]]></Description>
+              <VariableType>time_t</VariableType>
+              <DomainRefs/>
+              <OverallIndex>0</OverallIndex>
+            </Object>
+          </Variables>
+        </Object>
+      </Ports>
+      <EventPorts/>
+      <Equations/>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentArrays/>
+      <PortArrays/>
+    </Object>
+    <Object ID="37535008" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Port_Out]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Domains/>
+      <Parameters/>
+      <Variables>
+        <Object ID="37537328" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[time]]></Name>
+          <Description><![CDATA[Time elapsed in the process]]></Description>
+          <VariableType>time_t</VariableType>
+          <DomainRefs/>
+          <OverallIndex>1</OverallIndex>
+        </Object>
+      </Variables>
+      <Ports>
+        <Object ID="139964700021344" Class="daePort" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[P_out]]></Name>
+          <Description><![CDATA[The simple port]]></Description>
+          <PortType>eOutletPort</PortType>
+          <Domains/>
+          <Parameters/>
+          <Variables>
+            <Object ID="37536672" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[t]]></Name>
+              <Description><![CDATA[Time elapsed in the process]]></Description>
+              <VariableType>time_t</VariableType>
+              <DomainRefs/>
+              <OverallIndex>2</OverallIndex>
+            </Object>
+          </Variables>
+        </Object>
+      </Ports>
+      <EventPorts/>
+      <Equations>
+        <Object ID="37541640" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[time]]></Name>
+          <Description><![CDATA[Differential equation to calculate the time elapsed in the process.]]></Description>
+          <Residual>$${ { { \partial { { time }  } } \over { \partial { t  } } }  - {1 {}}}  = 0$$</Residual>
+          <EquationExecutionInfos>
+            <Object ID="37542912" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+              <EquationEvaluationNode>$${ { { \partial { { time }  } } \over { \partial { t  } } }  - {1 {}}}  = 0$$</EquationEvaluationNode>
+              <IsLinear>False</IsLinear>
+            </Object>
+          </EquationExecutionInfos>
+        </Object>
+        <Object ID="37541912" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[Port_t]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Residual>$${ { P_out.t }  - { time } }  = 0$$</Residual>
+          <EquationExecutionInfos>
+            <Object ID="37543264" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+              <EquationEvaluationNode>$${ { P_out.t }  - { time } }  = 0$$</EquationEvaluationNode>
+              <IsLinear>True</IsLinear>
+            </Object>
+          </EquationExecutionInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentArrays/>
+      <PortArrays/>
+    </Object>
+  </Components>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>

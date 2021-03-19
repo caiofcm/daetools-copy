@@ -1,0 +1,1857 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+       "http://www.w3.org/TR/MathML2/dtd/xhtml-math11-f.dtd"[ 
+        <!ENTITY mathml "http://www.w3.org/1998/Math/MathML" > 
+]> 
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="30373424" Class="daeModel" Library="DAE.Core" Version="1.7.1">
+  <Name>tutorial_che_10</Name>
+  <Description>
+Williams-Otto plant.
+</Description>
+  <MathMLName>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <msub>
+          <mrow>
+            <mi mathvariant="italic">tutorial</mi>
+          </mrow>
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">che</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">10</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </msub>
+      </mrow>
+    </math>
+  </MathMLName>
+  <Domains>
+    <Object ID="30374272" Class="daeDomain" Library="DAE.Core" Version="1.7.1">
+      <Name>Nc</Name>
+      <Description>Number of components</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Nc</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Type>eArray</Type>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+      <NumberOfIntervals>6</NumberOfIntervals>
+      <NumberOfPoints>6</NumberOfPoints>
+      <Points>
+        <Item>1</Item>
+        <Item>2</Item>
+        <Item>3</Item>
+        <Item>4</Item>
+        <Item>5</Item>
+        <Item>6</Item>
+      </Points>
+      <LowerBound>1</LowerBound>
+      <UpperBound>6</UpperBound>
+    </Object>
+  </Domains>
+  <Parameters>
+    <Object ID="30374760" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>k10</Name>
+      <Description>Pre-exponential factor 1</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k10</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msup>
+              <mi mathvariant="italic">s</mi>
+              <mn>-1</mn>
+            </msup>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>1.665972222222222e+06</Item>
+      </Values>
+    </Object>
+    <Object ID="30375224" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>k20</Name>
+      <Description>Pre-exponential factor 2</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k20</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msup>
+              <mi mathvariant="italic">s</mi>
+              <mn>-1</mn>
+            </msup>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>7.211666666666666e+08</Item>
+      </Values>
+    </Object>
+    <Object ID="30375640" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>k30</Name>
+      <Description>Pre-exponential factor 3</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k30</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <s>-1</s>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msup>
+              <mi mathvariant="italic">s</mi>
+              <mn>-1</mn>
+            </msup>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>2.674527777777778e+12</Item>
+      </Values>
+    </Object>
+    <Object ID="30376440" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>E1</Name>
+      <Description>Activation energy 1</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">E1</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <K>1</K>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">K</mi>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>12000</Item>
+      </Values>
+    </Object>
+    <Object ID="30376728" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>E2</Name>
+      <Description>Activation energy 2</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">E2</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <K>1</K>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">K</mi>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>15000</Item>
+      </Values>
+    </Object>
+    <Object ID="30377096" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>E3</Name>
+      <Description>Activation energy 3</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">E3</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <K>1</K>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">K</mi>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>20000</Item>
+      </Values>
+    </Object>
+    <Object ID="30377896" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>&rho;</Name>
+      <Description>Density</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">&rho;</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">kg</mi>
+            <msup>
+              <mi mathvariant="italic">m</mi>
+              <mn>-3</mn>
+            </msup>
+          </mrow>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>800</Item>
+      </Values>
+    </Object>
+    <Object ID="30378232" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>sf_d</Name>
+      <Description>Separation factors (decanter)</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">sf</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">d</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <Values>
+        <Item>1</Item>
+        <Item>1</Item>
+        <Item>1</Item>
+        <Item>1</Item>
+        <Item>1</Item>
+        <Item>0</Item>
+      </Values>
+    </Object>
+    <Object ID="30378648" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>sf_c</Name>
+      <Description>Separation factors (column)</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">sf</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">c</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <Values>
+        <Item>1</Item>
+        <Item>1</Item>
+        <Item>1</Item>
+        <Item>0.100000000000000</Item>
+        <Item>1</Item>
+        <Item>1</Item>
+      </Values>
+    </Object>
+    <Object ID="30379048" Class="daeParameter" Library="DAE.Core" Version="1.7.1">
+      <Name>sf_s</Name>
+      <Description>Separation factor (splitter)</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">sf</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">s</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+      <DomainRefs/>
+      <Values>
+        <Item>0.100000000000000</Item>
+      </Values>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="30379728" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr</Name>
+      <Description>Concentration of reactants</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_concentration_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+    <Object ID="30659952" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs</Name>
+      <Description>Reaction mass source</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>6</OverallIndex>
+    </Object>
+    <Object ID="30660560" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Ffeed</Name>
+      <Description>Feed flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Ffeed</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>12</OverallIndex>
+    </Object>
+    <Object ID="30661168" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Freactor</Name>
+      <Description>Reactor outlet components flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Freactor</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>18</OverallIndex>
+    </Object>
+    <Object ID="30661776" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fdecanter</Name>
+      <Description>Decanter outlet flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Fdecanter</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>24</OverallIndex>
+    </Object>
+    <Object ID="30662384" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fdecanter_pureG</Name>
+      <Description>Decanter pure G flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fdecanter</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">pureG</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>30</OverallIndex>
+    </Object>
+    <Object ID="30662992" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fcolumn_top</Name>
+      <Description>Column top flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fcolumn</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">top</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>36</OverallIndex>
+    </Object>
+    <Object ID="30663600" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fcolumn_bottom</Name>
+      <Description>Column bottom flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fcolumn</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">bottom</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>42</OverallIndex>
+    </Object>
+    <Object ID="30664208" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fsplitter_out</Name>
+      <Description>Splitter outlet flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fsplitter</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">out</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>48</OverallIndex>
+    </Object>
+    <Object ID="30664816" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fsplitter_recycle</Name>
+      <Description>Splitter recycle flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fsplitter</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">recycle</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>54</OverallIndex>
+    </Object>
+    <Object ID="30665424" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Fr_tot</Name>
+      <Description>Reactor outlet total flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fr</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">tot</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>60</OverallIndex>
+    </Object>
+    <Object ID="30659136" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Frecycle_tot</Name>
+      <Description>Reactor recycle total flowrate</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Frecycle</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">tot</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>61</OverallIndex>
+    </Object>
+    <Object ID="30667616" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr_tot</Name>
+      <Description>Concentration of reactants</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Cr</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">tot</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>62</OverallIndex>
+    </Object>
+    <Object ID="30668224" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FR</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FR</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>63</OverallIndex>
+    </Object>
+    <Object ID="30668832" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FG</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FG</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>64</OverallIndex>
+    </Object>
+    <Object ID="30669440" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FE</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FE</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>65</OverallIndex>
+    </Object>
+    <Object ID="30670048" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FP</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FP</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>66</OverallIndex>
+    </Object>
+    <Object ID="30670656" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FS</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FS</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>67</OverallIndex>
+    </Object>
+    <Object ID="30671264" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FD</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FD</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>68</OverallIndex>
+    </Object>
+    <Object ID="30671872" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>FL</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FL</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>mass_flowrate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>69</OverallIndex>
+    </Object>
+    <Object ID="30672656" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>V</Name>
+      <Description>Reactor volume</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">V</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>volume_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>70</OverallIndex>
+    </Object>
+    <Object ID="30673264" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>xr</Name>
+      <Description>Fractions in the reactor</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>fraction_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="30374272">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">Nc</mi>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        Nc</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>71</OverallIndex>
+    </Object>
+    <Object ID="30673872" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>T</Name>
+      <Description>Temperature in the reactor</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">T</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>77</OverallIndex>
+    </Object>
+    <Object ID="30674672" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>k1</Name>
+      <Description>Reaction 1 rate constant</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k1</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>78</OverallIndex>
+    </Object>
+    <Object ID="30675280" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>k2</Name>
+      <Description>Reaction 2 rate constant</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k2</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>79</OverallIndex>
+    </Object>
+    <Object ID="30676096" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>k3</Name>
+      <Description>Reaction 3 rate constant</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k3</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>80</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="30678504" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>k1</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k1</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { k1 }  - \left( { { k10 }  \cdot e^{ { \left( { \left( - { E1 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30716320" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.k1 }  - \left( { { tutorial_che_10.k10 }  \cdot e^{ { \left( { \left( - { tutorial_che_10.E1 }  \right) }  \right)  \over { tutorial_che_10.T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30683064" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>k2</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k2</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { k2 }  - \left( { { k20 }  \cdot e^{ { \left( { \left( - { E2 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30718080" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.k2 }  - \left( { { tutorial_che_10.k20 }  \cdot e^{ { \left( { \left( - { tutorial_che_10.E2 }  \right) }  \right)  \over { tutorial_che_10.T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30683832" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>k3</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">k3</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { k3 }  - \left( { { k30 }  \cdot e^{ { \left( { \left( - { E3 }  \right) }  \right)  \over { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30719168" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.k3 }  - \left( { { tutorial_che_10.k30 }  \cdot e^{ { \left( { \left( - { tutorial_che_10.E3 }  \right) }  \right)  \over { tutorial_che_10.T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30684552" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr(0)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr(0)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { V }  \cdot \left( { { \partial { { \left( { Cr \left( { 0 } \right) }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { { Ffeed \left( { 0 } \right) }  + { Fsplitter_recycle \left( { 0 } \right) } }  \right)  - { Freactor \left( { 0 } \right) } }  \right)  + \left( { \left( { \left( { \left( - { \left( { { k1 }  \cdot { xr \left( { 0 } \right) } }  \right)  \cdot { xr \left( { 1 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30720272" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.V }  \cdot { { \partial { { tutorial_che_10.Cr \left( { 0} \right) }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 0 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 0 } \right) } }  \right)  - { tutorial_che_10.Freactor \left( { 0 } \right) } }  \right)  + \left( { \left( { \left( { \left( - { \left( { { tutorial_che_10.k1 }  \cdot { tutorial_che_10.xr \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30686056" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr(1)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr(1)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { V }  \cdot \left( { { \partial { { \left( { Cr \left( { 1 } \right) }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { { Ffeed \left( { 1 } \right) }  + { Fsplitter_recycle \left( { 1 } \right) } }  \right)  - { Freactor \left( { 1 } \right) } }  \right)  + \left( { \left( { \left( { \left( { \left( - { \left( { { k1 }  \cdot { xr \left( { 0 } \right) } }  \right)  \cdot { xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30723216" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.V }  \cdot { { \partial { { tutorial_che_10.Cr \left( { 1} \right) }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 1 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 1 } \right) } }  \right)  - { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + \left( { \left( { \left( { \left( { \left( - { \left( { { tutorial_che_10.k1 }  \cdot { tutorial_che_10.xr \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30687592" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr(2)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr(2)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { V }  \cdot \left( { { \partial { { \left( { Cr \left( { 2 } \right) }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { { Ffeed \left( { 2 } \right) }  + { Fsplitter_recycle \left( { 2 } \right) } }  \right)  - { Freactor \left( { 2 } \right) } }  \right)  + \left( { \left( { \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { k1 }  \cdot { xr \left( { 0 } \right) } }  \right)  \cdot { xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { {2 {}} \cdot \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right) }  \right) }  \right)  - \left( { \left( { { k3 }  \cdot { xr \left( { 2 } \right) } }  \right)  \cdot { xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30726288" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.V }  \cdot { { \partial { { tutorial_che_10.Cr \left( { 2} \right) }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 2 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 2 } \right) } }  \right)  - { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + \left( { \left( { \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { tutorial_che_10.k1 }  \cdot { tutorial_che_10.xr \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { {2 {}} \cdot \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right) }  \right) }  \right)  - \left( { \left( { { tutorial_che_10.k3 }  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30689144" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr(3)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr(3)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { V }  \cdot \left( { { \partial { { \left( { Cr \left( { 3 } \right) }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { { Ffeed \left( { 3 } \right) }  + { Fsplitter_recycle \left( { 3 } \right) } }  \right)  - { Freactor \left( { 3 } \right) } }  \right)  + \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30730640" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.V }  \cdot { { \partial { { tutorial_che_10.Cr \left( { 3} \right) }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 3 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 3 } \right) } }  \right)  - { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30690680" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr(4)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr(4)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { V }  \cdot \left( { { \partial { { \left( { Cr \left( { 4 } \right) }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { { Ffeed \left( { 4 } \right) }  + { Fsplitter_recycle \left( { 4 } \right) } }  \right)  - { Freactor \left( { 4 } \right) } }  \right)  + \left( { \left( { \left( { \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right)  - \left( { {0.5 {}} \cdot \left( { \left( { { k3 }  \cdot { xr \left( { 2 } \right) } }  \right)  \cdot { xr \left( { 4 } \right) } }  \right) }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30733664" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.V }  \cdot { { \partial { { tutorial_che_10.Cr \left( { 4} \right) }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 4 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 4 } \right) } }  \right)  - { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  - \left( { {0.5 {}} \cdot \left( { \left( { { tutorial_che_10.k3 }  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 4 } \right) } }  \right) }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30692152" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Cr(5)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Cr(5)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { V }  \cdot \left( { { \partial { { \left( { Cr \left( { 5 } \right) }  \right) }  } } \over { \partial { t  } } }  \right) }  \right)  - \left( { \left( { \left( { { Ffeed \left( { 5 } \right) }  + { Fsplitter_recycle \left( { 5 } \right) } }  \right)  - { Freactor \left( { 5 } \right) } }  \right)  + \left( { \left( { \left( { {1.5 {}} \cdot \left( { \left( { { k3 }  \cdot { xr \left( { 2 } \right) } }  \right)  \cdot { xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30737104" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.V }  \cdot { { \partial { { tutorial_che_10.Cr \left( { 5} \right) }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 5 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 5 } \right) } }  \right)  - { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right)  + \left( { \left( { \left( { {1.5 {}} \cdot \left( { \left( { { tutorial_che_10.k3 }  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30693768" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs(0)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs(0)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Rs \left( { 0 } \right) }  - \left( { \left( { \left( { \left( - { \left( { { k1 }  \cdot { xr \left( { 0 } \right) } }  \right)  \cdot { xr \left( { 1 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30740128" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Rs \left( { 0 } \right) }  - \left( { \left( { \left( { \left( - { \left( { { tutorial_che_10.k1 }  \cdot { tutorial_che_10.xr \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30694504" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs(1)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs(1)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Rs \left( { 1 } \right) }  - \left( { \left( { \left( { \left( { \left( - { \left( { { k1 }  \cdot { xr \left( { 0 } \right) } }  \right)  \cdot { xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30741504" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Rs \left( { 1 } \right) }  - \left( { \left( { \left( { \left( { \left( - { \left( { { tutorial_che_10.k1 }  \cdot { tutorial_che_10.xr \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30695192" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs(2)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs(2)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Rs \left( { 2 } \right) }  - \left( { \left( { \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { k1 }  \cdot { xr \left( { 0 } \right) } }  \right)  \cdot { xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { {2 {}} \cdot \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right) }  \right) }  \right)  - \left( { \left( { { k3 }  \cdot { xr \left( { 2 } \right) } }  \right)  \cdot { xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30743344" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Rs \left( { 2 } \right) }  - \left( { \left( { \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { tutorial_che_10.k1 }  \cdot { tutorial_che_10.xr \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right) }  \right)  - \left( { {2 {}} \cdot \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right) }  \right) }  \right)  - \left( { \left( { { tutorial_che_10.k3 }  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30695880" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs(3)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs(3)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Rs \left( { 3 } \right) }  - \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30745936" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Rs \left( { 3 } \right) }  - \left( { \left( { \left( { {2 {}} \cdot \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30696680" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs(4)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs(4)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Rs \left( { 4 } \right) }  - \left( { \left( { \left( { \left( { \left( { { k2 }  \cdot { xr \left( { 1 } \right) } }  \right)  \cdot { xr \left( { 2 } \right) } }  \right)  - \left( { {0.5 {}} \cdot \left( { \left( { { k3 }  \cdot { xr \left( { 2 } \right) } }  \right)  \cdot { xr \left( { 4 } \right) } }  \right) }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30747600" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Rs \left( { 4 } \right) }  - \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.k2 }  \cdot { tutorial_che_10.xr \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  - \left( { {0.5 {}} \cdot \left( { \left( { { tutorial_che_10.k3 }  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 4 } \right) } }  \right) }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30697368" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Rs(5)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Rs(5)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Rs \left( { 5 } \right) }  - \left( { \left( { \left( { {1.5 {}} \cdot \left( { \left( { { k3 }  \cdot { xr \left( { 2 } \right) } }  \right)  \cdot { xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { \rho } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30749680" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Rs \left( { 5 } \right) }  - \left( { \left( { \left( { {1.5 {}} \cdot \left( { \left( { { tutorial_che_10.k3 }  \cdot { tutorial_che_10.xr \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.xr \left( { 4 } \right) } }  \right) }  \right)  \cdot { tutorial_che_10.\rho } }  \right)  \cdot { tutorial_che_10.V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30698056" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>xr(0)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr(0)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { xr \left( { 0 } \right) }  \cdot \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  \right)  - { Cr \left( { 0 } \right) } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30751360" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.xr \left( { 0 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  \right)  - { tutorial_che_10.Cr \left( { 0 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30698648" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>xr(1)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr(1)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { xr \left( { 1 } \right) }  \cdot \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  \right)  - { Cr \left( { 1 } \right) } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30752432" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.xr \left( { 1 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  \right)  - { tutorial_che_10.Cr \left( { 1 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30698984" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>xr(2)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr(2)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { xr \left( { 2 } \right) }  \cdot \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  \right)  - { Cr \left( { 2 } \right) } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30753872" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.xr \left( { 2 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  \right)  - { tutorial_che_10.Cr \left( { 2 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30699256" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>xr(3)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr(3)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { xr \left( { 3 } \right) }  \cdot \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  \right)  - { Cr \left( { 3 } \right) } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30755312" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.xr \left( { 3 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  \right)  - { tutorial_che_10.Cr \left( { 3 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30699688" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>xr(4)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr(4)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { xr \left( { 4 } \right) }  \cdot \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  \right)  - { Cr \left( { 4 } \right) } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30756960" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.xr \left( { 4 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  \right)  - { tutorial_che_10.Cr \left( { 4 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30700088" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>xr(5)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">xr(5)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( { { xr \left( { 5 } \right) }  \cdot \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  \right)  - { Cr \left( { 5 } \right) } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30758384" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { { tutorial_che_10.xr \left( { 5 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  \right)  - { tutorial_che_10.Cr \left( { 5 } \right) } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30700536" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FR</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FR</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FR }  - \left( { \left( { \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30760064" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FR }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30701128" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FG</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FG</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FG }  - \left( { \left( { \left( \sum  { { Fdecanter_pureG.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30762032" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FG }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fdecanter_pureG \left( { 0 } \right) }  + { tutorial_che_10.Fdecanter_pureG \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fdecanter_pureG \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fdecanter_pureG \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fdecanter_pureG \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fdecanter_pureG \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30701784" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FE</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FE</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FE }  - \left( { \left( { \left( \sum  { { Fdecanter.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30765440" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FE }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fdecanter \left( { 0 } \right) }  + { tutorial_che_10.Fdecanter \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fdecanter \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fdecanter \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fdecanter \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fdecanter \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30702424" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FP</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FP</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FP }  - \left( { \left( { \left( \sum  { { Fcolumn_top.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30768848" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FP }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fcolumn_top \left( { 0 } \right) }  + { tutorial_che_10.Fcolumn_top \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_top \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_top \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_top \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_top \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30703048" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FS</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FS</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FS }  - \left( { \left( { \left( \sum  { { Fcolumn_bottom.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30772256" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FS }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fcolumn_bottom \left( { 0 } \right) }  + { tutorial_che_10.Fcolumn_bottom \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_bottom \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_bottom \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_bottom \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fcolumn_bottom \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30703736" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FD</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FD</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FD }  - \left( { \left( { \left( \sum  { { Fsplitter_out.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30772032" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FD }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fsplitter_out \left( { 0 } \right) }  + { tutorial_che_10.Fsplitter_out \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_out \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_out \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_out \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_out \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30704392" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FL</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FL</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { FL }  - \left( { \left( { \left( \sum  { { Fsplitter_recycle.array \left( { * } \right) }  }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30775440" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.FL }  - \left( { \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fsplitter_recycle \left( { 0 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 5 } \right) } }  \right)  \cdot {2.205 {}}}  \right)  \cdot {3600 {}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30705064" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>TotalFlowrateFromReactor</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">TotalFlowrateFromReactor</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fr_tot }  - \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30778832" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fr_tot }  - \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30705784" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>ReactorHoldup</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">ReactorHoldup</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Cr_tot }  - \left( \sum  { { Cr.array \left( { * } \right) }  }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30780784" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Cr_tot }  - \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Cr \left( { 0 } \right) }  + { tutorial_che_10.Cr \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Cr \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30706312" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>ReactorHoldup</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">ReactorHoldup</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Frecycle_tot }  - \left( \sum  { { Fsplitter_recycle.array \left( { * } \right) }  }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30782320" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Frecycle_tot }  - \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Fsplitter_recycle \left( { 0 } \right) }  + { tutorial_che_10.Fsplitter_recycle \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Fsplitter_recycle \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30706840" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>ReactorHoldup</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">ReactorHoldup</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right)  - \left( { \left( \sum  { { Ffeed.array \left( { * } \right) }  }  \right)  + { Frecycle_tot } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30783872" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right)  - \left( { \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Ffeed \left( { 0 } \right) }  + { tutorial_che_10.Ffeed \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Ffeed \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Ffeed \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Ffeed \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Ffeed \left( { 5 } \right) } }  \right)  + { tutorial_che_10.Frecycle_tot } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30707384" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Freactor(0)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Freactor(0)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Freactor \left( { 0 } \right) }  - \left( { { xr \left( { 0 } \right) }  \cdot \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30785392" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Freactor \left( { 0 } \right) }  - \left( { { tutorial_che_10.xr \left( { 0 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30707112" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Freactor(1)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Freactor(1)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Freactor \left( { 1 } \right) }  - \left( { { xr \left( { 1 } \right) }  \cdot \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30787312" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Freactor \left( { 1 } \right) }  - \left( { { tutorial_che_10.xr \left( { 1 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30707656" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Freactor(2)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Freactor(2)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Freactor \left( { 2 } \right) }  - \left( { { xr \left( { 2 } \right) }  \cdot \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30788800" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Freactor \left( { 2 } \right) }  - \left( { { tutorial_che_10.xr \left( { 2 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30707928" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Freactor(3)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Freactor(3)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Freactor \left( { 3 } \right) }  - \left( { { xr \left( { 3 } \right) }  \cdot \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30790304" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Freactor \left( { 3 } \right) }  - \left( { { tutorial_che_10.xr \left( { 3 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30708216" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Freactor(4)</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Freactor(4)</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Freactor \left( { 4 } \right) }  - \left( { { xr \left( { 4 } \right) }  \cdot \left( \sum  { { Freactor.array \left( { * } \right) }  }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30791744" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Freactor \left( { 4 } \right) }  - \left( { { tutorial_che_10.xr \left( { 4 } \right) }  \cdot \left( { \left( { \left( { \left( { \left( { { tutorial_che_10.Freactor \left( { 0 } \right) }  + { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right)  + { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30708504" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FD</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FD</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fdecanter \left( { Nc } \right) }  - \left( { { sf_d \left( { Nc } \right) }  \cdot { Freactor \left( { Nc } \right) } }  \right) }  = 0; {\forall { Nc }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30793200" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter \left( { 0 } \right) }  - \left( { { tutorial_che_10.sf_d \left( { 0 } \right) }  \cdot { tutorial_che_10.Freactor \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30795488" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter \left( { 1 } \right) }  - \left( { { tutorial_che_10.sf_d \left( { 1 } \right) }  \cdot { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30796224" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter \left( { 2 } \right) }  - \left( { { tutorial_che_10.sf_d \left( { 2 } \right) }  \cdot { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30796896" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter \left( { 3 } \right) }  - \left( { { tutorial_che_10.sf_d \left( { 3 } \right) }  \cdot { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30797568" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter \left( { 4 } \right) }  - \left( { { tutorial_che_10.sf_d \left( { 4 } \right) }  \cdot { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30798352" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter \left( { 5 } \right) }  - \left( { { tutorial_che_10.sf_d \left( { 5 } \right) }  \cdot { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30708776" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FW</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FW</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fdecanter_pureG \left( { Nc } \right) }  - \left( { \left( { {1 {}} - { sf_d \left( { Nc } \right) } }  \right)  \cdot { Freactor \left( { Nc } \right) } }  \right) }  = 0; {\forall { Nc }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30794656" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter_pureG \left( { 0 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_d \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.Freactor \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30800048" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter_pureG \left( { 1 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_d \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.Freactor \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30800992" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter_pureG \left( { 2 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_d \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.Freactor \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30801872" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter_pureG \left( { 3 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_d \left( { 3 } \right) } }  \right)  \cdot { tutorial_che_10.Freactor \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30802752" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter_pureG \left( { 4 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_d \left( { 4 } \right) } }  \right)  \cdot { tutorial_che_10.Freactor \left( { 4 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30803744" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fdecanter_pureG \left( { 5 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_d \left( { 5 } \right) } }  \right)  \cdot { tutorial_che_10.Freactor \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30709112" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FB</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FB</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fcolumn_bottom \left( { Nc } \right) }  - \left( { { sf_c \left( { Nc } \right) }  \cdot { Fdecanter \left( { Nc } \right) } }  \right) }  = 0; {\forall { Nc }  \in \left{ 0,1,2,3,5 \right} }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30799056" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_bottom \left( { 0 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 0 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30805488" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_bottom \left( { 1 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 1 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30806224" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_bottom \left( { 2 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 2 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30806896" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_bottom \left( { 3 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 3 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30807568" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_bottom \left( { 5 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 5 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30676376" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FB_P</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">FB</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">P</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fcolumn_bottom \left( { 4 } \right) }  - \left( { { sf_c \left( { 4 } \right) }  \cdot { Fdecanter \left( { 3 } \right) } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30804656" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_bottom \left( { 4 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 4 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30710088" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FT</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">FT</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fcolumn_top \left( { Nc } \right) }  - \left( { \left( { {1 {}} - { sf_c \left( { Nc } \right) } }  \right)  \cdot { Fdecanter \left( { Nc } \right) } }  \right) }  = 0; {\forall { Nc }  \in \left{ 0,1,2,3,5 \right} }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30808352" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_top \left( { 0 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_c \left( { 0 } \right) } }  \right)  \cdot { tutorial_che_10.Fdecanter \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30809952" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_top \left( { 1 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_c \left( { 1 } \right) } }  \right)  \cdot { tutorial_che_10.Fdecanter \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30810896" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_top \left( { 2 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_c \left( { 2 } \right) } }  \right)  \cdot { tutorial_che_10.Fdecanter \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30811776" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_top \left( { 3 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_c \left( { 3 } \right) } }  \right)  \cdot { tutorial_che_10.Fdecanter \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30812656" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_top \left( { 5 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_c \left( { 5 } \right) } }  \right)  \cdot { tutorial_che_10.Fdecanter \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30711112" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>FT_P</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">FT</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">P</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fcolumn_top \left( { 4 } \right) }  - \left( { { Fdecanter \left( { 4 } \right) }  - \left( { { sf_c \left( { 4 } \right) }  \cdot { Fdecanter \left( { 3 } \right) } }  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30808992" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fcolumn_top \left( { 4 } \right) }  - \left( { { tutorial_che_10.Fdecanter \left( { 4 } \right) }  - \left( { { tutorial_che_10.sf_c \left( { 4 } \right) }  \cdot { tutorial_che_10.Fdecanter \left( { 3 } \right) } }  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30712072" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Fsplitter_out</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">Fsplitter</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">out</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fsplitter_out \left( { Nc } \right) }  - \left( { { sf_s }  \cdot { Fcolumn_bottom \left( { Nc } \right) } }  \right) }  = 0; {\forall { Nc }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30813648" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_out \left( { 0 } \right) }  - \left( { { tutorial_che_10.sf_s }  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30815360" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_out \left( { 1 } \right) }  - \left( { { tutorial_che_10.sf_s }  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30816064" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_out \left( { 2 } \right) }  - \left( { { tutorial_che_10.sf_s }  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30816704" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_out \left( { 3 } \right) }  - \left( { { tutorial_che_10.sf_s }  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30817344" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_out \left( { 4 } \right) }  - \left( { { tutorial_che_10.sf_s }  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 4 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30818096" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_out \left( { 5 } \right) }  - \left( { { tutorial_che_10.sf_s }  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="30713048" Class="daeEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>Frecycle</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">Frecycle</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Residual>$${ { Fsplitter_recycle \left( { Nc } \right) }  - \left( { \left( { {1 {}} - { sf_s } }  \right)  \cdot { Fcolumn_bottom \left( { Nc } \right) } }  \right) }  = 0; {\forall { Nc }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="30814560" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_recycle \left( { 0 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_s } }  \right)  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 0 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30819744" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_recycle \left( { 1 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_s } }  \right)  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 1 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30820656" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_recycle \left( { 2 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_s } }  \right)  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 2 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30821504" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_recycle \left( { 3 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_s } }  \right)  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 3 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30822352" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_recycle \left( { 4 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_s } }  \right)  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 4 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+        <Object ID="30823312" Class="daeEquationExecutionInfo" Library="" Version="1.7.1">
+          <EquationEvaluationNode>$${ { tutorial_che_10.Fsplitter_recycle \left( { 5 } \right) }  - \left( { \left( { {1 {}} - { tutorial_che_10.sf_s } }  \right)  \cdot { tutorial_che_10.Fcolumn_bottom \left( { 5 } \right) } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Units/>
+  <UnitArrays/>
+  <PortArrays/>
+</Model>

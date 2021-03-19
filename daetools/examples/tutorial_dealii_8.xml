@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="51702256" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_dealii_8]]></Name>
+  <Description><![CDATA[
+In this example a small parallel-plate reactor with an active surface is modelled.
+
+This problem and its solution in `COMSOL Multiphysics <https://www.comsol.com>`_ software 
+is described in the Application Gallery: `Transport and Adsorption (id=5)
+<https://www.comsol.com/model/transport-and-adsorption-5>`_.
+
+The transport in the bulk of the reactor is described by a convection-diffusion equation:
+    
+.. code-block:: none
+
+   dc/dt - D*nabla^2(c) + div(uc) = 0 in Omega
+
+The material balance for the surface, including surface diffusion and the reaction rate is:
+
+.. code-block:: none
+
+   dc_s/dt - Ds*nabla^2(c_s) = -k_ads * c * (Gamma_s - c_s) + k_des * c_s in Omega_s
+
+For the bulk, the boundary condition at the active surface couples the rate of the reaction
+at the surface with the flux of the reacting species and the concentration of the adsorbed
+species and bulk species:
+    
+.. code-block:: none
+
+    n⋅(-D*nabla(c) + c*u) = -k_ads*c*(Gamma_s - c_s) + k_des*c_s
+    
+The boundary conditions for the surface species are insulating conditions.
+
+The problem is modelled using two coupled Finite Element systems: 
+2D for bulk flow and 1D for the active surface. 
+The linear interpolation is used to determine the bulk flow and active surface concentrations
+at the interface.
+
+The mesh is rectangular with the refined elements close to the left/right ends:
+
+.. image:: _static/parallel_plate_reactor.png
+   :height: 400 px
+
+The cs plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results.png
+   :height: 400 px
+
+The c plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results2.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_8-animation.gif
+   :height: 400 px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables/>
+  <Ports/>
+  <EventPorts/>
+  <Equations/>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components>
+    <Object ID="51758048" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[BulkFlow]]></Name>
+      <Description><![CDATA[
+In this example a small parallel-plate reactor with an active surface is modelled.
+
+This problem and its solution in `COMSOL Multiphysics <https://www.comsol.com>`_ software 
+is described in the Application Gallery: `Transport and Adsorption (id=5)
+<https://www.comsol.com/model/transport-and-adsorption-5>`_.
+
+The transport in the bulk of the reactor is described by a convection-diffusion equation:
+    
+.. code-block:: none
+
+   dc/dt - D*nabla^2(c) + div(uc) = 0 in Omega
+
+The material balance for the surface, including surface diffusion and the reaction rate is:
+
+.. code-block:: none
+
+   dc_s/dt - Ds*nabla^2(c_s) = -k_ads * c * (Gamma_s - c_s) + k_des * c_s in Omega_s
+
+For the bulk, the boundary condition at the active surface couples the rate of the reaction
+at the surface with the flux of the reacting species and the concentration of the adsorbed
+species and bulk species:
+    
+.. code-block:: none
+
+    n⋅(-D*nabla(c) + c*u) = -k_ads*c*(Gamma_s - c_s) + k_des*c_s
+    
+The boundary conditions for the surface species are insulating conditions.
+
+The problem is modelled using two coupled Finite Element systems: 
+2D for bulk flow and 1D for the active surface. 
+The linear interpolation is used to determine the bulk flow and active surface concentrations
+at the interface.
+
+The mesh is rectangular with the refined elements close to the left/right ends:
+
+.. image:: _static/parallel_plate_reactor.png
+   :height: 400 px
+
+The cs plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results.png
+   :height: 400 px
+
+The c plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results2.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_8-animation.gif
+   :height: 400 px
+]]></Description>
+      <Domains>
+        <Object ID="51757784" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;]]></Name>
+          <Description><![CDATA[Omega]]></Description>
+          <Type>eUnstructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="51760528" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_0]]></Name>
+          <Description><![CDATA[FE sub domain 0]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters/>
+      <Variables>
+        <Object ID="51761168" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[c]]></Name>
+          <Description><![CDATA[Bulk gas concentration]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="51760528"><![CDATA[&Omega;_0]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="52020984" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[dealIIFESystem_0]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="52153768" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[&Omega;]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="51757784"><![CDATA[&Omega;]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+    <Object ID="52817520" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[ActiveSurface]]></Name>
+      <Description><![CDATA[
+In this example a small parallel-plate reactor with an active surface is modelled.
+
+This problem and its solution in `COMSOL Multiphysics <https://www.comsol.com>`_ software 
+is described in the Application Gallery: `Transport and Adsorption (id=5)
+<https://www.comsol.com/model/transport-and-adsorption-5>`_.
+
+The transport in the bulk of the reactor is described by a convection-diffusion equation:
+    
+.. code-block:: none
+
+   dc/dt - D*nabla^2(c) + div(uc) = 0 in Omega
+
+The material balance for the surface, including surface diffusion and the reaction rate is:
+
+.. code-block:: none
+
+   dc_s/dt - Ds*nabla^2(c_s) = -k_ads * c * (Gamma_s - c_s) + k_des * c_s in Omega_s
+
+For the bulk, the boundary condition at the active surface couples the rate of the reaction
+at the surface with the flux of the reacting species and the concentration of the adsorbed
+species and bulk species:
+    
+.. code-block:: none
+
+    n⋅(-D*nabla(c) + c*u) = -k_ads*c*(Gamma_s - c_s) + k_des*c_s
+    
+The boundary conditions for the surface species are insulating conditions.
+
+The problem is modelled using two coupled Finite Element systems: 
+2D for bulk flow and 1D for the active surface. 
+The linear interpolation is used to determine the bulk flow and active surface concentrations
+at the interface.
+
+The mesh is rectangular with the refined elements close to the left/right ends:
+
+.. image:: _static/parallel_plate_reactor.png
+   :height: 400 px
+
+The cs plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results.png
+   :height: 400 px
+
+The c plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results2.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_8-animation.gif
+   :height: 400 px
+]]></Description>
+      <Domains>
+        <Object ID="52817256" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;]]></Name>
+          <Description><![CDATA[Omega]]></Description>
+          <Type>eUnstructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="51756512" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_0]]></Name>
+          <Description><![CDATA[FE sub domain 0]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters/>
+      <Variables>
+        <Object ID="52820208" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[cs]]></Name>
+          <Description><![CDATA[Surface concentration]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="51756512"><![CDATA[&Omega;_0]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="52132216" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[dealIIFESystem_0]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="52163608" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[&Omega;]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="52817256"><![CDATA[&Omega;]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+  </Components>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

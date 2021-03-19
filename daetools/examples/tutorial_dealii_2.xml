@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="32300944" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_dealii_2]]></Name>
+  <Description><![CDATA[
+In this example a simple transient heat convection-diffusion equation is solved.
+
+.. code-block:: none
+
+   dT/dt - kappa/(rho*cp)*nabla^2(T) + nabla.(uT) = g(T) in Omega
+
+The fluid flows from the left side to the right with constant velocity of 0.01 m/s.
+The inlet temperature for 0.2 <= y <= 0.3 is iven by the following expression:
+
+.. code-block:: none
+
+   T_left = T_base + T_offset*|sin(pi*t/25)| on dOmega
+
+creating a bubble-like regions of higher temperature that flow towards the right end
+and slowly diffuse into the bulk flow of the fluid due to the heat conduction.
+
+The mesh is rectangular with the refined elements close to the left/right ends:
+
+.. image:: _static/rect(1.5,0.5)-100x50.png
+   :width: 500 px
+
+The temperature plot at t = 500s:
+
+.. image:: _static/tutorial_dealii_2-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_2-animation.gif
+   :height: 400 px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables/>
+  <Ports/>
+  <EventPorts/>
+  <Equations/>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components>
+    <Object ID="32356144" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[HeatConvection]]></Name>
+      <Description><![CDATA[
+In this example a simple transient heat convection-diffusion equation is solved.
+
+.. code-block:: none
+
+   dT/dt - kappa/(rho*cp)*nabla^2(T) + nabla.(uT) = g(T) in Omega
+
+The fluid flows from the left side to the right with constant velocity of 0.01 m/s.
+The inlet temperature for 0.2 <= y <= 0.3 is iven by the following expression:
+
+.. code-block:: none
+
+   T_left = T_base + T_offset*|sin(pi*t/25)| on dOmega
+
+creating a bubble-like regions of higher temperature that flow towards the right end
+and slowly diffuse into the bulk flow of the fluid due to the heat conduction.
+
+The mesh is rectangular with the refined elements close to the left/right ends:
+
+.. image:: _static/rect(1.5,0.5)-100x50.png
+   :width: 500 px
+
+The temperature plot at t = 500s:
+
+.. image:: _static/tutorial_dealii_2-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_2-animation.gif
+   :height: 400 px
+]]></Description>
+      <Domains>
+        <Object ID="32355880" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;]]></Name>
+          <Description><![CDATA[Omega]]></Description>
+          <Type>eUnstructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="32358544" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[&Omega;_0]]></Name>
+          <Description><![CDATA[FE sub domain 0]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters/>
+      <Variables>
+        <Object ID="32359152" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[T]]></Name>
+          <Description><![CDATA[Temperature]]></Description>
+          <VariableType>no_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="32358544"><![CDATA[&Omega;_0]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="33693688" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[dealIIFESystem_0]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="34440536" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[&Omega;]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="32355880"><![CDATA[&Omega;]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+  </Components>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

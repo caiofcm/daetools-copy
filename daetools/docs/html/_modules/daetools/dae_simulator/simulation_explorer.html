@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>daetools.dae_simulator.simulation_explorer &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../../_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for daetools.dae_simulator.simulation_explorer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">                          simulation_explorer.py</span>
+<span class="sd">                 DAE Tools: pyDAE module, www.daetools.com</span>
+<span class="sd">                 Copyright (C) Dragan Nikolic</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span class="sd">terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span class="sd">Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span class="sd">ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span class="sd">PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span class="sd">You should have received a copy of the GNU General Public License along with the</span>
+<span class="sd">DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">localtime</span><span class="p">,</span> <span class="n">strftime</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">join</span><span class="p">,</span> <span class="n">dirname</span>
+<span class="kn">from</span> <span class="nn">daetools.pyDAE</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="k">import</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtWidgets</span>
+
+<span class="kn">from</span> <span class="nn">.simulation_explorer_ui</span> <span class="k">import</span> <span class="n">Ui_SimulationExplorer</span>
+<span class="kn">from</span> <span class="nn">.simulation_inspector</span> <span class="k">import</span> <span class="n">daeSimulationInspector</span>
+<span class="kn">from</span> <span class="nn">.exception_dlg_ui</span> <span class="k">import</span> <span class="n">Ui_ExceptionDialog</span>
+<span class="kn">from</span> <span class="nn">.tree_item</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">auxiliary</span>
+
+<span class="n">images_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;images&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">simulation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">qt_app</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;qt_app&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">qt_app</span><span class="p">:</span>
+        <span class="n">qt_app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">explorer</span> <span class="o">=</span> <span class="n">daeSimulationExplorer</span><span class="p">(</span><span class="n">qt_app</span><span class="p">,</span> <span class="n">simulation</span> <span class="o">=</span> <span class="n">simulation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">explorer</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">explorer</span>
+
+<span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="n">optimization</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">qt_app</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;qt_app&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">qt_app</span><span class="p">:</span>
+        <span class="n">qt_app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">explorer</span> <span class="o">=</span> <span class="n">daeSimulationExplorer</span><span class="p">(</span><span class="n">qt_app</span><span class="p">,</span> <span class="n">simulation</span> <span class="o">=</span> <span class="n">simulation</span><span class="p">,</span> <span class="n">optimization</span> <span class="o">=</span> <span class="n">optimization</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">explorer</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">explorer</span>
+
+<span class="k">class</span> <span class="nc">daeExceptionDialog</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+        <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span> <span class="o">=</span> <span class="n">Ui_ExceptionDialog</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        <span class="n">messages</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_tb</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">exceptionLabel</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">tracebackEdit</span><span class="o">.</span><span class="n">setPlainText</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s1">&#39;Exception raised&#39;</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="daeSimulationExplorer"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer">[docs]</a><span class="k">class</span> <span class="nc">daeSimulationExplorer</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qt_app</span><span class="p">,</span> <span class="n">simulation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span> <span class="o">=</span> <span class="n">Ui_SimulationExplorer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        #self._simulation                  = kwargs.get(&#39;simulation&#39;,                 None)</span>
+<span class="sd">        self._optimization                = kwargs.get(&#39;optimization&#39;,               None)</span>
+<span class="sd">        self._datareporter                = kwargs.get(&#39;datareporter&#39;,               None)</span>
+<span class="sd">        self._lasolver                    = kwargs.get(&#39;lasolver&#39;,                   None)</span>
+<span class="sd">        self._nlpsolver                   = kwargs.get(&#39;nlpsolver&#39;,                  None)</span>
+<span class="sd">        self._log                         = kwargs.get(&#39;log&#39;,                        None)</span>
+<span class="sd">        #self._nlpsolver_setoptions_fn     = kwargs.get(&#39;nlpsolver_setoptions_fn&#39;,    None)</span>
+<span class="sd">        #self._lasolver_setoptions_fn      = kwargs.get(&#39;lasolver_setoptions_fn&#39;,     None)</span>
+<span class="sd">        #self._run_after_simulation_end_fn = kwargs.get(&#39;run_after_simulation_end_fn&#39;,None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">qt_app</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;qt_app object must not be None&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">simulation</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;simulation object must not be None&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s2">&quot;DAE Tools Simulation Explorer v</span><span class="si">%s</span><span class="s2"> - [</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">daeVersion</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">GetStrippedName</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowIcon</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QIcon</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">images_dir</span><span class="p">,</span> <span class="s1">&#39;daetools-48x48.png&#39;</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_qt_app</span> <span class="o">=</span> <span class="n">qt_app</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
+
+        <span class="c1"># First populate trees and set values. Only after that connect signals to slots (otherwise the event handlers might be triggered in the process)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">buttonCancel</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotCancel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">buttonUpdateSimulationAndClose</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotUpdateSimulationAndClose</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">buttonGenerateCode</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotGenerateCode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">buttonSaveRuntimeSettingsAsJSON</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotSaveRuntimeSettingsAsJSON</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotParameterTreeItemSelectionChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">itemChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotOutputVariablesTreeItemChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="o">.</span><span class="n">itemChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotSTNsTreeItemChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotDomainsTreeItemChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotDOFsTreeItemChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_slotInitialConditionsTreeItemChanged</span><span class="p">)</span>
+        <span class="c1">#self._ui.treeSTNs.itemSelectionChanged.connect(self._slotSTNsTreeItemChanged)</span>
+
+<div class="viewcode-block" id="daeSimulationExplorer.updateSimulation"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.updateSimulation">[docs]</a>    <span class="k">def</span> <span class="nf">updateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Update runtime data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">TimeHorizon</span>                  <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">timeHorizonEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">ReportingInterval</span>            <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">reportingIntervalEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">RelativeTolerance</span>  <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">relativeToleranceEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        
+        <span class="c1"># Update Domains</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Update Domains...&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">canonicalName</span><span class="p">,</span> <span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">domains</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">val_</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span>
+            
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">eStructuredGrid</span><span class="p">:</span>                
+                <span class="n">points</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Updating domain </span><span class="si">%s</span><span class="s1"> points ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">domain</span><span class="o">.</span><span class="n">Points</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">points</span><span class="p">))</span>
+                <span class="n">domain</span><span class="o">.</span><span class="n">Points</span> <span class="o">=</span> <span class="n">points</span>
+            
+            <span class="k">elif</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">eArray</span><span class="p">:</span>
+                <span class="k">pass</span>
+            
+            <span class="k">elif</span> <span class="n">item</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">eUnstructuredGrid</span><span class="p">:</span>
+                <span class="k">pass</span>
+                
+        <span class="c1"># Update Parameters</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Update Parameters...&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">canonicalName</span><span class="p">,</span> <span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">val_</span><span class="p">,</span> <span class="n">units_</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val_</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">object</span><span class="p">)</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">*</span> <span class="n">units_</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Updating parameter </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">npyValues</span><span class="p">,</span> <span class="n">parameter</span><span class="o">.</span><span class="n">Units</span><span class="p">)))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">q</span><span class="p">))</span>
+                <span class="n">parameter</span><span class="o">.</span><span class="n">SetValues</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">val_</span> <span class="o">*</span> <span class="n">units_</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Updating parameter </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">parameter</span><span class="o">.</span><span class="n">GetQuantity</span><span class="p">()))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">q</span><span class="p">))</span>
+                <span class="n">parameter</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                
+        <span class="c1"># Update DegreesOfFreedom</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Update DegreesOfFreedom...&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">canonicalName</span><span class="p">,</span> <span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">dofs</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">val_</span><span class="p">,</span> <span class="n">units_</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val_</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">object</span><span class="p">)</span>
+                <span class="c1"># Some items may be None and the operator * will not work, therefore first create a flat view </span>
+                <span class="c1"># and then multiply each non-null item by units to get a quantity</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">units_</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Reassigning </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">npyValues</span><span class="p">,</span> <span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">q</span><span class="p">))</span>
+                <span class="n">variable</span><span class="o">.</span><span class="n">ReAssignValues</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">val_</span> <span class="o">*</span> <span class="n">units_</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Reassigning </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">variable</span><span class="o">.</span><span class="n">GetQuantity</span><span class="p">()))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">q</span><span class="p">))</span>
+                <span class="n">variable</span><span class="o">.</span><span class="n">ReAssignValue</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                
+        <span class="c1"># Update InitialConditions</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Update InitialConditions...&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">canonicalName</span><span class="p">,</span> <span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">initial_conditions</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">val_</span><span class="p">,</span> <span class="n">units_</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val_</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">object</span><span class="p">)</span>
+                <span class="c1"># Some items may be None and the operator * will not work, therefore first create a flat view </span>
+                <span class="c1"># and then multiply each non-null item by units to get a quantity</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">size</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="n">units_</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Resetting initial conditions for </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">npyValues</span><span class="p">,</span> <span class="n">variable</span><span class="o">.</span><span class="n">VariableType</span><span class="o">.</span><span class="n">Units</span><span class="p">)))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">q</span><span class="p">))</span>
+                <span class="n">variable</span><span class="o">.</span><span class="n">ReSetInitialConditions</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">val_</span> <span class="o">*</span> <span class="n">units_</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Resetting initial conditions for </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">variable</span><span class="o">.</span><span class="n">GetQuantity</span><span class="p">()))</span>
+                    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">q</span><span class="p">))</span>
+                <span class="n">variable</span><span class="o">.</span><span class="n">ReSetInitialCondition</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            
+        <span class="c1"># Update Outputs</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Update Outputs...&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">canonicalName</span><span class="p">,</span> <span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">output_variables</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Updating the ReportingOn flag for </span><span class="si">%s</span><span class="s1"> ...&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">variable</span><span class="o">.</span><span class="n">ReportingOn</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">()))</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">():</span>
+                <span class="n">variable</span><span class="o">.</span><span class="n">ReportingOn</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">variable</span><span class="o">.</span><span class="n">ReportingOn</span> <span class="o">=</span> <span class="kc">False</span>
+                
+        <span class="c1"># Update STNs</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Update STNs...&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">canonicalName</span><span class="p">,</span> <span class="p">(</span><span class="n">stn</span><span class="p">,</span> <span class="n">lstates</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">stns</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="c1"># Iterate over states and detect which of them is checked</span>
+            <span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lstates</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">getValue</span><span class="p">():</span>
+                    <span class="n">activeState</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">Name</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;    Changing the active state for </span><span class="si">%s</span><span class="s1">:&#39;</span> <span class="o">%</span> <span class="n">canonicalName</span><span class="p">))</span>
+                        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;        from: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">stn</span><span class="o">.</span><span class="n">ActiveState</span><span class="p">))</span>
+                        <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;          to: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">activeState</span><span class="p">))</span>
+                    <span class="n">stn</span><span class="o">.</span><span class="n">ActiveState</span> <span class="o">=</span> <span class="n">activeState</span>
+                    <span class="k">break</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reinitializing the simulation...&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">Reinitialize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">ReportData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">CurrentTime</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done!&#39;</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="daeSimulationExplorer.generateCode"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateCode">[docs]</a>    <span class="k">def</span> <span class="nf">generateCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">language</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;c99&#39;</span><span class="p">,</span> <span class="s1">&#39;OpenCS&#39;</span><span class="p">,</span> <span class="s1">&#39;Modelica&#39;</span><span class="p">,</span> <span class="s1">&#39;gPROMS&#39;</span><span class="p">,</span> <span class="s1">&#39;FMI (Co-Simulation)&#39;</span><span class="p">]:</span>
+            <span class="k">return</span>
+        
+        <span class="n">options</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">ShowDirsOnly</span> <span class="o">|</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">DontResolveSymlinks</span>
+        
+        <span class="k">if</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;c99&#39;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">daetools.code_generators.c99</span> <span class="k">import</span> <span class="n">daeCodeGenerator_c99</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">language</span><span class="p">,</span> 
+                                                                         <span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                                                         <span class="n">options</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">cg</span> <span class="o">=</span> <span class="n">daeCodeGenerator_c99</span><span class="p">()</span>
+            <span class="n">cg</span><span class="o">.</span><span class="n">generateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">))</span>
+        
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;OpenCS&#39;</span><span class="p">:</span>
+            <span class="n">nproc</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the number of Processing Elements:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="kn">from</span> <span class="nn">daetools.code_generators.opencs</span> <span class="k">import</span> <span class="n">daeCodeGenerator_OpenCS</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">language</span><span class="p">,</span>
+                                                                         <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                                                         <span class="n">options</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">cg</span> <span class="o">=</span> <span class="n">daeCodeGenerator_OpenCS</span><span class="p">()</span>
+            <span class="n">cg</span><span class="o">.</span><span class="n">generateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">),</span> <span class="n">nproc</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;Modelica&#39;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">daetools.code_generators.modelica</span> <span class="k">import</span> <span class="n">daeCodeGenerator_Modelica</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">language</span><span class="p">,</span>
+                                                                         <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                                                         <span class="n">options</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">cg</span> <span class="o">=</span> <span class="n">daeCodeGenerator_Modelica</span><span class="p">()</span>
+            <span class="n">cg</span><span class="o">.</span><span class="n">generateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">))</span>
+        
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;gPROMS&#39;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">daetools.code_generators.gproms</span> <span class="k">import</span> <span class="n">daeCodeGenerator_gPROMS</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">language</span><span class="p">,</span>
+                                                                         <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                                                         <span class="n">options</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">cg</span> <span class="o">=</span> <span class="n">daeCodeGenerator_gPROMS</span><span class="p">()</span>
+            <span class="n">cg</span><span class="o">.</span><span class="n">generateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">language</span> <span class="o">==</span> <span class="s1">&#39;FMI (Co-Simulation)&#39;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">daetools.code_generators.fmi</span> <span class="k">import</span> <span class="n">daeCodeGenerator_FMI</span>
+            <span class="n">directory</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Select the directory for the generated files for </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">language</span><span class="p">,</span> 
+                                                                   <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                                                   <span class="n">options</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="n">qt_file</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getOpenFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Select python file to pack in the .FMU file&quot;</span><span class="p">,</span>
+                                                                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                                                <span class="s2">&quot;Python files (*.py *.*)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">py_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">qt_file</span><span class="p">)</span>
+
+            <span class="n">qt_callable_name</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;FMU Code generator&quot;</span><span class="p">,</span> <span class="s2">&quot;Insert the name of python callable object:&quot;</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;create_simulation_for_cosimulation&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">callable_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">qt_callable_name</span><span class="p">)</span>
+
+            <span class="n">qt_arguments</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;FMU Code generator&quot;</span><span class="p">,</span> <span class="s2">&quot;Insert the arguments for the python callable object:&quot;</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;simTutorial&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">arguments</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">qt_arguments</span><span class="p">)</span>
+
+            <span class="n">cg</span> <span class="o">=</span> <span class="n">daeCodeGenerator_FMI</span><span class="p">()</span>
+            <span class="n">cg</span><span class="o">.</span><span class="n">generateSimulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">directory</span><span class="p">),</span> <span class="n">py_file</span><span class="p">,</span> <span class="n">callable_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="p">[])</span>
+            
+        <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">language</span><span class="p">,</span> <span class="s1">&#39;Code generated successfuly!&#39;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="daeSimulationExplorer.generateHTMLForm"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateHTMLForm">[docs]</a>    <span class="k">def</span> <span class="nf">generateHTMLForm</span><span class="p">(</span><span class="n">simulation</span><span class="p">,</span> <span class="n">htmlOutputFile</span><span class="p">,</span> <span class="n">find_files_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="c1"># Create application in case there is not one already created</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">instance</span><span class="p">():</span>
+            <span class="n">app_</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+        <span class="n">_inspector</span> <span class="o">=</span> <span class="n">daeSimulationInspector</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">.html_form</span> <span class="k">import</span> <span class="n">css_styles</span><span class="p">,</span> <span class="n">html_template</span>
+        <span class="n">of</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">htmlOutputFile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">html_content</span> <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">_generateHTMLForm</span><span class="p">()</span>
+        <span class="c1">#logo = open(os.path.join(find_files_dir, &#39;logo.png&#39;), &#39;rb&#39;).read()</span>
+        <span class="c1">#logo_data = logo.encode(&quot;base64&quot;)</span>
+        <span class="n">dictOptions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;css_style&#39;</span> <span class="p">:</span> <span class="n">css_styles</span><span class="p">,</span>
+                       <span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">GetStrippedName</span><span class="p">(),</span>
+                       <span class="s1">&#39;content&#39;</span> <span class="p">:</span> <span class="n">html_content</span>
+                      <span class="p">}</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">html_template</span> <span class="o">%</span> <span class="n">dictOptions</span>
+        <span class="n">of</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+        <span class="n">of</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+            
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">jsonRuntimeSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">runtimeSettings</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">runtimeSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_processInputs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span>
+    
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="daeSimulationExplorer.saveJSONSettings"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.saveJSONSettings">[docs]</a>    <span class="k">def</span> <span class="nf">saveJSONSettings</span><span class="p">(</span><span class="n">simulation</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">jsonSettings</span> <span class="o">=</span> <span class="n">daeSimulationExplorer</span><span class="o">.</span><span class="n">generateJSONSettings</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">jsonSettings</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+        
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="daeSimulationExplorer.generateJSONSettings"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateJSONSettings">[docs]</a>    <span class="k">def</span> <span class="nf">generateJSONSettings</span><span class="p">(</span><span class="n">simulation</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Create application in case there is not one already created</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">instance</span><span class="p">():</span>
+                <span class="n">app_</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+            <span class="n">_inspector</span> <span class="o">=</span> <span class="n">daeSimulationInspector</span><span class="p">(</span><span class="n">simulation</span><span class="p">)</span>
+
+            <span class="n">_runtimeSettings</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>                  <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;TimeHorizon&#39;</span><span class="p">]</span>           <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">TimeHorizon</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;ReportingInterval&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">ReportingInterval</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;RelativeTolerance&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">RelativeTolerance</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DAESolver&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;LASolver&#39;</span><span class="p">]</span>              <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DataReporter&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Log&#39;</span><span class="p">]</span>                   <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+            <span class="k">if</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="p">:</span>
+                <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DAESolver&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>    <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                    <span class="s1">&#39;Options&#39;</span> <span class="p">:</span> <span class="p">{}}</span>
+            <span class="k">if</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">LASolver</span><span class="p">:</span>
+                <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;LASolver&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>    <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">LASolver</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                    <span class="s1">&#39;Options&#39;</span> <span class="p">:</span> <span class="p">{}}</span>
+            <span class="k">if</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="p">:</span>
+                <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DataReporter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>          <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                    <span class="s1">&#39;ConnectString&#39;</span> <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="o">.</span><span class="n">ConnectString</span><span class="p">,</span>
+                                                    <span class="s1">&#39;ProcessName&#39;</span>   <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="o">.</span><span class="n">ProcessName</span><span class="p">,</span>
+                                                    <span class="s1">&#39;Options&#39;</span>       <span class="p">:</span> <span class="p">{}}</span>
+            <span class="k">if</span> <span class="n">simulation</span><span class="o">.</span><span class="n">Log</span><span class="p">:</span>
+                <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Log&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>    <span class="p">:</span> <span class="n">simulation</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                    <span class="s1">&#39;Options&#39;</span> <span class="p">:</span> <span class="p">{}}</span>
+
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;QuasiSteadyState&#39;</span><span class="p">]</span>       <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">simulation</span><span class="o">.</span><span class="n">InitialConditionMode</span> <span class="o">==</span> <span class="n">eQuasiSteadyState</span> <span class="k">else</span> <span class="kc">False</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;CalculateSensitivities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">CalculateSensitivities</span>
+
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Domains&#39;</span><span class="p">]</span>                <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;QuasiSteadyState&#39;</span><span class="p">]:</span>
+                <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;InitialConditions&#39;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DOFs&#39;</span><span class="p">]</span>                   <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;STNs&#39;</span><span class="p">]</span>                   <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">treeStates</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+            <span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Outputs&#39;</span><span class="p">]</span>                <span class="o">=</span> <span class="n">_inspector</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">_runtimeSettings</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Exception in generateJSONSettings: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+            
+    <span class="c1">############################################################################</span>
+    <span class="c1">#                   Implementation (private methods)</span>
+    <span class="c1">############################################################################</span>
+    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span> <span class="o">=</span> <span class="n">simulation</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;simulation object must not be None&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span>          <span class="o">=</span> <span class="n">daeSimulationInspector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span>    <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulationName</span>     <span class="o">=</span> <span class="n">daeGetStrippedName</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span> <span class="o">+</span> <span class="n">strftime</span><span class="p">(</span><span class="s2">&quot; [</span><span class="si">%d</span><span class="s2">.%m.%Y %H:%M:%S]&quot;</span><span class="p">,</span> <span class="n">localtime</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeHorizon</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">TimeHorizon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reportingInterval</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">ReportingInterval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_relativeTolerance</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">RelativeTolerance</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">InitialConditionMode</span> <span class="o">==</span> <span class="n">eQuasiSteadyState</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_quasiSteadyState</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_quasiSteadyState</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_daesolver</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">LASolver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datareporter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DataReporter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span>          <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">Log</span>
+
+        <span class="n">d_validator</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QDoubleValidator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">simulationNameEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulationName</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">timeHorizonEdit</span><span class="o">.</span><span class="n">setValidator</span><span class="p">(</span><span class="n">d_validator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">timeHorizonEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeHorizon</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">reportingIntervalEdit</span><span class="o">.</span><span class="n">setValidator</span><span class="p">(</span><span class="n">d_validator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">reportingIntervalEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reportingInterval</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">relativeToleranceEdit</span><span class="o">.</span><span class="n">setValidator</span><span class="p">(</span><span class="n">d_validator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">relativeToleranceEdit</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_relativeTolerance</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quasiSteadyState</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">quazySteadyStateCheckBox</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">Checked</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">tab_InitialConditions</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">quazySteadyStateCheckBox</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">Unchecked</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">tab_InitialConditions</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_available_la_solvers</span>     <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">getAvailableLASolvers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_available_nlp_solvers</span>    <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">getAvailableNLPSolvers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_available_data_reporters</span> <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">getAvailableDataReporters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_available_logs</span>           <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">getAvailableLogs</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">daesolverComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="s2">&quot;Sundials IDAS&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">la</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_available_la_solvers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">la</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">userData</span> <span class="o">=</span> <span class="n">la</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#QtCore.QVariant(la[1]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">setItemData</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">la</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ToolTipRole</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_available_data_reporters</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">dr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">userData</span> <span class="o">=</span> <span class="n">dr</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#QtCore.QVariant(dr[1]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">setItemData</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dr</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ToolTipRole</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">log</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_available_logs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">userData</span> <span class="o">=</span> <span class="n">log</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#QtCore.QVariant(log[1]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">setItemData</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dr</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ToolTipRole</span><span class="p">)</span>
+
+        <span class="c1"># Nota bene:</span>
+        <span class="c1"># DAE/LA solver, datareporter and log are disabled, since they can&#39;t be changed anyway</span>
+        
+        <span class="c1"># DAE Solvers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">daesolverComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># LA Solvers</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If LA solver has been sent then clear and disable LASolver combo box</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Logs</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If LA solver has been sent then clear and disable LASolver combo box</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># DataReporters</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datareporter</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If data reporter has been sent then clear and disable DataReporters combo box</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_datareporter</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentParameterItem</span>        <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentStateTransitionItem</span>  <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentDomainItem</span>           <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentDOFItem</span>              <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_currentInitialConditionItem</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># treeStates-related data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_allowUnchecking</span>                 <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_treeStates_itemChanged_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Clear all trees</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="c1"># Populate the trees</span>
+        <span class="n">addItemsToTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="p">,</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="p">,</span>        <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeParameters</span><span class="p">)</span>
+        <span class="n">addItemsToTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="p">,</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="p">,</span>   <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="p">)</span>
+        <span class="n">addItemsToTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="p">,</span>              <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="p">,</span>              <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeStates</span><span class="p">)</span>
+        <span class="n">addItemsToTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="p">,</span>           <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="p">,</span>           <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeDomains</span><span class="p">)</span>
+        <span class="n">addItemsToTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="p">,</span>              <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="p">,</span>              <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeDOFs</span><span class="p">)</span>
+        <span class="n">addItemsToTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">expandAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">expandAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">expandAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">expandAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="o">.</span><span class="n">expandAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeSTNs</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">expandAll</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">setSortingEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">sortItems</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AscendingOrder</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_processInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulationName</span>    <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">simulationNameEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeHorizon</span>       <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">timeHorizonEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reportingInterval</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">reportingIntervalEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_relativeTolerance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">relativeToleranceEdit</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_daesolver</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_daesolver</span> <span class="o">=</span> <span class="n">daeIDAS</span><span class="p">()</span>
+
+        <span class="c1"># If lasolver is not sent then create it based on the selection</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_available_la_solvers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">lasolverComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_index</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                <span class="n">lasolverIndex</span> <span class="o">=</span> <span class="n">_index</span><span class="o">.</span><span class="n">toInt</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_index</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">lasolverIndex</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_index</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span> <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">createLASolver</span><span class="p">(</span><span class="n">lasolverIndex</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span><span class="p">:</span> <span class="c1"># Can be None if SundialsLU has been selected</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_daesolver</span><span class="o">.</span><span class="n">SetLASolver</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lasolver</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datareporter</span><span class="p">:</span>
+            <span class="n">_index</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">datareporterComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
+            <span class="n">drIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_index</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                <span class="n">drIndex</span> <span class="o">=</span> <span class="n">_index</span><span class="o">.</span><span class="n">toInt</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_index</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">drIndex</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_index</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datareporter</span> <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">createDataReporter</span><span class="p">(</span><span class="n">drIndex</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">:</span>
+            <span class="n">_index</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">itemData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">logComboBox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
+            <span class="n">logIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_index</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                <span class="n">logIndex</span> <span class="o">=</span> <span class="n">_index</span><span class="o">.</span><span class="n">toInt</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_index</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logIndex</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_index</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span> <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">createLog</span><span class="p">(</span><span class="n">logIndex</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>                  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulationName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;TimeHorizon&#39;</span><span class="p">]</span>           <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeHorizon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;ReportingInterval&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reportingInterval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;RelativeTolerance&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_relativeTolerance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DAESolver&#39;</span><span class="p">]</span>             <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;LASolver&#39;</span><span class="p">]</span>              <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DataReporter&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Log&#39;</span><span class="p">]</span>                   <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span> <span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DAESolver&#39;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                     <span class="s1">&#39;Options&#39;</span> <span class="p">:</span> <span class="p">{}}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">LASolver</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;LASolver&#39;</span><span class="p">]</span>     <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">LASolver</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                     <span class="s1">&#39;Options&#39;</span> <span class="p">:</span> <span class="p">{}}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DataReporter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>          <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                     <span class="s1">&#39;ConnectString&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="o">.</span><span class="n">ConnectString</span><span class="p">,</span>
+                                                     <span class="s1">&#39;ProcessName&#39;</span>   <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">DataReporter</span><span class="o">.</span><span class="n">ProcessName</span><span class="p">,</span>
+                                                     <span class="s1">&#39;Options&#39;</span>       <span class="p">:</span> <span class="p">{}}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">Log</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Log&#39;</span><span class="p">]</span>          <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span>    <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">Log</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span>
+                                                     <span class="s1">&#39;Options&#39;</span> <span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;QuasiSteadyState&#39;</span><span class="p">]</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quasiSteadyState</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;CalculateSensitivities&#39;</span><span class="p">]</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">CalculateSensitivities</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">]</span>            <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Domains&#39;</span><span class="p">]</span>               <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quasiSteadyState</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;InitialConditions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;DOFs&#39;</span><span class="p">]</span>                  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;STNs&#39;</span><span class="p">]</span>                  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeStates</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_runtimeSettings</span><span class="p">[</span><span class="s1">&#39;Outputs&#39;</span><span class="p">]</span>               <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inspector</span><span class="o">.</span><span class="n">treeOutputVariables</span><span class="o">.</span><span class="n">toDictionary</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_slotCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="o">.</span><span class="n">Rejected</span><span class="p">)</span>
+
+<div class="viewcode-block" id="daeSimulationExplorer.reject"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.reject">[docs]</a>    <span class="k">def</span> <span class="nf">reject</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="o">.</span><span class="n">reject</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        
+    <span class="k">def</span> <span class="nf">_slotUpdateSimulationAndClose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">daeGetConfig</span><span class="p">()</span>
+            <span class="n">printInfo</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">GetBoolean</span><span class="p">(</span><span class="s1">&#39;daetools.core.printInfo&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateSimulation</span><span class="p">(</span><span class="n">verbose</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QDialog</span><span class="o">.</span><span class="n">Accepted</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">daeExceptionDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="n">dlg</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_slotSaveRuntimeSettingsAsJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulation</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">GetStrippedName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
+            <span class="n">jsonFilename</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getSaveFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Save Runtime Settings As JSON File&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;JSON Files (*.json)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="k">return</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">_processInputs</span><span class="p">()</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">jsonFilename</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jsonRuntimeSettings</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            
+            <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Save Runtime Settings As JSON File&quot;</span><span class="p">,</span> <span class="s1">&#39;JSON file successfuly saved!&#39;</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">daeExceptionDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="n">dlg</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    def _slotLoadRuntimeSettingsAsJSON(self):</span>
+<span class="sd">        try:</span>
+<span class="sd">            jsonFilename, ok = QtWidgets.QFileDialog.getOpenFileName(self, &quot;Load Runtime Settings As JSON File&quot;, &quot;&quot;, &quot;JSON Files (*.json)&quot;)</span>
+<span class="sd">            if not ok:</span>
+<span class="sd">                return</span>
+
+<span class="sd">            f = open(str(jsonFilename), &#39;r&#39;)</span>
+<span class="sd">            json_str = f.read()</span>
+<span class="sd">            f.close()</span>
+
+<span class="sd">            jsonSettings = json.loads(json_str)</span>
+<span class="sd">            self.updateSimulation(verbose = False)</span>
+<span class="sd">            self._initialize(self._simulation)</span>
+
+<span class="sd">            QtWidgets.QMessageBox.information(self, &quot;Load Runtime Settings As JSON File&quot;, &#39;JSON file successfuly loaded!&#39;)</span>
+
+<span class="sd">        except Exception as e:</span>
+<span class="sd">            exc_type, exc_value, exc_traceback = sys.exc_info()</span>
+<span class="sd">            dlg = daeExceptionDialog(self, e, exc_traceback)</span>
+<span class="sd">            dlg.exec_()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">_slotGenerateCode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#try:</span>
+        <span class="n">languages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Modelica&#39;</span><span class="p">,</span> <span class="s1">&#39;gPROMS&#39;</span><span class="p">,</span> <span class="s1">&#39;c99&#39;</span><span class="p">,</span> <span class="s1">&#39;OpenCS&#39;</span><span class="p">,</span> <span class="s1">&#39;FMI (Co-Simulation)&#39;</span><span class="p">]</span>
+        <span class="n">language</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Code generator&quot;</span><span class="p">,</span> <span class="s2">&quot;Choose the target language:&quot;</span><span class="p">,</span> <span class="n">languages</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">generateCode</span><span class="p">(</span><span class="n">language</span><span class="p">)</span>
+            
+        <span class="c1">#except Exception as e:</span>
+            <span class="c1">#exc_type, exc_value, exc_traceback = sys.exc_info()</span>
+            <span class="c1">#dlg = daeExceptionDialog(self, e, exc_traceback)</span>
+            <span class="c1">#dlg.exec_()</span>
+
+    <span class="k">def</span> <span class="nf">_slotParameterTreeItemSelectionChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">currentItem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeParameters</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">currentItem</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentParameterItem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentParameterItem</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">editor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentParameterItem</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentParameterItem</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">frameParameters</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_slotOutputVariablesTreeItemChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeWidgetItem</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+                
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeOutputVariable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">checkState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Checked</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_slotSTNsTreeItemChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeWidgetItem</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        currentItem = self._ui.treeSTNs.selectedItems()[0]</span>
+<span class="sd">        data = currentItem.data(0, QtCore.Qt.UserRole)</span>
+<span class="sd">        if isinstance(data, QtCore.QVariant):</span>
+<span class="sd">            item = data.toPyObject()</span>
+<span class="sd">        else:</span>
+<span class="sd">            item = data</span>
+
+<span class="sd">        if self._currentStateTransitionItem:</span>
+<span class="sd">            self._currentStateTransitionItem.hide()</span>
+<span class="sd">        </span>
+<span class="sd">        if item.editor:</span>
+<span class="sd">            self._currentStateTransitionItem = item</span>
+<span class="sd">            self._currentStateTransitionItem.show(self._ui.frameStateTransitions)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_treeStates_itemChanged_disabled</span><span class="p">:</span>
+                <span class="k">return</span>
+                
+            <span class="n">data</span> <span class="o">=</span> <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeState</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">checkState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Unchecked</span><span class="p">:</span>
+                    <span class="c1"># Do not allow item to be unchecked unless the flag _allowUnchecking is set</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allowUnchecking</span><span class="p">:</span>
+                        <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="c1">#print &#39;Item: %s unchecked&#39; % item.canonicalName</span>
+                    
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># If unchecking is not allowed check it again</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_treeStates_itemChanged_disabled</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Checked</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_treeStates_itemChanged_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+                
+                <span class="k">else</span><span class="p">:</span> 
+                    <span class="c1"># Item has just been checked, either through GUI or from a function</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># 1. Set the value to True</span>
+                        <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="c1">#print &#39;Item: %s checked&#39; % item.canonicalName</span>
+                        
+                        <span class="c1"># Prevent itemChanged event to be handled</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_allowUnchecking</span>                 <span class="o">=</span> <span class="kc">True</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_treeStates_itemChanged_disabled</span> <span class="o">=</span> <span class="kc">True</span>
+                        
+                        <span class="c1"># 2. Uncheck all siblings and their children (except the current item)</span>
+                        <span class="n">parent</span> <span class="o">=</span> <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_uncheckSiblings</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">treeWidgetItem</span><span class="p">)</span>
+                        
+                        <span class="c1"># 3. Check first children of the current item </span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_checkFirstChildren</span><span class="p">(</span><span class="n">treeWidgetItem</span><span class="p">)</span>
+                    
+                        <span class="c1"># 4. Check all parents of the current item</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_checkAllParents</span><span class="p">(</span><span class="n">treeWidgetItem</span><span class="p">)</span>
+                        
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="k">finally</span><span class="p">:</span>
+                        <span class="c1"># Restore flags back</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_allowUnchecking</span>                 <span class="o">=</span> <span class="kc">False</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_treeStates_itemChanged_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+                    
+    <span class="k">def</span> <span class="nf">_checkAllParents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeWidgetItem</span><span class="p">):</span>
+        <span class="c1"># The item is checked and all its parents must be checked as well, </span>
+        <span class="c1"># while the siblings of its parents (and their children) must be unchecked</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="n">treeWidgetItem</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeState</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Checked</span><span class="p">)</span>
+            <span class="c1">#print &#39;Item: %s checked&#39; % item.canonicalName</span>
+            
+            <span class="n">grandpa</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_uncheckSiblings</span><span class="p">(</span><span class="n">grandpa</span><span class="p">,</span> <span class="n">parent</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_checkAllParents</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_uncheckSiblings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">currentTreeWidgetItem</span><span class="p">):</span>
+        <span class="c1"># The unchecked item is checked so its siblings (and all their children) must be unchecked.</span>
+        <span class="c1"># This means that when a state becomes active all other states (and their nested STNS) within </span>
+        <span class="c1"># the same STN must be inactive.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="k">for</span> <span class="n">i</span>  <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">childCount</span><span class="p">()):</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="c1"># Do not uncheck the item currently being set ()</span>
+            <span class="k">if</span> <span class="n">child</span> <span class="o">!=</span> <span class="n">currentTreeWidgetItem</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeState</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">child</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Unchecked</span><span class="p">)</span>
+                    <span class="c1">#print &#39;Item: %s unchecked&#39; % item.canonicalName</span>
+                
+                <span class="c1"># Now uncheck all down through the hierarchy of children </span>
+                <span class="c1"># (since thier parent is unchecked they should be too) </span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_uncheckSiblings</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_checkFirstChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="c1"># Once the unchecked item is checked some defaults must be provided for its children.</span>
+        <span class="c1"># Here we chose to check the first items (this means that the first states will be initially active).</span>
+        <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">childCount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">itemType</span> <span class="o">==</span> <span class="n">treeItem</span><span class="o">.</span><span class="n">typeState</span><span class="p">:</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Checked</span><span class="p">)</span>
+                <span class="c1">#print &#39;Child item: %s checked&#39; % item.canonicalName</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">_checkFirstChildren</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_slotDomainsTreeItemChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">currentItem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDomains</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">currentItem</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentDomainItem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentDomainItem</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">editor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentDomainItem</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentDomainItem</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">frameDomains</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_slotDOFsTreeItemChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">currentItem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeDOFs</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">currentItem</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentDOFItem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentDOFItem</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">editor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentDOFItem</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentDOFItem</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">frameDOFs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_slotInitialConditionsTreeItemChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">currentItem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">treeInitialConditions</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">currentItem</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QVariant</span><span class="p">):</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">toPyObject</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">data</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_currentInitialConditionItem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentInitialConditionItem</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">editor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentInitialConditionItem</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_currentInitialConditionItem</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ui</span><span class="o">.</span><span class="n">frameInitialConditions</span><span class="p">)</span></div>
+            
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

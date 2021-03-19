@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="28177520" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+  <Name><![CDATA[tutorial_sa_2]]></Name>
+  <Description><![CDATA[
+This tutorial illustrates the local derivative-based sensitivity analysis method 
+available in DAE Tools.
+
+The problem is adopted from the section 2.1 of the following article:
+    
+- A. Saltelli, M. Ratto, S. Tarantola, F. Campolongo.
+  Sensitivity Analysis for Chemical Models. Chem. Rev. (2005), 105(7):2811-2828.
+  `doi:10.1021/cr040659d <http://dx.doi.org/10.1021/cr040659d>`_
+  
+The model is very simple and describes a simple reversible chemical reaction A <-> B, 
+with reaction rates k1 and k_1 for the direct and inverse reactions, respectively.
+The reaction rates are uncertain and are described by continuous random variables 
+with known probability density functions. The standard deviation is 0.3 for k1 and
+1 for k_1. The standard deviation of the concentration of the species A is
+approximated using the following expression defined in the article:
+    
+.. code-block:: none  
+
+   stddev(Ca)**2 = stddev(k1)**2 * (dCa/dk1)**2 + stddev(k_1)**2 * (dCa/dk_1)**2
+
+The following derivative-based measures are used in the article:
+
+- Derivatives dCa/dk1 and dCa/dk_1 calculated using the forward sensitivity method
+- Sigma normalised derivatives:
+    
+  .. code-block:: none  
+  
+     S(k1)  = stddev(k1) / stddev(Ca) * dCa/dk1
+     S(k_1) = stddev(k_1)/ stddev(Ca) * dCa/dk_1
+    
+The plot of the concentrations, derivatives and sigma normalised derivatives:
+    
+.. image:: _static/tutorial_sa_2-results.png
+   :width: 800px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables>
+    <Object ID="27989048" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Ca0]]></Name>
+      <Description><![CDATA[Initial concentration of the reactant A]]></Description>
+      <VariableType>mass_concentration_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="28023256" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Cb0]]></Name>
+      <Description><![CDATA[Initial concentration of the reactant B]]></Description>
+      <VariableType>mass_concentration_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="28540312" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[Concentration of the reactant A]]></Description>
+      <VariableType>mass_concentration_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29683736" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Cb]]></Name>
+      <Description><![CDATA[Concentration of the reactant B]]></Description>
+      <VariableType>mass_concentration_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29218232" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[k1]]></Name>
+      <Description><![CDATA[Reaction rate constant]]></Description>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="29211608" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[k_1]]></Name>
+      <Description><![CDATA[Reverse reaction rate constant]]></Description>
+      <VariableType>k_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27530056" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[&tau;]]></Name>
+      <Description><![CDATA[Time elapsed in the process]]></Description>
+      <VariableType>time_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="29256616" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Ca]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Ca }  - \left( { \left( { \frac{{ Ca0 } }{\left( { { k1 }  + { k_1 } }  \right) }}  \right)  \cdot \left( { \left( { { k1 }  \cdot e^{ { \left( { \left( - { { k1 }  + { k_1 } }  \right) }  \right)  \cdot \left( { {\tau} }  \right) } } }  \right)  + { k_1 } }  \right) }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="29743512" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Cb]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Cb }  - \left( { { Ca0 }  - { Ca } }  \right) }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="29801192" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Time]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eImplicitODE</EquationType>
+      <Residual>$${ \left( { { \partial { { \left( { \tau }  \right) }  } } \over { \partial { t  } } }  \right)  - {1 {}}}  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

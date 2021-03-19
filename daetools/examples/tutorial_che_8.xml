@@ -1,0 +1,2290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="26783360" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+  <Name><![CDATA[tutorial_che_8]]></Name>
+  <Description><![CDATA[
+Model of a gas separation on a porous membrane with a metal support. The model employs
+the Generalised Maxwell-Stefan (GMS) equations to predict fluxes and selectivities.
+The membrane unit model represents a generic two-dimensonal model of a porous membrane
+and consists of four models:
+
+- Retentate compartment (isothermal axially dispersed plug flow)
+- Micro-porous membrane
+- Macro-porous support layer
+- Permeate compartment (the same transport phenomena as in the retentate compartment)
+
+The retentate compartment, the porous membrane, the support layer and the permeate
+compartment are coupled via molar flux, temperature, pressure and gas composition at
+the interfaces.
+The model is described in the section 2.2 Membrane modelling of the following article:
+
+- Nikolic D.D., Kikkinides E.S. (2015) Modelling and optimization of PSA/Membrane
+  separation processes. Adsorption 21(4):283-305.
+  `doi:10.1007/s10450-015-9670-z <http://doi.org/10.1007/s10450-015-9670-z>`_
+
+and in the original Krishna article:
+
+- Krishna R. (1993) A unified approach to the modeling of intraparticle
+  diffusion in adsorption processes. Gas Sep. Purif. 7(2):91-104.
+  `doi:10.1016/0950-4214(93)85006-H <http://doi.org/10.1016/0950-4214(93)85006-H>`_
+
+This version is somewhat simplified for it only offers an extended Langmuir isotherm.
+The Ideal Adsorption Solution theory (IAS) and the Real Adsorption Solution theory (RAS)
+described in the articles are not implemented here.
+
+The problem modelled is separation of hydrocarbons (CH4+C2H6) mixture on a zeolite
+(silicalite-1) membrane with a metal support from the section 'Binary mixture permeation'
+of the following article:
+
+- van de Graaf J.M., Kapteijn F., Moulijn J.A. (1999) Modeling Permeation of Binary
+  Mixtures Through Zeolite Membranes. AIChE J. 45:497–511.
+  `doi:10.1002/aic.690450307 <http://doi.org/10.1002/aic.690450307>`_
+
+The CH4 and C2H6 fluxes, and CH4/C2H6 selectivity plots for two cases: GMS and GMS(Dij=∞),
+1:1 mixture, and T = 303 K:
+
+.. image:: _static/tutorial_che_8-results.png
+   :width: 800px
+]]></Description>
+  <Domains>
+    <Object ID="140523979537072" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Nc]]></Name>
+      <Description><![CDATA[Number of components]]></Description>
+      <Type>eArray</Type>
+      <Units/>
+    </Object>
+    <Object ID="140523979537376" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[z]]></Name>
+      <Description><![CDATA[Axial domain]]></Description>
+      <Type>eStructuredGrid</Type>
+      <Units/>
+    </Object>
+  </Domains>
+  <Parameters>
+    <Object ID="27192184" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[T_ref]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27192472" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[P_ref]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Units>
+        <Pa>1</Pa>
+      </Units>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27192760" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[T_feed]]></Name>
+      <Description><![CDATA[Feed temperature]]></Description>
+      <Units>
+        <K>1</K>
+      </Units>
+      <DomainRefs/>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="27193256" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Purity_feed]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>fraction_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140523979537072"><![CDATA[Nc]]></ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="27193672" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Purity_permeate]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>fraction_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140523979537072"><![CDATA[Nc]]></ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="27194680" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Recovery_feed]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>recovery_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140523979537072"><![CDATA[Nc]]></ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="27195096" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Selectivity]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>selectivity_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140523979537072"><![CDATA[Nc]]></ObjectRef>
+        <ObjectRef ID="140523979537072"><![CDATA[Nc]]></ObjectRef>
+        <ObjectRef ID="140523979537376"><![CDATA[z]]></ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="27195512" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[P_high]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>pressure_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27196056" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[P_low]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>pressure_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27196552" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[MembraneArea]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>area_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27197112" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[MembraneThickness]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>length_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27197720" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[SupportThickness]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>length_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27198376" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Qfeed_stp]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>volume_flowrate_t</VariableType>
+      <DomainRefs/>
+    </Object>
+    <Object ID="27198920" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Qsweep_stp]]></Name>
+      <Description><![CDATA[]]></Description>
+      <VariableType>volume_flowrate_t</VariableType>
+      <DomainRefs/>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="27433816" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Recovery_feed]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { Recovery_feed \left( { i } \right) }  \cdot \left( { { Feed.C_in \left( { i } \right) }  \cdot { Feed.Q_in } }  \right) }  \right)  - \left( { { Feed.Q_out }  \cdot { Feed.C_out \left( { i } \right) } }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27434248" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979537072"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27434872" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Purity_feed]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Purity_feed \left( { i } \right) }  - { Feed.X_out \left( { i } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27435512" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979537072"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27435864" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Purity_permeate]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Purity_permeate \left( { i } \right) }  - { Permeate.X_out \left( { i } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27436376" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979537072"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27437688" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Selectivity]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left( { { Selectivity \left( { i, j, z } \right) }  \cdot \left( { { Feed.X \left( { i, z } \right) }  \cdot { Permeate.X \left( { j, z } \right) } }  \right) }  \right)  - \left( { { Permeate.X \left( { i, z } \right) }  \cdot { Feed.X \left( { j, z } \right) } }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27436920" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979537072"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27437128" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[j]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979537072"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27438040" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979537376"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27438792" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Feed_Flux]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Feed.Flux \left( { i, z } \right) }  - { Membrane.Flux \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27439592" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27439800" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27440264" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Support_Flux]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Support.Flux \left( { i, z } \right) }  - { Membrane.Flux \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27440632" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27440840" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27441336" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Permeate_Flux]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Permeate.Flux \left( { i, z } \right) }  + { Support.Flux \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27441768" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27441976" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27442248" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Membrane_Xinlet]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Feed.X \left( { i, z } \right) }  - { Membrane.X_inlet \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27442616" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27443496" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27443864" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Support_Xinlet]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Support.X_inlet \left( { i, z } \right) }  - { Membrane.X_outlet \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27444104" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27444312" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27444808" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Permeate_X]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Permeate.X \left( { i, z } \right) }  - { Support.X_outlet \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27445272" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+        <Object ID="27445480" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27445752" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Membrane_Pinlet]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Feed.P \left( { z } \right) }  - { Membrane.P_inlet \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27446216" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27447112" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Support_Pinlet]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Support.P_inlet \left( { z } \right) }  - { Membrane.P_outlet \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27447416" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27447768" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Support_Poutlet]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Permeate.P \left( { z } \right) }  - { Support.P_outlet \left( { z } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="27448392" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+    <Object ID="27448744" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Feed_T]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Feed.T }  - { T_feed } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="27449448" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Membrane_T]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Membrane.T }  - { T_feed } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="27450024" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Support_S]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Support.T }  - { T_feed } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+    <Object ID="27450696" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Permeate_T]]></Name>
+      <Description><![CDATA[]]></Description>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ { Permeate.T }  - { T_feed } }  = 0$$</Residual>
+      <DistributedDomainInfos/>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components>
+    <Object ID="26784448" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Feed]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Domains>
+        <Object ID="140523982829344" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[Axial domain]]></Description>
+          <Type>eStructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="140523982831472" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Nc]]></Name>
+          <Description><![CDATA[Number of components]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters>
+        <Object ID="26098232" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Rc]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <J>1</J>
+            <K>-1</K>
+            <mol>-1</mol>
+          </Units>
+          <DomainRefs/>
+        </Object>
+      </Parameters>
+      <Variables>
+        <Object ID="26548072" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[U]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>velocity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982829344"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26762856" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Flux]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_flux_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523982829344"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26790584" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_concentration_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523982829344"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26206152" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523982829344"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26211512" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[T]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>temperature_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26787128" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982829344"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="25772120" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Length]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>length_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26470392" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[D_z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>diffusivity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523982829344"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26686408" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[a_V]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>specific_area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26086632" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[A_cross]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26204984" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Area]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26545512" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="16216696" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26784872" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Q_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>volume_flowrate_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26785448" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Q_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>volume_flowrate_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26754024" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_concentration_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26754744" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_concentration_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523982831472"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26755464" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26755960" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs/>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="27205272" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { { U \left( { z_0 } \right) }  \cdot \left( { { C \left( { i, z_0 } \right) }  - { C_in \left( { i } \right) } }  \right) }  \right)  - \left( { \frac{\left( { { D_z \left( { i, z_0 } \right) }  \cdot \left( { { \partial { { \left( { C \left( { i, z_0 } \right) }  \right) } } } \over { \partial {z} } }  \right) }  \right) }{{ Length } }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z_0 }  = { z } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27338712" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27338920" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27340328" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_U]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { U \left( { z_0 } \right) }  - \left( { \frac{{ Q_in } }{{ A_cross } }}  \right) }  = 0; {{ z_0 }  = { z } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27340968" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27341576" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_Xin]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \frac{\left( { { X_in \left( { i } \right) }  \cdot { P_in } }  \right) }{\left( { { Rc }  \cdot { T } }  \right) }}  \right)  - { C_in \left( { i } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27342152" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27343096" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_Pin]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P \left( { z_0 } \right) }  - { P_in } }  = 0; {{ z_0 }  = { z } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27343736" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27344008" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \partial { { \left( { C \left( { i, z } \right) }  \right) } } } \over { \partial {z} } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27344488" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27344696" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27345176" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_U]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \partial { { \left( { U \left( { z_L } \right) }  \right) } } } \over { \partial {z} } }  = 0; {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27345528" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27345912" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Xout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \frac{\left( { { X_out \left( { i } \right) }  \cdot { P \left( { z_L } \right) } }  \right) }{\left( { { Rc }  \cdot { T } }  \right) }}  \right)  - { C \left( { i, z_L } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27346328" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27346536" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27347304" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Qout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { U \left( { z_L } \right) }  - \left( { \frac{{ Q_out } }{{ A_cross } }}  \right) }  = 0; {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27347944" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27348376" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Cout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { C_out \left( { i } \right) }  - { C \left( { i, z_L } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27348968" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27349176" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27349576" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Pout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P_out }  - { P \left( { z_L } \right) } }  = 0; {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27350184" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27350584" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P \left( { z } \right) }  - { P_in } }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27351192" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eOpenClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27351464" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[aV]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { a_V }  - \left( { \frac{{ Area } }{\left( { { Length }  \cdot { A_cross } }  \right) }}  \right) }  = 0$$</Residual>
+          <DistributedDomainInfos/>
+        </Object>
+        <Object ID="27352168" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \left( { \frac{\left( { \left( { \left( - { D_z \left( { i, z } \right) }  \right) }  \right)  \cdot \left( { { \partial { ^2 { \left( { C \left( { i, z } \right) }  \right) } } } \over { \partial {z ^2} } }  \right) }  \right) }{\left( { { Length }  ^ {2 {}}}  \right) }}  \right)  + \left( { \frac{\left( { { \partial { { \left( { { U \left( { z } \right) }  \cdot { C \left( { i, z } \right) } }  \right) } } } \over { \partial {z} } }  \right) }{{ Length } }}  \right) }  \right)  + \left( { { a_V }  \cdot { Flux \left( { i, z } \right) } }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27352872" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27353080" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eOpenOpen</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27354888" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { { X \left( { i, z } \right) }  \cdot \left( \sum  { { C.array \left( { *, z } \right) }  }  \right) }  \right)  - { C \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27355656" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982831472"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27355864" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27356440" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[PVT]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \frac{{ P \left( { z } \right) } }{\left( { { Rc }  \cdot { T } }  \right) }}  \right)  - \left( \sum  { { C.array \left( { *, z } \right) }  }  \right) }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27357160" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523982829344"><![CDATA[z]]></Domain>
+              <Type>eOpenOpen</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+    <Object ID="26758240" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Membrane]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Domains>
+        <Object ID="140523979534640" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[Axial domain]]></Description>
+          <Type>eStructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="140523979534944" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[r]]></Name>
+          <Description><![CDATA[Radial domain]]></Description>
+          <Type>eStructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="140523979535248" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Nc]]></Name>
+          <Description><![CDATA[Number of components]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters>
+        <Object ID="26213752" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Ro]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <kg>1</kg>
+            <m>-3</m>
+          </Units>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26183272" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Rc]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <J>1</J>
+            <K>-1</K>
+            <mol>-1</mol>
+          </Units>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26404840" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[B]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <Pa>-1</Pa>
+          </Units>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26448024" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Q_sat]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <kg>-1</kg>
+            <mol>1</mol>
+          </Units>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+      </Parameters>
+      <Variables>
+        <Object ID="26759272" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Flux]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_flux_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26883336" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_inlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26883752" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_outlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26884168" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[T]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>temperature_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26885304" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_inlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26885848" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_outlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26886344" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[G_ij]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>gij_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979534944"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26886792" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[D_ij]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>diffusivity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979534944"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26887448" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[D_i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>diffusivity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26888104" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[&theta;]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979534944"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26888552" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Gij_dTheta]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>Gij_dTheta</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979534944"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26889048" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[J_theta]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>J_theta</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535248"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979534640"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979534944"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26889592" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Length]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>length_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26890200" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Area]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26890696" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Thickness]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>length_t</VariableType>
+          <DomainRefs/>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="27358728" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_Theta]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \theta \left( { i, z, r_0 } \right) }  - \left( { \frac{\left( { \left( { { B \left( { i } \right) }  \cdot { X_inlet \left( { i, z } \right) } }  \right)  \cdot { P_inlet \left( { z } \right) } }  \right) }{\left( { {1 {}} + \left( \sum  { { \left( { \left( { B.array \left( { * } \right) }  \right)  \times \left( { X_inlet.array \left( { *, z } \right) }  \right) }  \right)  \times \left( { P_inlet \left( { z } \right) }  \right) }  }  \right) }  \right) }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {{ r_0 }  = { r } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27359160" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27359368" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27359576" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27362520" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Theta]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \theta \left( { i, z, r_R } \right) }  - \left( { \frac{\left( { \left( { { B \left( { i } \right) }  \cdot { X_outlet \left( { i, z } \right) } }  \right)  \cdot { P_outlet \left( { z } \right) } }  \right) }{\left( { {1 {}} + \left( \sum  { { \left( { \left( { B.array \left( { * } \right) }  \right)  \times \left( { X_outlet.array \left( { *, z } \right) }  \right) }  \right)  \times \left( { P_outlet \left( { z } \right) }  \right) }  }  \right) }  \right) }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {{ r_R }  = { r } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27362728" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27362936" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27363144" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r_R]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27387896" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[GammaFactor]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \left( { { G_ij \left( { i, k, z, r } \right) }  - \left( { {1 {}} - \left( { \frac{\left( { { i }  - { k } }  \right) }{\left( { \left( { { i }  - { k } }  \right)  + {1e-15 {}}}  \right) }}  \right) }  \right) }  \right)  \cdot \left( { {1 {}} - \left( \sum  { { \theta.array \left( { *, z, r } \right) }  }  \right) }  \right) }  \right)  - { \theta \left( { i, z, r } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { k }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27388536" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27388744" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[k]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27388952" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27389160" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27391336" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Dij]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { D_ij \left( { i, k, z, r } \right) }  - \left( { \left( { { D_i \left( { i } \right) }  ^ \left( { \frac{{ \theta \left( { i, z, r } \right) } }{\left( { \left( { { \theta \left( { i, z, r } \right) }  + { \theta \left( { k, z, r } \right) } }  \right)  + {1e-10 {}}}  \right) }}  \right) }  \right)  \cdot \left( { { D_i \left( { k } \right) }  ^ \left( { \frac{{ \theta \left( { k, z, r } \right) } }{\left( { \left( { { \theta \left( { i, z, r } \right) }  + { \theta \left( { k, z, r } \right) } }  \right)  + {1e-10 {}}}  \right) }}  \right) }  \right) }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { k }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27391976" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27392184" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[k]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27392392" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27392600" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs>
+        <Object ID="27365424" Class="daeSTN" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[OperatingMode]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Type>eSTN</Type>
+          <States>
+            <Object ID="27365776" Class="daeState" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[sFickLaw]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Equations>
+                <Object ID="27366056" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Flux]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { Flux \left( { i, z } \right) }  + \left( { \frac{\left( { \left( { \left( { { Ro }  \cdot { Q_sat \left( { i } \right) } }  \right)  \cdot { D_i \left( { i } \right) } }  \right)  \cdot \left( { { \partial { { \left( { \theta \left( { i, z, r } \right) }  \right) } } } \over { \partial {r} } }  \right) }  \right) }{{ Thickness } }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right) }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27366264" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27366472" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27366680" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedOpen</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+                <Object ID="27367928" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[J_theta]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ J_theta \left( { i, j, z, r } \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27368568" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27368776" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[j]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27368984" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27369192" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+                <Object ID="27369640" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Gij_dTheta]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ Gij_dTheta \left( { i, j, z, r } \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27369976" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27370184" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[j]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27370392" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27370600" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+              </Equations>
+              <STNs/>
+              <OnEventActions/>
+              <OnConditionActions/>
+              <STN ID="27365424"><![CDATA[OperatingMode]]></STN>
+            </Object>
+            <Object ID="27371120" Class="daeState" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[sMaxwellStefan_Dijoo]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Equations>
+                <Object ID="27371400" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Flux]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { Flux \left( { i, z } \right) }  + \left( { \left( { \left( { { Ro }  \cdot { Q_sat \left( { i } \right) } }  \right)  \cdot { D_i \left( { i } \right) } }  \right)  \cdot \left( \sum  { { Gij_dTheta.array \left( { i, *, z, r } \right) }  }  \right) }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right) }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27371784" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27371992" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27372200" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedOpen</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+                <Object ID="27373496" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[J_theta]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ J_theta \left( { i, j, z, r } \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27374200" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27374408" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[j]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27374616" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27374824" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+                <Object ID="27375272" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Gij_dTheta]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { Gij_dTheta \left( { i, j, z, r } \right) }  - \left( { \frac{\left( { { G_ij \left( { i, j, z, r } \right) }  \cdot \left( { { \partial { { \left( { \theta \left( { j, z, r } \right) }  \right) } } } \over { \partial {r} } }  \right) }  \right) }{{ Thickness } }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27375608" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27375816" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[j]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27376024" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27376232" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+              </Equations>
+              <STNs/>
+              <OnEventActions/>
+              <OnConditionActions/>
+              <STN ID="27365424"><![CDATA[OperatingMode]]></STN>
+            </Object>
+            <Object ID="27377232" Class="daeState" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[sMaxwellStefan]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Equations>
+                <Object ID="27377544" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Flux]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ \left( { { Flux \left( { i, z } \right) }  + \left( { \left( { { Q_sat \left( { i } \right) }  \cdot { D_i \left( { i } \right) } }  \right)  \cdot \left( \sum  { { J_theta.array \left( { i, *, z, r } \right) }  }  \right) }  \right) }  \right)  + \left( { \left( { \left( { { Q_sat \left( { i } \right) }  \cdot { D_i \left( { i } \right) } }  \right)  \cdot { Ro } }  \right)  \cdot \left( \sum  { { Gij_dTheta.array \left( { i, *, z, r } \right) }  }  \right) }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right) }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27378152" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27378360" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27378568" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedOpen</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+                <Object ID="27381336" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[J_theta]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { J_theta \left( { i, j, z, r } \right) }  - \left( { \left( { \frac{\left( { { i }  - { j } }  \right) }{\left( { \left( { { i }  - { j } }  \right)  + {1e-15 {}}}  \right) }}  \right)  \cdot \left( { \left( { \frac{\left( { { Flux \left( { i, z } \right) }  \cdot { \theta \left( { j, z, r } \right) } }  \right) }{\left( { { Q_sat \left( { i } \right) }  \cdot { D_ij \left( { i, j, z, r } \right) } }  \right) }}  \right)  - \left( { \frac{\left( { { Flux \left( { j, z } \right) }  \cdot { \theta \left( { i, z, r } \right) } }  \right) }{\left( { { Q_sat \left( { j } \right) }  \cdot { D_ij \left( { i, j, z, r } \right) } }  \right) }}  \right) }  \right) }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27381736" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27381944" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[j]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27382152" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27382360" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+                <Object ID="27385640" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Gij_dTheta]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { Gij_dTheta \left( { i, j, z, r } \right) }  - \left( { \frac{\left( { { G_ij \left( { i, j, z, r } \right) }  \cdot \left( { { \partial { { \left( { \theta \left( { j, z, r } \right) }  \right) } } } \over { \partial {r} } }  \right) }  \right) }{{ Thickness } }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { j }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27386232" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27386440" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[j]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535248"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27386648" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534640"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27386856" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979534944"><![CDATA[r]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+              </Equations>
+              <STNs/>
+              <OnEventActions/>
+              <OnConditionActions/>
+              <STN ID="27365424"><![CDATA[OperatingMode]]></STN>
+            </Object>
+          </States>
+          <ParentState>NULL</ParentState>
+        </Object>
+      </STNs>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+    <Object ID="26720080" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Support]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Domains>
+        <Object ID="140523979535552" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[Axial domain]]></Description>
+          <Type>eStructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="140523979535856" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[r]]></Name>
+          <Description><![CDATA[Radial domain]]></Description>
+          <Type>eStructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="140523979536160" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Nc]]></Name>
+          <Description><![CDATA[Number of components]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters>
+        <Object ID="26759560" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[e]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units/>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26735032" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Rc]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <J>1</J>
+            <K>-1</K>
+            <mol>-1</mol>
+          </Units>
+          <DomainRefs/>
+        </Object>
+      </Parameters>
+      <Variables>
+        <Object ID="26721112" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Flux]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_flux_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26721528" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_inlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26721944" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_outlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26722360" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[T]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>temperature_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="26722776" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979535856"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26723240" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_inlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26724328" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_outlet]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26724824" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979535552"><![CDATA[z]]></ObjectRef>
+            <ObjectRef ID="140523979535856"><![CDATA[r]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26725384" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[D_i]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>diffusivity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26726040" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[D_ij]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>diffusivity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979536160"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="26726600" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Thickness]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>length_t</VariableType>
+          <DomainRefs/>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="27395928" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { X \left( { i, z, r_0 } \right) }  - { X_inlet \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {{ r_0 }  = { r } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27396568" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536160"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27396776" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27396984" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27397544" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { X \left( { i, z, r_R } \right) }  - { X_outlet \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {{ r_R }  = { r } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27398008" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536160"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27398216" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27398424" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r_R]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27398952" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P_inlet \left( { z } \right) }  - { P \left( { z, r_0 } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {{ r_0 }  = { r } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27399416" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27399624" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27400024" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P_outlet \left( { z } \right) }  - { P \left( { z, r_R } \right) } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {{ r_R }  = { r } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27400536" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27400744" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r_R]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27412504" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \partial { { \left( { P \left( { z, r } \right) }  \right) } } } \over { \partial {r} } }  = 0; {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left[ { r } _{0}, { r } _{n} \right) }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27410328" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27410536" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[r]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+              <Type>eClosedOpen</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs>
+        <Object ID="27401104" Class="daeSTN" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[OperatingMode]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Type>eSTN</Type>
+          <States>
+            <Object ID="27401488" Class="daeState" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[sNoResistance]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Equations>
+                <Object ID="27401800" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Flux]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { \partial { { \left( { X \left( { i, z, r } \right) }  \right) } } } \over { \partial {r} } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left( { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27402312" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979536160"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27402520" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27402728" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+                      <Type>eOpenClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+              </Equations>
+              <STNs/>
+              <OnEventActions/>
+              <OnConditionActions/>
+              <STN ID="27401104"><![CDATA[OperatingMode]]></STN>
+            </Object>
+            <Object ID="27403344" Class="daeState" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[sFickLaw]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Equations>
+                <Object ID="27403656" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Flux]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ { Flux \left( { i, z } \right) }  + \left( { \frac{\left( { \left( { \left( { { e }  \cdot { D_ij \left( { i, i } \right) } }  \right)  \cdot \left( { { \partial { { \left( { X \left( { i, z, r } \right) }  \right) } } } \over { \partial {r} } }  \right) }  \right)  \cdot { P \left( { z, r } \right) } }  \right) }{\left( { \left( { { Rc }  \cdot { T } }  \right)  \cdot { Thickness } }  \right) }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left( { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27403976" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979536160"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27404184" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27404392" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+                      <Type>eOpenClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+              </Equations>
+              <STNs/>
+              <OnEventActions/>
+              <OnConditionActions/>
+              <STN ID="27401104"><![CDATA[OperatingMode]]></STN>
+            </Object>
+            <Object ID="27406432" Class="daeState" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[sMaxwellStefan]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Equations>
+                <Object ID="27406744" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+                  <Name><![CDATA[Flux]]></Name>
+                  <Description><![CDATA[]]></Description>
+                  <EquationType>eAlgebraic</EquationType>
+                  <Residual>$${ \left( { \left( { \frac{\left( { \left( - { { \partial { { \left( { { X \left( { i, z, r } \right) }  \cdot { P \left( { z, r } \right) } }  \right) } } } \over { \partial {r} } }  \right) }  \right) }{\left( { \left( { { Rc }  \cdot { T } }  \right)  \cdot { Thickness } }  \right) }}  \right)  - \left( \sum  { { \left( { \left( { \left( { Flux \left( { i, z } \right) }  \right)  \times \left( { X.array \left( { *, z, r } \right) }  \right) }  \right)  - \left( { \left( { Flux.array \left( { *, z } \right) }  \right)  \times \left( { X \left( { i, z, r } \right) }  \right) }  \right) }  \right)  \over \left( { \left( { e }  \right)  \times \left( { D_ij.array \left( { i, * } \right) }  \right) }  \right) }  }  \right) }  \right)  - \left( { \frac{\left( { \left( { {1 {}} - \left( \sum  { { X.array \left( { *, z, r } \right) }  }  \right) }  \right)  \cdot { Flux \left( { i, z } \right) } }  \right) }{\left( { { e }  \cdot { D_i \left( { i } \right) } }  \right) }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }, {\forall { r }  \in \left( { r } _{0}, { r } _{n} \right] }$$</Residual>
+                  <DistributedDomainInfos>
+                    <Object ID="27407352" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[i]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979536160"><![CDATA[Nc]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27407560" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[z]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535552"><![CDATA[z]]></Domain>
+                      <Type>eClosedClosed</Type>
+                    </Object>
+                    <Object ID="27407768" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+                      <Name><![CDATA[r]]></Name>
+                      <Description><![CDATA[]]></Description>
+                      <Domain ID="140523979535856"><![CDATA[r]]></Domain>
+                      <Type>eOpenClosed</Type>
+                    </Object>
+                  </DistributedDomainInfos>
+                </Object>
+              </Equations>
+              <STNs/>
+              <OnEventActions/>
+              <OnConditionActions/>
+              <STN ID="27401104"><![CDATA[OperatingMode]]></STN>
+            </Object>
+          </States>
+          <ParentState>NULL</ParentState>
+        </Object>
+      </STNs>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+    <Object ID="26727776" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Permeate]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Domains>
+        <Object ID="140523979536464" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[z]]></Name>
+          <Description><![CDATA[Axial domain]]></Description>
+          <Type>eStructuredGrid</Type>
+          <Units/>
+        </Object>
+        <Object ID="140523979536768" Class="daeDomain" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Nc]]></Name>
+          <Description><![CDATA[Number of components]]></Description>
+          <Type>eArray</Type>
+          <Units/>
+        </Object>
+      </Domains>
+      <Parameters>
+        <Object ID="26729768" Class="daeParameter" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Rc]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Units>
+            <J>1</J>
+            <K>-1</K>
+            <mol>-1</mol>
+          </Units>
+          <DomainRefs/>
+        </Object>
+      </Parameters>
+      <Variables>
+        <Object ID="27181928" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[U]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>velocity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536464"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27182344" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Flux]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_flux_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979536464"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27182760" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_concentration_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979536464"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27183176" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979536464"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27183592" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[T]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>temperature_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27184008" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536464"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27184504" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Length]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>length_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27185000" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[D_z]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>diffusivity_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+            <ObjectRef ID="140523979536464"><![CDATA[z]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27185656" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[a_V]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>specific_area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27186232" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[A_cross]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27186744" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Area]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>area_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27187256" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27187784" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>fraction_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27188312" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Q_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>volume_flowrate_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27189016" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[Q_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>volume_flowrate_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27189720" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_concentration_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27190440" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>molar_concentration_t</VariableType>
+          <DomainRefs>
+            <ObjectRef ID="140523979536768"><![CDATA[Nc]]></ObjectRef>
+          </DomainRefs>
+        </Object>
+        <Object ID="27191160" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_in]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs/>
+        </Object>
+        <Object ID="27191736" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P_out]]></Name>
+          <Description><![CDATA[]]></Description>
+          <VariableType>pressure_t</VariableType>
+          <DomainRefs/>
+        </Object>
+      </Variables>
+      <Ports/>
+      <EventPorts/>
+      <Equations>
+        <Object ID="27414136" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { { U \left( { z_0 } \right) }  \cdot \left( { { C \left( { i, z_0 } \right) }  - { C_in \left( { i } \right) } }  \right) }  \right)  - \left( { \frac{\left( { { D_z \left( { i, z_0 } \right) }  \cdot \left( { { \partial { { \left( { C \left( { i, z_0 } \right) }  \right) } } } \over { \partial {z} } }  \right) }  \right) }{{ Length } }}  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z_0 }  = { z } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27414440" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27414648" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27415816" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_U]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { U \left( { z_0 } \right) }  - \left( { \frac{{ Q_in } }{{ A_cross } }}  \right) }  = 0; {{ z_0 }  = { z } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27416456" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27417064" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_Xin]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \frac{\left( { { X_in \left( { i } \right) }  \cdot { P_in } }  \right) }{\left( { { Rc }  \cdot { T } }  \right) }}  \right)  - { C_in \left( { i } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27417640" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27418584" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCinlet_Pin]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P \left( { z_0 } \right) }  - { P_in } }  = 0; {{ z_0 }  = { z } _{0}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27419224" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eLowerBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27419496" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \partial { { \left( { C \left( { i, z } \right) }  \right) } } } \over { \partial {z} } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27419976" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27420184" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27420664" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_U]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { \partial { { \left( { U \left( { z_L } \right) }  \right) } } } \over { \partial {z} } }  = 0; {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27421016" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27421400" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Xout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \frac{\left( { { X_out \left( { i } \right) }  \cdot { P \left( { z_L } \right) } }  \right) }{\left( { { Rc }  \cdot { T } }  \right) }}  \right)  - { C \left( { i, z_L } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27421816" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27422024" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27422792" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Qout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { U \left( { z_L } \right) }  - \left( { \frac{{ Q_out } }{{ A_cross } }}  \right) }  = 0; {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27423432" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27423864" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Cout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { C_out \left( { i } \right) }  - { C \left( { i, z_L } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27424376" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27424584" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27424984" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[BCoutlet_Pout]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P_out }  - { P \left( { z_L } \right) } }  = 0; {{ z_L }  = { z } _{n}}$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27425592" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z_L]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eUpperBound</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27425992" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[P]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { P \left( { z } \right) }  - { P_in } }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27426600" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eOpenClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27426872" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[aV]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ { a_V }  - \left( { \frac{{ Area } }{\left( { { Length }  \cdot { A_cross } }  \right) }}  \right) }  = 0$$</Residual>
+          <DistributedDomainInfos/>
+        </Object>
+        <Object ID="27427576" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[C]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \left( { \frac{\left( { \left( { \left( - { D_z \left( { i, z } \right) }  \right) }  \right)  \cdot \left( { { \partial { ^2 { \left( { C \left( { i, z } \right) }  \right) } } } \over { \partial {z ^2} } }  \right) }  \right) }{\left( { { Length }  ^ {2 {}}}  \right) }}  \right)  + \left( { \frac{\left( { { \partial { { \left( { { U \left( { z } \right) }  \cdot { C \left( { i, z } \right) } }  \right) } } } \over { \partial {z} } }  \right) }{{ Length } }}  \right) }  \right)  + \left( { { a_V }  \cdot { Flux \left( { i, z } \right) } }  \right) }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27428280" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27428488" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eOpenOpen</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27430296" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[X]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { { X \left( { i, z } \right) }  \cdot \left( \sum  { { C.array \left( { *, z } \right) }  }  \right) }  \right)  - { C \left( { i, z } \right) } }  = 0; {\forall { i }  \in \left[ { Nc } _{0}, { Nc } _{n} \right] }, {\forall { z }  \in \left[ { z } _{0}, { z } _{n} \right] }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27431064" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[i]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536768"><![CDATA[Nc]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+            <Object ID="27431272" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eClosedClosed</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+        <Object ID="27432168" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+          <Name><![CDATA[PVT]]></Name>
+          <Description><![CDATA[]]></Description>
+          <EquationType>eAlgebraic</EquationType>
+          <Residual>$${ \left( { \frac{{ P \left( { z } \right) } }{\left( { { Rc }  \cdot { T } }  \right) }}  \right)  - \left( \sum  { { C.array \left( { *, z } \right) }  }  \right) }  = 0; {\forall { z }  \in \left( { z } _{0}, { z } _{n} \right) }$$</Residual>
+          <DistributedDomainInfos>
+            <Object ID="27432824" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.9.0">
+              <Name><![CDATA[z]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Domain ID="140523979536464"><![CDATA[z]]></Domain>
+              <Type>eOpenOpen</Type>
+            </Object>
+          </DistributedDomainInfos>
+        </Object>
+      </Equations>
+      <OnEventActions/>
+      <OnConditionActions/>
+      <STNs/>
+      <PortConnections/>
+      <EventPortConnections/>
+      <Components/>
+      <ComponentsArrays/>
+      <PortArrays/>
+    </Object>
+  </Components>
+  <ComponentsArrays/>
+  <PortArrays/>
+</Model>

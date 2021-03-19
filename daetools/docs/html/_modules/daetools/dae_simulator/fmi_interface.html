@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>daetools.dae_simulator.fmi_interface &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../../_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for daetools.dae_simulator.fmi_interface</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;********************************************************************************</span>
+<span class="sd">                            fmi_interface.py</span>
+<span class="sd">                 DAE Tools: pyDAE module, www.daetools.com</span>
+<span class="sd">                 Copyright (C) Dragan Nikolic</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span class="sd">terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span class="sd">Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span class="sd">ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span class="sd">PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span class="sd">You should have received a copy of the GNU General Public License along with the</span>
+<span class="sd">DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">********************************************************************************&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">auxiliary</span>
+<span class="kn">from</span> <span class="nn">daetools.pyDAE</span> <span class="k">import</span> <span class="o">*</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># python 3</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># python 2</span>
+    <span class="kn">from</span> <span class="nn">urlparse</span> <span class="k">import</span> <span class="n">urlparse</span>
+
+<div class="viewcode-block" id="fmi2Component"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component">[docs]</a><span class="k">class</span> <span class="nc">fmi2Component</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation</span><span class="p">,</span> <span class="n">instanceName</span><span class="p">,</span> <span class="n">guid</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">simulation</span> <span class="o">!=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span>    <span class="o">=</span> <span class="n">simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instanceName</span>  <span class="o">=</span> <span class="n">instanceName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guid</span>          <span class="o">=</span> <span class="n">guid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">Model</span><span class="o">.</span><span class="n">GetFMIInterface</span><span class="p">()</span>
+        
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="fmi2Component.fmi2Instantiate"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Instantiate">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2Instantiate</span><span class="p">(</span><span class="n">instanceName</span><span class="p">,</span> <span class="n">guid</span><span class="p">,</span> <span class="n">resourceLocation</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">resourceLocation</span><span class="p">)</span>
+        <span class="n">resourceDir</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># item 2 returns path</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">resourceDir</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid resourceLocation directory specified: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">resourceLocation</span><span class="p">)</span>
+        
+        <span class="n">settings_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">resourceDir</span><span class="p">,</span> <span class="s1">&#39;settings.json&#39;</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+        <span class="n">simulationFile</span>     <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;simulationFile&#39;</span><span class="p">]</span>
+        <span class="n">callableObjectName</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;callableObjectName&#39;</span><span class="p">]</span>
+        <span class="n">arguments</span>          <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s1">&#39;arguments&#39;</span><span class="p">]</span>
+
+        <span class="n">simulation</span> <span class="o">=</span> <span class="n">auxiliary</span><span class="o">.</span><span class="n">loadSimulation</span><span class="p">(</span><span class="n">resourceDir</span><span class="p">,</span> <span class="n">simulationFile</span><span class="p">,</span> <span class="n">callableObjectName</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">fmi2Component</span><span class="p">(</span><span class="n">simulation</span><span class="p">,</span> <span class="n">instanceName</span><span class="p">,</span> <span class="n">guid</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">c</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2Terminate"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Terminate">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2Terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">Finalize</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2FreeInstance"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2FreeInstance">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2FreeInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span>    <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instanceName</span>  <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guid</span>          <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span> <span class="o">=</span> <span class="p">{}</span></div>
+        
+<div class="viewcode-block" id="fmi2Component.fmi2SetupExperiment"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetupExperiment">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2SetupExperiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">toleranceDefined</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTimeDefined</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">stopTimeDefined</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">TimeHorizon</span>       <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">stopTime</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">ReportingInterval</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">stopTime</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+
+        <span class="k">if</span> <span class="n">toleranceDefined</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">DAESolver</span><span class="o">.</span><span class="n">RelativeTolerance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">SolveInitial</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="fmi2Component.fmi2EnterInitializationMode"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2EnterInitializationMode">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2EnterInitializationMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2ExitInitializationMode"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2ExitInitializationMode">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2ExitInitializationMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2DoStep"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2DoStep">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2DoStep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">currentCommunicationPoint</span><span class="p">,</span> <span class="n">communicationStepSize</span><span class="p">,</span> <span class="n">noSetFMUStatePriorToCurrentPoint</span><span class="p">):</span>
+        <span class="n">stepTimeHorizon</span> <span class="o">=</span> <span class="n">currentCommunicationPoint</span> <span class="o">+</span> <span class="n">communicationStepSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">IntegrateUntilTime</span><span class="p">(</span><span class="n">stepTimeHorizon</span><span class="p">,</span> <span class="n">eDoNotStopAtDiscontinuity</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">ReportData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">CurrentTime</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2CancelStep"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2CancelStep">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2CancelStep</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2Reset"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Reset">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2Reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">SetUpVariables</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">Reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation</span><span class="o">.</span><span class="n">SolveInitial</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2GetReal"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetReal">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2GetReal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">reference</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">valReferences</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Reference </span><span class="si">%s</span><span class="s1"> not found in the component </span><span class="si">%s</span><span class="s1"> {</span><span class="si">%s</span><span class="s1">}&#39;</span><span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanceName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">guid</span><span class="p">))</span>
+            
+            <span class="n">fmi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Parameter&quot;</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">fmi</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">GetValue</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fmi</span><span class="o">.</span><span class="n">indexes</span><span class="p">))</span> <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Input&quot;</span> <span class="ow">or</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Output&quot;</span> <span class="ow">or</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Local&quot;</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">fmi</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">GetValue</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fmi</span><span class="o">.</span><span class="n">indexes</span><span class="p">))</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot get real value for reference that is not a parameter|input|output|local variable: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2GetInteger"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetInteger">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2GetInteger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2GetBoolean"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetBoolean">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2GetBoolean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2GetString"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetString">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2GetString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">reference</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">valReferences</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Reference </span><span class="si">%s</span><span class="s1"> not found in the component </span><span class="si">%s</span><span class="s1"> {</span><span class="si">%s</span><span class="s1">}&#39;</span><span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanceName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">guid</span><span class="p">))</span>
+            
+            <span class="n">fmi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;STN&quot;</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fmi</span><span class="o">.</span><span class="n">stn</span><span class="o">.</span><span class="n">ActiveState</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot set string value for the non-STN reference: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2SetReal"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetReal">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2SetReal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">reference</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">valReferences</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Reference </span><span class="si">%s</span><span class="s1"> not found in the component </span><span class="si">%s</span><span class="s1"> {</span><span class="si">%s</span><span class="s1">}&#39;</span><span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanceName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">guid</span><span class="p">))</span>
+            
+            <span class="n">fmi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Parameter&quot;</span><span class="p">:</span>
+                <span class="n">fmi</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fmi</span><span class="o">.</span><span class="n">indexes</span><span class="p">),</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Input&quot;</span><span class="p">:</span>
+                <span class="n">fmi</span><span class="o">.</span><span class="n">variable</span><span class="o">.</span><span class="n">ReAssignValue</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">fmi</span><span class="o">.</span><span class="n">indexes</span><span class="p">),</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot set real value for reference that is not a parameter or input variable: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2SetInteger"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetInteger">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2SetInteger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2SetBoolean"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetBoolean">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2SetBoolean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+    
+<div class="viewcode-block" id="fmi2Component.fmi2SetString"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetString">[docs]</a>    <span class="k">def</span> <span class="nf">fmi2SetString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valReferences</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">reference</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">valReferences</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">reference</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Reference </span><span class="si">%s</span><span class="s1"> not found in the component </span><span class="si">%s</span><span class="s1"> {</span><span class="si">%s</span><span class="s1">}&#39;</span><span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">instanceName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">guid</span><span class="p">))</span>
+            
+            <span class="n">fmi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FMI_Interface</span><span class="p">[</span><span class="n">reference</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fmi</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;STN&quot;</span><span class="p">:</span>
+                <span class="n">fmi</span><span class="o">.</span><span class="n">stn</span><span class="o">.</span><span class="n">ActiveState</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Cannot set string value for the non-STN reference: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">reference</span><span class="p">))</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="44105504" Class="daeModel" Library="DAE.Core" Version="1.7.3">
+  <Name><![CDATA[tutorial_che_3]]></Name>
+  <Description><![CDATA[
+Batch reactor seeded crystallisation using the method of moments.
+
+References (model equations and input parameters):
+
+- Nikolic D.D., Frawley P.J. (2016) Application of the Lagrangian Meshfree Approach
+  to Modelling of Batch Crystallisation: Part I - Modelling of Stirred Tank Hydrodynamics.
+  Chemical Engineering Science 145:317-328.
+  `doi:10.1016/j.ces.2015.08.052 <http://dx.doi.org/10.1016/j.ces.2015.08.052>`_
+- Mitchell N.A., O'Ciardha C.T., Frawley P.J. (2011) Estimation of the growth kinetics
+  for the cooling crystallisation of paracetamol and ethanol solutions.
+  Journal of Crystal Growth 328:39-49.
+  `doi:10.1016/j.jcrysgro.2011.06.016 <http://dx.doi.org/10.1016/j.jcrysgro.2011.06.016>`_
+
+The main assumptions:
+
+- Seeded crystallisation
+- Ideal mixing
+- Fixed cooling rate
+- Size independent growth
+
+Solubility of Paracetamol in ethanol:
+
+.. code-block:: none
+
+   ---------------------------------------------------------
+   Temperature       Solubility          Solubility 
+        C        kg Parac./kg EtOH   mol Parac./m3 EtOH
+   ---------------------------------------------------------
+         0           0.11362                593.0387
+        10           0.14128                737.4215
+        20           0.17568                916.9562
+        30           0.21845                1140.2008
+        40           0.27163                1417.7972
+        50           0.33777                1762.9779
+        60           0.42000                2192.1973
+   ---------------------------------------------------------
+
+The supersaturation plot:
+
+.. image:: _static/tutorial_che_3-results.png
+   :width: 500px
+
+The concentration plot:
+
+.. image:: _static/tutorial_che_3-results2.png
+   :width: 500px
+
+The recovery plot:
+
+.. image:: _static/tutorial_che_3-results3.png
+   :width: 500px
+
+The yield plot:
+
+.. image:: _static/tutorial_che_3-results4.png
+   :width: 500px
+
+The total number of crystals plot:
+
+.. image:: _static/tutorial_che_3-results5.png
+   :width: 500px
+]]></Description>
+  <Domains>
+    <Object ID="140285335638320" Class="daeDomain" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Nm]]></Name>
+      <Description><![CDATA[Number of moments]]></Description>
+      <Type>eArray</Type>
+      <Units>
+        <m>1</m>
+      </Units>
+      <NumberOfIntervals>6</NumberOfIntervals>
+      <NumberOfPoints>6</NumberOfPoints>
+      <Points>
+        <Item>1</Item>
+        <Item>2</Item>
+        <Item>3</Item>
+        <Item>4</Item>
+        <Item>5</Item>
+        <Item>6</Item>
+      </Points>
+      <LowerBound>1</LowerBound>
+      <UpperBound>6</UpperBound>
+    </Object>
+  </Domains>
+  <Parameters>
+    <Object ID="44106328" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[R]]></Name>
+      <Description><![CDATA[Universal gas constant]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>8.314399999999999</Item>
+      </Values>
+    </Object>
+    <Object ID="44106872" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[MW]]></Name>
+      <Description><![CDATA[Molecular weight of paracetamol]]></Description>
+      <Units>
+        <kg>1</kg>
+        <kmol>-1</kmol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>151.163000000000011</Item>
+      </Values>
+    </Object>
+    <Object ID="44086024" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[V]]></Name>
+      <Description><![CDATA[Volume of the suspension in the reactor]]></Description>
+      <Units>
+        <m>3</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>0.000500000000000</Item>
+      </Values>
+    </Object>
+    <Object ID="44086360" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[kg]]></Name>
+      <Description><![CDATA[Growth rate constant]]></Description>
+      <Units>
+        <kmol>-1.602000000000000</kmol>
+        <m>5.806000000000000</m>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>9.978999999999999</Item>
+      </Values>
+    </Object>
+    <Object ID="44087048" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ea]]></Name>
+      <Description><![CDATA[Activation energy]]></Description>
+      <Units>
+        <J>1</J>
+        <mol>-1</mol>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>40560</Item>
+      </Values>
+    </Object>
+    <Object ID="44087432" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[kn]]></Name>
+      <Description><![CDATA[Nucleation rate constant]]></Description>
+      <Units>
+        <kg>0</kg>
+        <m>-3</m>
+        <s>-1</s>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>266166666.666666656732559</Item>
+      </Values>
+    </Object>
+    <Object ID="44087896" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Kv]]></Name>
+      <Description><![CDATA[Volume shape factor]]></Description>
+      <Units/>
+      <DomainRefs/>
+      <Values>
+        <Item>0.866000000000000</Item>
+      </Values>
+    </Object>
+    <Object ID="44088184" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ka]]></Name>
+      <Description><![CDATA[Surface area shape factor]]></Description>
+      <Units/>
+      <DomainRefs/>
+      <Values>
+        <Item>5.196000000000000</Item>
+      </Values>
+    </Object>
+    <Object ID="44089592" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[rho_s]]></Name>
+      <Description><![CDATA[Density of solution]]></Description>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>789</Item>
+      </Values>
+    </Object>
+    <Object ID="44090280" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[cp_s]]></Name>
+      <Description><![CDATA[Specific heat capacity of solution]]></Description>
+      <Units>
+        <J>1</J>
+        <K>-1</K>
+        <kg>-1</kg>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>112.400000000000006</Item>
+      </Values>
+    </Object>
+    <Object ID="44090664" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[rho_c]]></Name>
+      <Description><![CDATA[Density of crystals]]></Description>
+      <Units>
+        <kg>1</kg>
+        <m>-3</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>1332</Item>
+      </Values>
+    </Object>
+    <Object ID="44090952" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Qr]]></Name>
+      <Description><![CDATA[Cooling rate]]></Description>
+      <Units>
+        <W>1</W>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>0</Item>
+      </Values>
+    </Object>
+    <Object ID="44091240" Class="daeParameter" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[L_0]]></Name>
+      <Description><![CDATA[Initial size of the nucleus]]></Description>
+      <Units>
+        <m>1</m>
+      </Units>
+      <DomainRefs/>
+      <Values>
+        <Item>0.000001000000000</Item>
+      </Values>
+    </Object>
+  </Parameters>
+  <Variables>
+    <Object ID="44091936" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_0]]></Name>
+      <Description><![CDATA[Distribution moment 0]]></Description>
+      <VariableType>pbm_number_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+    <Object ID="44093744" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_1]]></Name>
+      <Description><![CDATA[Distribution moment 1]]></Description>
+      <VariableType>pbm_length_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>1</OverallIndex>
+    </Object>
+    <Object ID="44094352" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_2]]></Name>
+      <Description><![CDATA[Distribution moment 2]]></Description>
+      <VariableType>pbm_area_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>2</OverallIndex>
+    </Object>
+    <Object ID="44095040" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_3]]></Name>
+      <Description><![CDATA[Distribution moment 3]]></Description>
+      <VariableType>pbm_volume_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>3</OverallIndex>
+    </Object>
+    <Object ID="44095776" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_4]]></Name>
+      <Description><![CDATA[Distribution moment 4]]></Description>
+      <VariableType>pbm_moment4_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>4</OverallIndex>
+    </Object>
+    <Object ID="44096560" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_5]]></Name>
+      <Description><![CDATA[Distribution moment 5]]></Description>
+      <VariableType>pbm_moment5_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>5</OverallIndex>
+    </Object>
+    <Object ID="44098368" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[m_norm]]></Name>
+      <Description><![CDATA[Normalized distribution moments]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="140285335638320">Nm</ObjectRef>
+      </DomainRefs>
+      <OverallIndex>6</OverallIndex>
+    </Object>
+    <Object ID="44099072" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[Solution temperature]]></Description>
+      <VariableType>temperature_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>12</OverallIndex>
+    </Object>
+    <Object ID="44099840" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[G]]></Name>
+      <Description><![CDATA[Growth rate]]></Description>
+      <VariableType>pbm_growth_rate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>13</OverallIndex>
+    </Object>
+    <Object ID="44100688" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[B]]></Name>
+      <Description><![CDATA[Birth rate]]></Description>
+      <VariableType>pbm_birth_rate_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>14</OverallIndex>
+    </Object>
+    <Object ID="44386800" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c]]></Name>
+      <Description><![CDATA[Solution concentration]]></Description>
+      <VariableType>pbm_solution_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>15</OverallIndex>
+    </Object>
+    <Object ID="44387408" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_star]]></Name>
+      <Description><![CDATA[Solution equlibrium concentration (solubility)]]></Description>
+      <VariableType>pbm_solution_concentration_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>16</OverallIndex>
+    </Object>
+    <Object ID="44388016" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[delta_c]]></Name>
+      <Description><![CDATA[Concentrations driving force]]></Description>
+      <VariableType>pbm_solution_concentration_vol_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>17</OverallIndex>
+    </Object>
+    <Object ID="44388624" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[S]]></Name>
+      <Description><![CDATA[Supersaturation]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>18</OverallIndex>
+    </Object>
+    <Object ID="44389232" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Yield]]></Name>
+      <Description><![CDATA[Crystals yield]]></Description>
+      <VariableType>mass_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>19</OverallIndex>
+    </Object>
+    <Object ID="44389840" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Yield_max]]></Name>
+      <Description><![CDATA[Maximal crystals yield]]></Description>
+      <VariableType>mass_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>20</OverallIndex>
+    </Object>
+    <Object ID="44390448" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Recovery]]></Name>
+      <Description><![CDATA[Product recovery]]></Description>
+      <VariableType>no_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>21</OverallIndex>
+    </Object>
+    <Object ID="44391056" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ntotal]]></Name>
+      <Description><![CDATA[Total number of crystals]]></Description>
+      <VariableType>pbm_number_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>22</OverallIndex>
+    </Object>
+    <Object ID="44391664" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ltotal]]></Name>
+      <Description><![CDATA[Total length of crystals]]></Description>
+      <VariableType>pbm_length_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>23</OverallIndex>
+    </Object>
+    <Object ID="44392272" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Atotal]]></Name>
+      <Description><![CDATA[Total surface area of crystals]]></Description>
+      <VariableType>pbm_area_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>24</OverallIndex>
+    </Object>
+    <Object ID="44392880" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Vtotal]]></Name>
+      <Description><![CDATA[Total volume of crystals]]></Description>
+      <VariableType>pbm_volume_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>25</OverallIndex>
+    </Object>
+    <Object ID="44393488" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[D10]]></Name>
+      <Description><![CDATA[Mean size of crystals 1]]></Description>
+      <VariableType>pbm_diameter_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>26</OverallIndex>
+    </Object>
+    <Object ID="44394096" Class="daeVariable" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[D43]]></Name>
+      <Description><![CDATA[Mean size of crystals 2]]></Description>
+      <VariableType>pbm_diameter_t</VariableType>
+      <DomainRefs/>
+      <OverallIndex>27</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="44401320" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[T]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { \left( { \left( { { rho_s }  \cdot { V } }  \right)  \cdot { cp_s } }  \right)  \cdot { { \partial { { T }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { { Qr }  \cdot \left( { { T }  - {273.14 {{K}}}}  \right) }  \right)  \over {1 {{K}}}}  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44433488" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { \left( { \left( { { rho_s }  \cdot { V } }  \right)  \cdot { cp_s } }  \right)  \cdot { { \partial { { T }  } } \over { \partial { t  } } } }  \right)  - \left( { \left( { { Qr }  \cdot \left( { { T }  - {273.14 {{K}}}}  \right) }  \right)  \over {1 {{K}}}}  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44401976" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { { \partial { { c }  } } \over { \partial { t  } } }  + \left( { \left( { \left( { \left( { \left( { {3 {}} \cdot { rho_c } }  \right)  \cdot { Kv } }  \right)  \cdot { G } }  \right)  \cdot { m_2 } }  \right)  \over { rho_s } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44434608" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { { \partial { { c }  } } \over { \partial { t  } } }  + \left( { \left( { \left( { \left( { \left( { {3 {}} \cdot { rho_c } }  \right)  \cdot { Kv } }  \right)  \cdot { G } }  \right)  \cdot { m_2 } }  \right)  \over { rho_s } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44403352" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[c_star]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { c_star }  - \left( { {0.0002955 {}} \cdot e^{ { {0.02179 {{K ^ {-1}}}} \cdot { T } } } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44436336" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { c_star }  - \left( { {0.0002955 {}} \cdot e^{ { {0.02179 {{K ^ {-1}}}} \cdot { T } } } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44398600" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[S]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { S }  - \left( { { c }  \over \left( { { c_star }  + {1e-20 {{kg ^ {0}}}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44437200" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { S }  - \left( { { c }  \over \left( { { c_star }  + {1e-20 {{kg ^ {0}}}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44405320" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[B]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { B }  - \left( { { kn }  \cdot \left( { { delta_c }  ^ {2.276 {}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44438112" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { B }  - \left( { { kn }  \cdot \left( { { delta_c }  ^ {2.276 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44406344" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[delta_c]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { delta_c }  - \left( { \left( { \left( { { c }  - { c_star } }  \right)  \cdot { rho_s } }  \right)  \over { MW } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44439232" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { delta_c }  - \left( { \left( { \left( { { c }  - { c_star } }  \right)  \cdot { rho_s } }  \right)  \over { MW } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44411064" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Moment(0)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { { \partial { { m_0 }  } } \over { \partial { t  } } }  - { B } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44440320" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { { \partial { { m_0 }  } } \over { \partial { t  } } }  - { B } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44411464" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Moment(1)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { { \partial { { m_1 }  } } \over { \partial { t  } } }  - \left( { \left( { {1 {}} \cdot { G } }  \right)  \cdot { m_0 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {1 {}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44441024" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { { \partial { { m_1 }  } } \over { \partial { t  } } }  - \left( { \left( { {1 {}} \cdot { G } }  \right)  \cdot { m_0 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {1 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44412808" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Moment(2)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { { \partial { { m_2 }  } } \over { \partial { t  } } }  - \left( { \left( { {2 {}} \cdot { G } }  \right)  \cdot { m_1 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {2 {}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44442864" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { { \partial { { m_2 }  } } \over { \partial { t  } } }  - \left( { \left( { {2 {}} \cdot { G } }  \right)  \cdot { m_1 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {2 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44414328" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Moment(3)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { { \partial { { m_3 }  } } \over { \partial { t  } } }  - \left( { \left( { {3 {}} \cdot { G } }  \right)  \cdot { m_2 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {3 {}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44444704" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { { \partial { { m_3 }  } } \over { \partial { t  } } }  - \left( { \left( { {3 {}} \cdot { G } }  \right)  \cdot { m_2 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {3 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44415736" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Moment(4)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { { \partial { { m_4 }  } } \over { \partial { t  } } }  - \left( { \left( { {4 {}} \cdot { G } }  \right)  \cdot { m_3 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {4 {}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44446336" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { { \partial { { m_4 }  } } \over { \partial { t  } } }  - \left( { \left( { {4 {}} \cdot { G } }  \right)  \cdot { m_3 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {4 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44417208" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Moment(5)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { { \partial { { m_5 }  } } \over { \partial { t  } } }  - \left( { \left( { {5 {}} \cdot { G } }  \right)  \cdot { m_4 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {5 {}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44448176" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { { \partial { { m_5 }  } } \over { \partial { t  } } }  - \left( { \left( { {5 {}} \cdot { G } }  \right)  \cdot { m_4 } }  \right) }  \right)  - \left( { { B }  \cdot \left( { { L_0 }  ^ {5 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44418904" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[NormalizedMoment(0)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { m_norm \left( { 0 } \right) }  \cdot { m_0 } }  \right)  - { m_0 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44450016" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { m_norm \left( { 0 } \right) }  \cdot { m_0 } }  \right)  - { m_0 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44419816" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[NormalizedMoment(1)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { m_norm \left( { 1 } \right) }  \cdot { m_0 } }  \right)  - { m_1 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44450960" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { m_norm \left( { 1 } \right) }  \cdot { m_0 } }  \right)  - { m_1 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44420680" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[NormalizedMoment(2)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { m_norm \left( { 2 } \right) }  \cdot { m_0 } }  \right)  - { m_2 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44451968" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { m_norm \left( { 2 } \right) }  \cdot { m_0 } }  \right)  - { m_2 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44421544" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[NormalizedMoment(3)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { m_norm \left( { 3 } \right) }  \cdot { m_0 } }  \right)  - { m_3 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44452992" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { m_norm \left( { 3 } \right) }  \cdot { m_0 } }  \right)  - { m_3 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44422424" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[NormalizedMoment(4)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { m_norm \left( { 4 } \right) }  \cdot { m_0 } }  \right)  - { m_4 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44454016" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { m_norm \left( { 4 } \right) }  \cdot { m_0 } }  \right)  - { m_4 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44423208" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[NormalizedMoment(5)]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { m_norm \left( { 5 } \right) }  \cdot { m_0 } }  \right)  - { m_5 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44454928" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { m_norm \left( { 5 } \right) }  \cdot { m_0 } }  \right)  - { m_5 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44423960" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Yield]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { Yield }  - \left( { \left( { \left( { { rho_c }  \cdot { Kv } }  \right)  \cdot { m_3 } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44456048" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Yield }  - \left( { \left( { \left( { { rho_c }  \cdot { Kv } }  \right)  \cdot { m_3 } }  \right)  \cdot { V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44424888" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Yield_max]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { Yield_max }  - \left( { \left( { \left( { { rho_c }  \cdot { Kv } }  \right)  \cdot { m_3 } }  \right)  \cdot { V } }  \right) }  \right)  - \left( { \left( { { c }  \cdot { rho_s } }  \right)  \cdot { V } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44457328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { Yield_max }  - \left( { \left( { \left( { { rho_c }  \cdot { Kv } }  \right)  \cdot { m_3 } }  \right)  \cdot { V } }  \right) }  \right)  - \left( { \left( { { c }  \cdot { rho_s } }  \right)  \cdot { V } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44426424" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Recovery]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { Recovery }  - \left( { { Yield }  \over \left( { { Yield_max }  + {1e-20 {{kg}}}}  \right) }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44459152" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Recovery }  - \left( { { Yield }  \over \left( { { Yield_max }  + {1e-20 {{kg}}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44427528" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ntotal]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { Ntotal }  - { m_0 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44460320" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Ntotal }  - { m_0 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44428328" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Ltotal]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { Ltotal }  - { m_1 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44461040" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Ltotal }  - { m_1 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44428888" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Atotal]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { Atotal }  - \left( { { Ka }  \cdot { m_2 } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44461744" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Atotal }  - \left( { { Ka }  \cdot { m_2 } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44429496" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[Vtotal]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ { Vtotal }  - \left( { { Kv }  \cdot { m_3 } }  \right) }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44462640" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ { Vtotal }  - \left( { { Kv }  \cdot { m_3 } }  \right) }  = 0$$</EquationEvaluationNode>
+          <IsLinear>True</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44430136" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[D10]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { D10 }  \cdot { m_0 } }  \right)  - { m_1 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44463552" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { D10 }  \cdot { m_0 } }  \right)  - { m_1 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+    <Object ID="44430920" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[D43]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Residual>$${ \left( { { D43 }  \cdot { m_3 } }  \right)  - { m_4 } }  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="44463328" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+          <EquationEvaluationNode>$${ \left( { { D43 }  \cdot { m_3 } }  \right)  - { m_4 } }  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs>
+    <Object ID="44407456" Class="daeIF" Library="DAE.Core" Version="1.7.3">
+      <Name><![CDATA[IF_0]]></Name>
+      <Description><![CDATA[]]></Description>
+      <Type>eIF</Type>
+      <States>
+        <Object ID="44407808" Class="daeState" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[State_1]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Equations>
+            <Object ID="44408664" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[G]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Residual>$${ { G }  - \left( { \left( { { kg }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { { R }  \cdot { T } }  \right) } } }  \right)  \cdot \left( { { delta_c }  ^ {1.602 {}}}  \right) }  \right) }  = 0$$</Residual>
+              <EquationExecutionInfos>
+                <Object ID="44465120" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+                  <EquationEvaluationNode>$${ { G }  - \left( { \left( { { kg }  \cdot e^{ { \left( { \left( - { Ea }  \right) }  \right)  \over \left( { { R }  \cdot { T } }  \right) } } }  \right)  \cdot \left( { { delta_c }  ^ {1.602 {}}}  \right) }  \right) }  = 0$$</EquationEvaluationNode>
+                  <IsLinear>False</IsLinear>
+                </Object>
+              </EquationExecutionInfos>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions>
+            <Object ID="44408264" Class="daeOnConditionActions" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[OnConditionActions_0]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Condition ID="140721826918944" Class="daeCondition" Library="" Version="1.7.3">
+                <Expression>${\left( {{1 {}}} &lt; {{ S } } \right)}$</Expression>
+              </Condition>
+              <Actions/>
+            </Object>
+          </OnConditionActions>
+          <STN ID="44407456">IF_0</STN>
+        </Object>
+        <Object ID="44410080" Class="daeState" Library="DAE.Core" Version="1.7.3">
+          <Name><![CDATA[ELSE]]></Name>
+          <Description><![CDATA[]]></Description>
+          <Equations>
+            <Object ID="44410392" Class="daeEquation" Library="DAE.Core" Version="1.7.3">
+              <Name><![CDATA[G]]></Name>
+              <Description><![CDATA[]]></Description>
+              <Residual>$${ G }  = 0$$</Residual>
+              <EquationExecutionInfos>
+                <Object ID="44466640" Class="daeEquationExecutionInfo" Library="" Version="1.7.3">
+                  <EquationEvaluationNode>$${ G }  = 0$$</EquationEvaluationNode>
+                  <IsLinear>True</IsLinear>
+                </Object>
+              </EquationExecutionInfos>
+            </Object>
+          </Equations>
+          <STNs/>
+          <OnEventActions/>
+          <OnConditionActions/>
+          <STN ID="44407456">IF_0</STN>
+        </Object>
+      </States>
+    </Object>
+  </STNs>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>

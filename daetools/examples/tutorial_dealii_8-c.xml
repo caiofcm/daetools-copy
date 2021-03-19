@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+       "http://www.w3.org/TR/MathML2/dtd/xhtml-math11-f.dtd"[ 
+        <!ENTITY mathml "http://www.w3.org/1998/Math/MathML" > 
+]> 
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="56827760" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.1">
+  <Name>BulkFlow</Name>
+  <Description>
+In this example a small parallel-plate reactor with an active surface is modelled.
+
+This problem and its solution in `COMSOL Multiphysics &lt;https://www.comsol.com&gt;`_ software 
+is described in the Application Gallery: `Transport and Adsorption (id=5)
+&lt;https://www.comsol.com/model/transport-and-adsorption-5&gt;`_.
+
+The transport in the bulk of the reactor is described by a convection-diffusion equation:
+    
+.. code-block:: none
+
+   dc/dt - D*nabla^2(c) + div(uc) = 0 in Omega
+
+The material balance for the surface, including surface diffusion and the reaction rate is:
+
+.. code-block:: none
+
+   dc_s/dt - Ds*nabla^2(c_s) = -k_ads * c * (Gamma_s - c_s) + k_des * c_s in Omega_s
+
+For the bulk, the boundary condition at the active surface couples the rate of the reaction
+at the surface with the flux of the reacting species and the concentration of the adsorbed
+species and bulk species:
+    
+.. code-block:: none
+
+    n⋅(-D*nabla(c) + c*u) = -k_ads*c*(Gamma_s - c_s) + k_des*c_s
+    
+The boundary conditions for the surface species are insulating conditions.
+
+The problem is modelled using two coupled Finite Element systems: 
+2D for bulk flow and 1D for the active surface. 
+The linear interpolation is used to determine the bulk flow and active surface concentrations
+at the interface.
+
+The mesh is rectangular with the refined elements close to the left/right ends:
+
+.. image:: _static/parallel_plate_reactor.png
+   :height: 400 px
+
+The cs plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results.png
+   :height: 400 px
+
+The c plot at t = 2s:
+
+.. image:: _static/tutorial_dealii_8-results2.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_8-animation.gif
+   :height: 400 px
+</Description>
+  <MathMLName>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <mi mathvariant="italic">BulkFlow</mi>
+      </mrow>
+    </math>
+  </MathMLName>
+  <Domains>
+    <Object ID="56827496" Class="daeDomain" Library="DAE.Core" Version="1.7.1">
+      <Name>&Omega;</Name>
+      <Description>Omega</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">&Omega;</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Type>eUnstructuredGrid</Type>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+    </Object>
+    <Object ID="56775920" Class="daeDomain" Library="DAE.Core" Version="1.7.1">
+      <Name>&amp;Omega;_0</Name>
+      <Description>FE sub domain 0</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">&Omega;</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">0</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Type>eArray</Type>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+    </Object>
+  </Domains>
+  <Parameters/>
+  <Variables>
+    <Object ID="56980640" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>c</Name>
+      <Description>Bulk gas concentration</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">c</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>no_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="56775920">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <msub>
+                  <mrow>
+                    <mi mathvariant="italic">&Omega;</mi>
+                  </mrow>
+                  <mrow>
+                    <mi mathvariant="italic">0</mi>
+                  </mrow>
+                </msub>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        &amp;Omega;_0</ObjectRef>
+      </DomainRefs>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="57221304" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>dealIIFESystem_0</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">dealIIFESystem</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">0</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="57085720" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.1">
+          <Name>&Omega;</Name>
+          <Description/>
+          <MathMLName>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">&Omega;</mi>
+              </mrow>
+            </math>
+          </MathMLName>
+          <Domain ID="56827496">
+            <ObjectRefMathML>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                  <mi mathvariant="italic">&Omega;</mi>
+                </mrow>
+              </math>
+            </ObjectRefMathML>
+          &Omega;</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Units/>
+  <UnitArrays/>
+  <PortArrays/>
+</Model>

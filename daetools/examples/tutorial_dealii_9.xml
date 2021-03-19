@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" 
+       "http://www.w3.org/TR/MathML2/dtd/xhtml-math11-f.dtd"[ 
+        <!ENTITY mathml "http://www.w3.org/1998/Math/MathML" > 
+]> 
+<?xml-stylesheet type="text/xsl" href="dae-tools.xsl"?>
+<Model ID="94701875976256" Class="daeFiniteElementModel" Library="DAE.Core" Version="1.7.1">
+  <Name>NavierStokes</Name>
+  <Description>
+In this example the 2D lid driven cavity problem is solved 
+(`deal.II step-57 &lt;https://www.dealii.org/8.5.0/doxygen/deal.II/step_57.html&gt;`_
+and `Lid-driven cavity problem &lt;http://www.cfd-online.com/Wiki/Lid-driven_cavity_problem&gt;`_).
+
+The problem can be described using the incompressible Navier-Stokes equations:
+
+.. code-block:: none
+
+   du/dt + u div(u) + nabla(p) = 0, in Omega
+   -div(u) = 0 in Omega
+
+The mesh is a simple square (0,1)x(0,1):
+
+.. image:: _static/square(0,1)x(0,1)-50x50.png
+   :width: 300 px
+
+The temperature and the velocity vectors plot:
+
+.. image:: _static/tutorial_dealii_9-results.png
+   :height: 400 px
+
+Animation:
+    
+.. image:: _static/tutorial_dealii_9-animation.gif
+   :height: 400 px
+</Description>
+  <MathMLName>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <mi mathvariant="italic">NavierStokes</mi>
+      </mrow>
+    </math>
+  </MathMLName>
+  <Domains>
+    <Object ID="94701875975992" Class="daeDomain" Library="DAE.Core" Version="1.7.1">
+      <Name>&Omega;</Name>
+      <Description>Omega</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">&Omega;</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Type>eUnstructuredGrid</Type>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+    </Object>
+    <Object ID="94701875910672" Class="daeDomain" Library="DAE.Core" Version="1.7.1">
+      <Name>&amp;Omega;_0</Name>
+      <Description>FE sub domain 0</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">&Omega;</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">0</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Type>eArray</Type>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+    </Object>
+    <Object ID="94701875978368" Class="daeDomain" Library="DAE.Core" Version="1.7.1">
+      <Name>&amp;Omega;_1</Name>
+      <Description>FE sub domain 1</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">&Omega;</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">1</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <Type>eArray</Type>
+      <Units/>
+      <MathMLUnits>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow/>
+        </math>
+      </MathMLUnits>
+    </Object>
+  </Domains>
+  <Parameters/>
+  <Variables>
+    <Object ID="94701875978000" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>u</Name>
+      <Description>Velocity</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">u</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>u_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="94701875910672">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <msub>
+                  <mrow>
+                    <mi mathvariant="italic">&Omega;</mi>
+                  </mrow>
+                  <mrow>
+                    <mi mathvariant="italic">0</mi>
+                  </mrow>
+                </msub>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        &amp;Omega;_0</ObjectRef>
+      </DomainRefs>
+    </Object>
+    <Object ID="94701875979008" Class="daeVariable" Library="DAE.Core" Version="1.7.1">
+      <Name>p</Name>
+      <Description>Pressure</Description>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi mathvariant="italic">p</mi>
+          </mrow>
+        </math>
+      </MathMLName>
+      <VariableType>p_t</VariableType>
+      <DomainRefs>
+        <ObjectRef ID="94701875978368">
+          <ObjectRefMathML>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <msub>
+                  <mrow>
+                    <mi mathvariant="italic">&Omega;</mi>
+                  </mrow>
+                  <mrow>
+                    <mi mathvariant="italic">1</mi>
+                  </mrow>
+                </msub>
+              </mrow>
+            </math>
+          </ObjectRefMathML>
+        &amp;Omega;_1</ObjectRef>
+      </DomainRefs>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="94702162726392" Class="daeFiniteElementEquation" Library="DAE.Core" Version="1.7.1">
+      <Name>dealIIFESystem_0</Name>
+      <Description/>
+      <MathMLName>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub>
+              <mrow>
+                <mi mathvariant="italic">dealIIFESystem</mi>
+              </mrow>
+              <mrow>
+                <mi mathvariant="italic">0</mi>
+              </mrow>
+            </msub>
+          </mrow>
+        </math>
+      </MathMLName>
+      <EquationType>eAlgebraic</EquationType>
+      <Residual>$${ \left [ \mathbf{M_{ij}} \right ] \left \{ \frac{\partial x_j}{\partial t} \right \} } + { \left [ \mathbf{A_{ij}} \right ] \left \{ {x_j} \right \} } = \left \{ f_i\right \}$$</Residual>
+      <DistributedDomainInfos>
+        <Object ID="94702163591352" Class="daeDistributedEquationDomainInfo" Library="DAE.Core" Version="1.7.1">
+          <Name>&Omega;</Name>
+          <Description/>
+          <MathMLName>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mi mathvariant="italic">&Omega;</mi>
+              </mrow>
+            </math>
+          </MathMLName>
+          <Domain ID="94701875975992">
+            <ObjectRefMathML>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mrow>
+                  <mi mathvariant="italic">&Omega;</mi>
+                </mrow>
+              </math>
+            </ObjectRefMathML>
+          &Omega;</Domain>
+          <Type>eClosedClosed</Type>
+        </Object>
+      </DistributedDomainInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Units/>
+  <UnitArrays/>
+  <PortArrays/>
+</Model>

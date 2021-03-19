@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.4. Finite Element Tutorials &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8.5. Chemical Engineering Examples" href="tutorials-chemeng.html" />
+    <link rel="prev" title="8.3. Code Verification Tests" href="tutorials-cv.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">8.4. Finite Element Tutorials</a><ul>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_1">8.4.1. Tutorial deal.II 1</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_2">8.4.2. Tutorial deal.II 2</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_3">8.4.3. Tutorial deal.II 3</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_4">8.4.4. Tutorial deal.II 4</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_5">8.4.5. Tutorial deal.II 5</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_6">8.4.6. Tutorial deal.II 6</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_7">8.4.7. Tutorial deal.II 7</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_dealii_8">8.4.8. Tutorial deal.II 8</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="finite-element-tutorials">
+<h1>8.4. Finite Element Tutorials<a class="headerlink" href="#finite-element-tutorials" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-1"><span class="std std-ref">Tutorial deal.II 1</span></a></td>
+<td>Introductory example to illustrate the support for the finite elements method
+in <strong>DAE Tools</strong> (solution of a simple heat conduction equation).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-2"><span class="std std-ref">Tutorial deal.II 2</span></a></td>
+<td>Solution of a simple transient heat convection-diffusion equation.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-3"><span class="std std-ref">Tutorial deal.II 3</span></a></td>
+<td>Solution of the Cahn-Hilliard equation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-4"><span class="std std-ref">Tutorial deal.II 4</span></a></td>
+<td>Solution of a transient heat conduction using the various types of
+boundary conditions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-5"><span class="std std-ref">Tutorial deal.II 5</span></a></td>
+<td>Flow through porous media (Darcy&#8217;s law).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-6"><span class="std std-ref">Tutorial deal.II 6</span></a></td>
+<td>A simple steady-state diffusion and first-order reaction in an irregular catalyst shape.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-7"><span class="std std-ref">Tutorial deal.II 7</span></a></td>
+<td>Transient Stokes flow driven by the temperature differences in the fluid.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-dealii-8"><span class="std std-ref">Tutorial deal.II 8</span></a></td>
+<td>Model of a small parallel-plate reactor with a catalytic surface
+(phenomena defined in two coupled FE systems with different dimensions: 2D and 1D).</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="module-daetools.examples.tutorial_dealii_1">
+<span id="tutorial-deal-ii-1"></span><span id="tutorial-dealii-1"></span><h2>8.4.1. Tutorial deal.II 1<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_1" title="Permalink to this headline">¶</a></h2>
+<p>An introductory example of the support for Finite Elements in daetools.
+The basic idea is to use an external library to perform all low-level tasks such as
+management of mesh elements, degrees of freedom, matrix assembly, management of
+boundary conditions etc. deal.II library (www.dealii.org) is employed for these tasks.
+The mass and stiffness matrices and the load vector assembled in deal.II library are
+used to generate a set of algebraic/differential equations in the following form:
+[Mij]{dx/dt} + [Aij]{x} = {Fi}.
+Specification of additional equations such as surface/volume integrals are also available.
+The numerical solution of the resulting ODA/DAE system is performed in daetools
+together with the rest of the model equations.</p>
+<p>The unique feature of this approach is a capability to use daetools variables
+to specify boundary conditions, time varying coefficients and non-linear terms,
+and evaluate quantities such as surface/volume integrals.
+This way, the finite element model is fully integrated with the rest of the model
+and multiple FE systems can be created and coupled together.
+In addition, non-linear and DAE finite element systems are automatically supported.</p>
+<p>In this tutorial the simple transient heat conduction problem is solved using
+the finite element method:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dT/dt - kappa/(rho*cp)*nabla^2(T) = g(T) in Omega
+</pre></div>
+</div>
+<p>The mesh is rectangular with two holes, similar to the mesh in step-49 deal.II example:</p>
+<a class="reference internal image-reference" href="_images/step-49.png"><img alt="" src="_images/step-49.png" style="width: 400px;" /></a>
+<p>Dirichlet boundary conditions are set to 300 K on the outer rectangle,
+350 K on the inner ellipse and 250 K on the inner diamond.</p>
+<p>The temperature plot at t = 500s (generated in VisIt):</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_1-results.png"><img alt="_images/tutorial_dealii_1-results.png" src="_images/tutorial_dealii_1-results.png" style="height: 400px;" /></a>
+<p>Animation:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_1-animation.gif"><img alt="_images/tutorial_dealii_1-animation.gif" src="_images/tutorial_dealii_1-animation.gif" style="height: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_1.xml">tutorial_dealii_1.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_1-rt.xml">tutorial_dealii_1-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_1.html">tutorial_dealii_1.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_2">
+<span id="tutorial-deal-ii-2"></span><span id="tutorial-dealii-2"></span><h2>8.4.2. Tutorial deal.II 2<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_2" title="Permalink to this headline">¶</a></h2>
+<p>In this example a simple transient heat convection-diffusion equation is solved.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dT/dt - kappa/(rho*cp)*nabla^2(T) + nabla.(uT) = g(T) in Omega
+</pre></div>
+</div>
+<p>The fluid flows from the left side to the right with constant velocity of 0.01 m/s.
+The inlet temperature for 0.2 &lt;= y &lt;= 0.3 is iven by the following expression:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>T_left = T_base + T_offset*|sin(pi*t/25)| on dOmega
+</pre></div>
+</div>
+<p>creating a bubble-like regions of higher temperature that flow towards the right end
+and slowly diffuse into the bulk flow of the fluid due to the heat conduction.</p>
+<p>The mesh is rectangular with the refined elements close to the left/right ends:</p>
+<a class="reference internal image-reference" href="_images/rect(1.5,0.5)-100x50.png"><img alt="_images/rect(1.5,0.5)-100x50.png" src="_images/rect(1.5,0.5)-100x50.png" style="width: 500px;" /></a>
+<p>The temperature plot at t = 500s:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_2-results.png"><img alt="_images/tutorial_dealii_2-results.png" src="_images/tutorial_dealii_2-results.png" style="height: 400px;" /></a>
+<p>Animation:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_2-animation.gif"><img alt="_images/tutorial_dealii_2-animation.gif" src="_images/tutorial_dealii_2-animation.gif" style="height: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_2.xml">tutorial_dealii_2.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_2-rt.xml">tutorial_dealii_2-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_2.html">tutorial_dealii_2.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_3">
+<span id="tutorial-deal-ii-3"></span><span id="tutorial-dealii-3"></span><h2>8.4.3. Tutorial deal.II 3<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_3" title="Permalink to this headline">¶</a></h2>
+<p>In this example the Cahn-Hilliard equation is solved using the finite element method.
+This equation describes the process of phase separation, where two components of a
+binary mixture separate and form domains pure in each component.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc/dt - D*nabla^2(mu) = 0, in Omega
+mu = c^3 - c - gamma*nabla^2(c)
+</pre></div>
+</div>
+<p>The mesh is a simple square (0-100)x(0-100):</p>
+<a class="reference internal image-reference" href="_images/square.png"><img alt="_images/square.png" src="_images/square.png" style="width: 300px;" /></a>
+<p>The concentration plot at t = 500s:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_3-results.png"><img alt="_images/tutorial_dealii_3-results.png" src="_images/tutorial_dealii_3-results.png" style="height: 400px;" /></a>
+<p>Animation:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_3-animation.gif"><img alt="_images/tutorial_dealii_3-animation.gif" src="_images/tutorial_dealii_3-animation.gif" style="height: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_3.xml">tutorial_dealii_3.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_3-rt.xml">tutorial_dealii_3-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_3.html">tutorial_dealii_3.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_4">
+<span id="tutorial-deal-ii-4"></span><span id="tutorial-dealii-4"></span><h2>8.4.4. Tutorial deal.II 4<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_4" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial the transient heat conduction problem is solved using
+the finite element method:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dT/dt - kappa * nabla^2(Τ) = g in Omega
+</pre></div>
+</div>
+<p>The mesh is a pipe submerged into water receiving the heat of the sun at the
+45 degrees from the top-left direction, the heat from the suroundings and
+having the constant temperature of the inner tube.
+The boundary conditions are thus:</p>
+<ul class="simple">
+<li>[at boundary ID=0] Sun shine at 45 degrees, gradient heat flux = 2 kW/m**2 in direction n = (1,-1)</li>
+<li>[at boundary ID=1] Outer surface where y &lt;= -0.5, constant flux of 2 kW/m**2</li>
+<li>[at boundary ID=2] Inner tube: constant temperature of 300 K</li>
+</ul>
+<p>The pipe mesh is given below:</p>
+<a class="reference internal image-reference" href="_images/pipe.png"><img alt="_images/pipe.png" src="_images/pipe.png" style="width: 300px;" /></a>
+<p>The temperature plot at t = 3600s:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_4-results.png"><img alt="_images/tutorial_dealii_4-results.png" src="_images/tutorial_dealii_4-results.png" style="height: 400px;" /></a>
+<p>Animation:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_4-animation.gif"><img alt="_images/tutorial_dealii_4-animation.gif" src="_images/tutorial_dealii_4-animation.gif" style="height: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_4.xml">tutorial_dealii_4.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_4-rt.xml">tutorial_dealii_4-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_4.html">tutorial_dealii_4.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_5">
+<span id="tutorial-deal-ii-5"></span><span id="tutorial-dealii-5"></span><h2>8.4.5. Tutorial deal.II 5<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_5" title="Permalink to this headline">¶</a></h2>
+<p>In this example a simple flow through porous media is solved (deal.II step-20).</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>K^{-1} u + nabla(p) = 0 in Omega
+-div(u) = -f in Omega
+p = g on dOmega
+</pre></div>
+</div>
+<p>The mesh is a simple square:</p>
+<a class="reference internal image-reference" href="_images/square(-1,1)x(-1,1)-50x50.png"><img alt="_images/square(-1,1)x(-1,1)-50x50.png" src="_images/square(-1,1)x(-1,1)-50x50.png" style="width: 300px;" /></a>
+<p>The velocity magnitude plot:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_5-results.png"><img alt="_images/tutorial_dealii_5-results.png" src="_images/tutorial_dealii_5-results.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_5.xml">tutorial_dealii_5.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_5-rt.xml">tutorial_dealii_5-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_5.html">tutorial_dealii_5.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_6">
+<span id="tutorial-deal-ii-6"></span><span id="tutorial-dealii-6"></span><h2>8.4.6. Tutorial deal.II 6<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_6" title="Permalink to this headline">¶</a></h2>
+<p>A simple steady-state diffusion and first-order reaction in an irregular catalyst shape
+(Proc. 6th Int. Conf. on Mathematical Modelling, Math. Comput. Modelling, Vol. 11, 375-319, 1988)
+applying Dirichlet and Robin type of boundary conditions.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>D_eA * nabla^2(C_A) - k_r * C_A = 0 in Omega
+D_eA * nabla(C_A) = k_m * (C_A - C_Ab) on dOmega1
+C_A = C_Ab on dOmega2
+</pre></div>
+</div>
+<p>The catalyst pellet mesh:</p>
+<a class="reference internal image-reference" href="_images/ssdr.png"><img alt="_images/ssdr.png" src="_images/ssdr.png" style="width: 400px;" /></a>
+<p>The concentration plot:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_6-results1.png"><img alt="_images/tutorial_dealii_6-results1.png" src="_images/tutorial_dealii_6-results1.png" style="width: 500px;" /></a>
+<p>The concentration plot for Ca=Cab on all boundaries:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_6-results2.png"><img alt="_images/tutorial_dealii_6-results2.png" src="_images/tutorial_dealii_6-results2.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_6.xml">tutorial_dealii_6.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_6-rt.xml">tutorial_dealii_6-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_6.html">tutorial_dealii_6.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_7">
+<span id="tutorial-deal-ii-7"></span><span id="tutorial-dealii-7"></span><h2>8.4.7. Tutorial deal.II 7<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_7" title="Permalink to this headline">¶</a></h2>
+<p>In this example 2D transient Stokes flow driven by the differences in buoyancy caused
+by the temperature differences in the fluid is solved 
+(<a class="reference external" href="https://www.dealii.org/8.5.0/doxygen/deal.II/step_31.html">deal.II step-31</a>).</p>
+<p>The differences to the original problem are that the grid is not adaptive and no 
+stabilisation method is used.</p>
+<p>The problem can be described using the Stokes equations:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>-div(2 * eta * eps(u)) + nabla(p) = -rho * beta * g * T in Omega
+-div(u) = 0 in Omega
+dT/dt + div(u * T) - div(k * nabla(T)) = gamma in Omega
+</pre></div>
+</div>
+<p>The mesh is a simple square (0,1)x(0,1):</p>
+<a class="reference internal image-reference" href="_images/square(0,1)x(0,1)-50x50.png"><img alt="_images/square(0,1)x(0,1)-50x50.png" src="_images/square(0,1)x(0,1)-50x50.png" style="width: 300px;" /></a>
+<p>The temperature and the velocity vectors plot:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_7-results.png"><img alt="_images/tutorial_dealii_7-results.png" src="_images/tutorial_dealii_7-results.png" style="height: 400px;" /></a>
+<p>Animation:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_7-animation.gif"><img alt="_images/tutorial_dealii_7-animation.gif" src="_images/tutorial_dealii_7-animation.gif" style="height: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_7.xml">tutorial_dealii_7.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_7-rt.xml">tutorial_dealii_7-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_7.html">tutorial_dealii_7.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_dealii_8">
+<span id="tutorial-deal-ii-8"></span><span id="tutorial-dealii-8"></span><h2>8.4.8. Tutorial deal.II 8<a class="headerlink" href="#module-daetools.examples.tutorial_dealii_8" title="Permalink to this headline">¶</a></h2>
+<p>In this example a small parallel-plate reactor with an active surface is modelled.</p>
+<p>This problem and its solution in <a class="reference external" href="https://www.comsol.com">COMSOL Multiphysics</a> software 
+is described in the Application Gallery: <a class="reference external" href="https://www.comsol.com/model/transport-and-adsorption-5">Transport and Adsorption (id=5)</a>.</p>
+<p>The transport in the bulk of the reactor is described by a convection-diffusion equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc/dt - D*nabla^2(c) + div(uc) = 0 in Omega
+</pre></div>
+</div>
+<p>The material balance for the surface, including surface diffusion and the reaction rate is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc_s/dt - Ds*nabla^2(c_s) = -k_ads * c * (Gamma_s - c_s) + k_des * c_s in Omega_s
+</pre></div>
+</div>
+<p>For the bulk, the boundary condition at the active surface couples the rate of the reaction
+at the surface with the flux of the reacting species and the concentration of the adsorbed
+species and bulk species:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>n⋅(-D*nabla(c) + c*u) = -k_ads*c*(Gamma_s - c_s) + k_des*c_s
+</pre></div>
+</div>
+<p>The boundary conditions for the surface species are insulating conditions.</p>
+<p>The problem is modelled using two coupled Finite Element systems: 
+2D for bulk flow and 1D for the active surface. 
+The linear interpolation is used to determine the bulk flow and active surface concentrations
+at the interface.</p>
+<p>The mesh is rectangular with the refined elements close to the left/right ends:</p>
+<a class="reference internal image-reference" href="_images/parallel_plate_reactor.png"><img alt="_images/parallel_plate_reactor.png" src="_images/parallel_plate_reactor.png" style="height: 400px;" /></a>
+<p>The cs plot at t = 2s:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_8-results.png"><img alt="_images/tutorial_dealii_8-results.png" src="_images/tutorial_dealii_8-results.png" style="height: 400px;" /></a>
+<p>The c plot at t = 2s:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_8-results2.png"><img alt="_images/tutorial_dealii_8-results2.png" src="_images/tutorial_dealii_8-results2.png" style="height: 400px;" /></a>
+<p>Animation:</p>
+<a class="reference internal image-reference" href="_images/tutorial_dealii_8-animation.gif"><img alt="_images/tutorial_dealii_8-animation.gif" src="_images/tutorial_dealii_8-animation.gif" style="height: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_8.xml">tutorial_dealii_8.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_8-rt.xml">tutorial_dealii_8-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_dealii_8.html">tutorial_dealii_8.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/tutorials-fe.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

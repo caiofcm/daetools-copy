@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="dae-tools-rt.xsl"?>
+<Model ID="27313904" Class="daeModel" Library="DAE.Core" Version="1.9.0">
+  <Name><![CDATA[whats_the_time]]></Name>
+  <Description><![CDATA[
+What is the time? (AKA Hello world!) is a very simple model. The model consists of
+a single variable (called 'time') and a single differential equation::
+
+  d(time)/dt = 1
+
+This way, the value of the variable 'time' is equal to the elapsed time in the
+simulation at any moment.
+
+This tutorial presents the basic structure of daeModel and daeSimulation classes.
+A typical DAETools simulation requires the following 8 tasks:
+
+1. Importing DAE Tools pyDAE module(s)
+
+2. Importing or declaration of units and variable types
+   (unit and daeVariableType classes)
+   
+3. Developing a model by deriving a class from the base daeModel class and:
+
+   - Declaring domains, parameters and variables in the daeModel.__init__ function
+   - Declaring equations and their residual expressions in the
+     daeModel.DeclareEquations function
+     
+4. Setting up a simulation by deriving a class from the base daeSimulation class and:
+
+   - Specifying a model to be used in the simulation in the daeSimulation.__init__ function
+   - Setting the values of parameters in the daeSimulation.SetUpParametersAndDomains function
+   - Setting initial conditions in the daeSimulation.SetUpVariables function
+   
+5. Declaring auxiliary objects required for the simulation
+
+   - DAE solver object
+   - Data reporter object
+   - Log object
+   
+6. Setting the run-time options for the simulation:
+
+   - ReportingInterval
+   - TimeHorizon
+
+7. Connecting a data reporter
+
+8. Initializing, running and finalizing the simulation
+
+The 'time' variable plot:
+
+.. image:: _static/whats_the_time-results.png
+   :width: 500px
+]]></Description>
+  <Domains/>
+  <Parameters/>
+  <Variables>
+    <Object ID="26671944" Class="daeVariable" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[&tau;]]></Name>
+      <Description><![CDATA[Time elapsed in the process]]></Description>
+      <VariableType>time_type</VariableType>
+      <DomainRefs/>
+      <OverallIndex>0</OverallIndex>
+    </Object>
+  </Variables>
+  <Ports/>
+  <EventPorts/>
+  <Equations>
+    <Object ID="27243992" Class="daeEquation" Library="DAE.Core" Version="1.9.0">
+      <Name><![CDATA[Time]]></Name>
+      <Description><![CDATA[Differential equation to calculate the time elapsed in the process.]]></Description>
+      <Residual>$${ \left( { { \partial { { \left( { \tau }  \right) }  } } \over { \partial { t  } } }  \right)  - {1 {}}}  = 0$$</Residual>
+      <EquationExecutionInfos>
+        <Object ID="26820832" Class="daeEquationExecutionInfo" Library="" Version="1.9.0">
+          <EquationEvaluationNode>$${ { { \partial { { \tau }  } } \over { \partial { t  } } }  - {1 {}}}  = 0$$</EquationEvaluationNode>
+          <IsLinear>False</IsLinear>
+        </Object>
+      </EquationExecutionInfos>
+    </Object>
+  </Equations>
+  <OnEventActions/>
+  <OnConditionActions/>
+  <STNs/>
+  <PortConnections/>
+  <EventPortConnections/>
+  <Components/>
+  <ComponentArrays/>
+  <PortArrays/>
+</Model>
