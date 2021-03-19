@@ -55,10 +55,10 @@ OpenCS Example DAE 1
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_opencs_dae_1.py <./examples/tutorial_opencs_dae_1.html>`_
-Auxiliary functions     `tutorial_opencs_aux.py <./examples/tutorial_opencs_aux.html>`_
-DAE Tools model         `tutorial_opencs_daetools_1.py <./examples/tutorial_opencs_daetools_1.html>`_
-The original results    `tutorial_opencs_dae_1.csv <./examples/tutorial_opencs_dae_1.csv>`_
+Source code             `tutorial_opencs_dae_1.py <examples/tutorial_opencs_dae_1.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <examples/tutorial_opencs_aux.html>`_
+DAE Tools model         `tutorial_opencs_daetools_1.py <examples/tutorial_opencs_daetools_1.html>`_
+The original results    `tutorial_opencs_dae_1.csv <examples/tutorial_opencs_dae_1.csv>`_
 =====================   =================================================================
 
 .. _tutorial_opencs_dae_2:
@@ -73,9 +73,9 @@ OpenCS Example DAE 2
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_opencs_dae_2.py <./examples/tutorial_opencs_dae_2.html>`_
-Auxiliary functions     `tutorial_opencs_aux.py <./examples/tutorial_opencs_aux.html>`_
-The original results    `tutorial_opencs_dae_2.csv <./examples/tutorial_opencs_dae_2.csv>`_
+Source code             `tutorial_opencs_dae_2.py <examples/tutorial_opencs_dae_2.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_dae_2.csv <examples/tutorial_opencs_dae_2.csv>`_
 =====================   =================================================================
 
 .. _tutorial_opencs_dae_3:
@@ -90,9 +90,9 @@ OpenCS Example DAE 3
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_opencs_dae_3.py <./examples/tutorial_opencs_dae_3.html>`_
-Auxiliary functions     `tutorial_opencs_aux.py <./examples/tutorial_opencs_aux.html>`_
-The original results    `tutorial_opencs_dae_3.csv <./examples/tutorial_opencs_dae_3.csv>`_
+Source code             `tutorial_opencs_dae_3.py <examples/tutorial_opencs_dae_3.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_dae_3.csv <examples/tutorial_opencs_dae_3.csv>`_
 =====================   =================================================================
 
 .. _tutorial_opencs_ode_1:
@@ -107,9 +107,9 @@ OpenCS Example ODE 1
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_opencs_ode_1.py <./examples/tutorial_opencs_ode_1.html>`_
-Auxiliary functions     `tutorial_opencs_aux.py <./examples/tutorial_opencs_aux.html>`_
-The original results    `tutorial_opencs_ode_1.csv <./examples/tutorial_opencs_ode_1.csv>`_
+Source code             `tutorial_opencs_ode_1.py <examples/tutorial_opencs_ode_1.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_ode_1.csv <examples/tutorial_opencs_ode_1.csv>`_
 =====================   =================================================================
 
 .. _tutorial_opencs_ode_2:
@@ -124,9 +124,9 @@ OpenCS Example ODE 2
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_opencs_ode_2.py <./examples/tutorial_opencs_ode_2.html>`_
-Auxiliary functions     `tutorial_opencs_aux.py <./examples/tutorial_opencs_aux.html>`_
-The original results    `tutorial_opencs_ode_2.csv <./examples/tutorial_opencs_ode_2.csv>`_
+Source code             `tutorial_opencs_ode_2.py <examples/tutorial_opencs_ode_2.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_ode_2.csv <examples/tutorial_opencs_ode_2.csv>`_
 =====================   =================================================================
 
 .. _tutorial_opencs_ode_3:
@@ -141,9 +141,9 @@ OpenCS Example ODE 3
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_opencs_ode_3.py <./examples/tutorial_opencs_ode_3.html>`_
-Auxiliary functions     `tutorial_opencs_aux.py <./examples/tutorial_opencs_aux.html>`_
-The original results    `tutorial_opencs_ode_3.csv <./examples/tutorial_opencs_ode_3.csv>`_
+Source code             `tutorial_opencs_ode_3.py <examples/tutorial_opencs_ode_3.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_ode_3.csv <examples/tutorial_opencs_ode_3.csv>`_
 =====================   =================================================================
 
 .. end-command

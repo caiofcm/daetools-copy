@@ -69,9 +69,9 @@ Chem. Eng. Example 1
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_1.xml <./examples/tutorial_che_1.xml>`_
-Runtime model report    `tutorial_che_1-rt.xml <./examples/tutorial_che_1-rt.xml>`_
-Source code             `tutorial_che_1.py <./examples/tutorial_che_1.html>`_
+Model report            `tutorial_che_1.xml <examples/tutorial_che_1.xml>`_
+Runtime model report    `tutorial_che_1-rt.xml <examples/tutorial_che_1-rt.xml>`_
+Source code             `tutorial_che_1.py <examples/tutorial_che_1.html>`_
 =====================   =================================================================
 
 
@@ -87,9 +87,9 @@ Chem. Eng. Example 2
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_2.xml <./examples/tutorial_che_2.xml>`_
-Runtime model report    `tutorial_che_2-rt.xml <./examples/tutorial_che_2-rt.xml>`_
-Source code             `tutorial_che_2.py <./examples/tutorial_che_2.html>`_
+Model report            `tutorial_che_2.xml <examples/tutorial_che_2.xml>`_
+Runtime model report    `tutorial_che_2-rt.xml <examples/tutorial_che_2-rt.xml>`_
+Source code             `tutorial_che_2.py <examples/tutorial_che_2.html>`_
 =====================   =================================================================
 
 
@@ -105,9 +105,9 @@ Chem. Eng. Example 3
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_3.xml <./examples/tutorial_che_3.xml>`_
-Runtime model report    `tutorial_che_3-rt.xml <./examples/tutorial_che_3-rt.xml>`_
-Source code             `tutorial_che_3.py <./examples/tutorial_che_3.html>`_
+Model report            `tutorial_che_3.xml <examples/tutorial_che_3.xml>`_
+Runtime model report    `tutorial_che_3-rt.xml <examples/tutorial_che_3-rt.xml>`_
+Source code             `tutorial_che_3.py <examples/tutorial_che_3.html>`_
 =====================   =================================================================
 
 
@@ -123,8 +123,8 @@ Chem. Eng. Example 4
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_che_4.py <./examples/tutorial_che_4.html>`_
-Analytical solution     `fl_analytical.py <./examples/fl_analytical.html>`_
+Source code             `tutorial_che_4.py <examples/tutorial_che_4.html>`_
+Analytical solution     `fl_analytical.py <examples/fl_analytical.html>`_
 =====================   =================================================================
 
 
@@ -140,8 +140,8 @@ Chem. Eng. Example 5
 .. rubric:: Files
 
 =====================   =================================================================
-Source code             `tutorial_che_5.py <./examples/tutorial_che_5.html>`_
-Analytical solution     `fl_analytical.py <./examples/fl_analytical.html>`_
+Source code             `tutorial_che_5.py <examples/tutorial_che_5.html>`_
+Analytical solution     `fl_analytical.py <examples/fl_analytical.html>`_
 =====================   =================================================================
 
 
@@ -171,9 +171,9 @@ The current plot:
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_6.xml <./examples/tutorial_che_6.xml>`_
-Runtime model report    `tutorial_che_6-rt.xml <./examples/tutorial_che_6-rt.xml>`_
-Source code             `tutorial_che_6.py <./examples/tutorial_che_6.html>`_
+Model report            `tutorial_che_6.xml <examples/tutorial_che_6.xml>`_
+Runtime model report    `tutorial_che_6-rt.xml <examples/tutorial_che_6-rt.xml>`_
+Source code             `tutorial_che_6.py <examples/tutorial_che_6.html>`_
 =====================   =================================================================
 
 
@@ -189,9 +189,9 @@ Chem. Eng. Example 7
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_7.xml <./examples/tutorial_che_7.xml>`_
-Runtime model report    `tutorial_che_7-rt.xml <./examples/tutorial_che_7-rt.xml>`_
-Source code             `tutorial_che_7.py <./examples/tutorial_che_7.html>`_
+Model report            `tutorial_che_7.xml <examples/tutorial_che_7.xml>`_
+Runtime model report    `tutorial_che_7-rt.xml <examples/tutorial_che_7-rt.xml>`_
+Source code             `tutorial_che_7.py <examples/tutorial_che_7.html>`_
 =====================   =================================================================
 
 
@@ -207,14 +207,14 @@ Chem. Eng. Example 8
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_8.xml <./examples/tutorial_che_8.xml>`_
-Runtime model report    `tutorial_che_8-rt.xml <./examples/tutorial_che_8-rt.xml>`_
-Source code             `tutorial_che_8.py <./examples/tutorial_che_8.html>`_
-Membrane unit           `membrane_unit.py <./examples/membrane_unit.html>`_
-Variable types          `membrane_variable_types.py <./examples/membrane_variable_types.html>`_
-Membrane model          `membrane.py <./examples/membrane.html>`_
-Support model           `support.py <./examples/support.html>`_
-In/out compartment      `compartment.py <./examples/compartment.html>`_
+Model report            `tutorial_che_8.xml <examples/tutorial_che_8.xml>`_
+Runtime model report    `tutorial_che_8-rt.xml <examples/tutorial_che_8-rt.xml>`_
+Source code             `tutorial_che_8.py <examples/tutorial_che_8.html>`_
+Membrane unit           `membrane_unit.py <examples/membrane_unit.html>`_
+Variable types          `membrane_variable_types.py <examples/membrane_variable_types.html>`_
+Membrane model          `membrane.py <examples/membrane.html>`_
+Support model           `support.py <examples/support.html>`_
+In/out compartment      `compartment.py <examples/compartment.html>`_
 =====================   =================================================================
 
 
@@ -230,9 +230,9 @@ Chem. Eng. Example 9
 .. rubric:: Files
 
 =====================   =================================================================
-Model report            `tutorial_che_9.xml <./examples/tutorial_che_9.xml>`_
-Runtime model report    `tutorial_che_9-rt.xml <./examples/tutorial_che_9-rt.xml>`_
-Source code             `tutorial_che_9.py <./examples/tutorial_che_9.html>`_
+Model report            `tutorial_che_9.xml <examples/tutorial_che_9.xml>`_
+Runtime model report    `tutorial_che_9-rt.xml <examples/tutorial_che_9-rt.xml>`_
+Source code             `tutorial_che_9.py <examples/tutorial_che_9.html>`_
 =====================   =================================================================
 
 
