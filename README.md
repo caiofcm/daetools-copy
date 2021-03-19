@@ -4,3 +4,7 @@ A Copy of the DAETOOLS project to enable the online documentation, since the off
 
 http://www.daetools.com/
 
+See the documentation at:
+
+https://caiofcm.github.io/daetools-copy/
+
