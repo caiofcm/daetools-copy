@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>daetools.pyDAE.hr_upwind_scheme &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../../_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for daetools.pyDAE.hr_upwind_scheme</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;***********************************************************************************</span>
+<span class="sd">                           hr_upwind_scheme.py</span>
+<span class="sd">                DAE Tools: pyDAE module, www.daetools.com</span>
+<span class="sd">                Copyright (C) Dragan Nikolic</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span class="sd">terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span class="sd">Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span class="sd">ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span class="sd">PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span class="sd">You should have received a copy of the GNU General Public License along with the</span>
+<span class="sd">DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">************************************************************************************&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">daetools.pyDAE</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># These function operate on adouble objects</span>
+<span class="n">MIN</span>     <span class="o">=</span> <span class="n">Min</span>
+<span class="n">MAX</span>     <span class="o">=</span> <span class="n">Max</span>
+<span class="n">FABS</span>    <span class="o">=</span> <span class="n">Abs</span>
+<span class="n">beta</span>    <span class="o">=</span> <span class="mf">1.5</span> <span class="c1"># For Sweby and Osher (1 &lt;= beta  &lt;= 2)</span>
+<span class="n">theta</span>   <span class="o">=</span> <span class="mf">1.5</span> <span class="c1"># For van Leer minmod (1 &lt;= theta &lt;= 2)</span>
+
+<div class="viewcode-block" id="daeHRUpwindSchemeEquation"><a class="viewcode-back" href="../../../hr_upwind_scheme.html#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation">[docs]</a><span class="k">class</span> <span class="nc">daeHRUpwindSchemeEquation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">supported_flux_limiters</span> <span class="o">=</span> <span class="p">[]</span>
+    
+<div class="viewcode-block" id="daeHRUpwindSchemeEquation.__init__"><a class="viewcode-back" href="../../../hr_upwind_scheme.html#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">r_epsilon</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="n">reversedFlow</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">phi</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid flux limiter function specified (must be a callable)&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">variable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid variable specified (must be a daeVariable object or a callable)&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid domain specified (must be a daeDomain object or a callable)&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span>            <span class="o">=</span> <span class="n">variable</span>  <span class="c1"># daeVariable object (or a callable)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span>            <span class="o">=</span> <span class="n">domain</span>    <span class="c1"># daeDomain object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phi</span>          <span class="o">=</span> <span class="n">phi</span>       <span class="c1"># Flux limiter function (a callable)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r_epsilon</span>    <span class="o">=</span> <span class="n">r_epsilon</span> <span class="c1"># epsilon in the upwind ratio (r) expression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reversedFlow</span> <span class="o">=</span> <span class="n">reversedFlow</span> </div>
+
+<div class="viewcode-block" id="daeHRUpwindSchemeEquation.dc_dt"><a class="viewcode-back" href="../../../hr_upwind_scheme.html#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.dc_dt">[docs]</a>    <span class="k">def</span> <span class="nf">dc_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Accumulation term in the cell-centered finite-volume discretisation:</span>
+<span class="sd">            </span>
+<span class="sd">           :math:`\int_{\Omega_i} {\partial c_i \over \partial t} dx`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">Nx</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">variable</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid variable specified (must be a daeVariable object or a callable)&#39;</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">variable</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">dc_dt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span class="n">dt</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">reversedFlow</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># Sto ovde imam za 0??</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">dc_dt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">dc_dt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># reversible flow</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c1"># Sto ovde imam za Nx-1??</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">Nx</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">*</span> <span class="n">dc_dt</span><span class="p">(</span><span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">dc_dt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="daeHRUpwindSchemeEquation.dc_dx"><a class="viewcode-back" href="../../../hr_upwind_scheme.html#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.dc_dx">[docs]</a>    <span class="k">def</span> <span class="nf">dc_dx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convection term in the cell-centered finite-volume discretisation:</span>
+<span class="sd">            </span>
+<span class="sd">           :math:`c_{i + {1 \over 2}} - c_{i - {1 \over 2}}`.</span>
+<span class="sd">           </span>
+<span class="sd">           Cell-face state :math:`c_{i+{1 \over 2}}` is given as:</span>
+<span class="sd">               </span>
+<span class="sd">           :math:`{c}_{i + {1 \over 2}} = c_i  + \phi \left( r_{i + {1 \over 2}} \\right) \left( c_i - c_{i-1}  \\right)`</span>
+<span class="sd">           </span>
+<span class="sd">           where :math:`\phi` is the flux limiter function and :math:`r_{i + {1 \over 2}}` the upwind ratio of consecutive </span>
+<span class="sd">           solution gradients:</span>
+<span class="sd">               </span>
+<span class="sd">           :math:`r_{i + {1 \over 2}} = {{c_{i+1} - c_{i} + \epsilon} \over {c_{i} - c_{i-1} + \epsilon}}`.</span>
+<span class="sd">           </span>
+<span class="sd">           If the source term integral :math:`S= {1 \over u} \int_{\Omega_i} s(x) dx` is not ``None`` then the convection term is given as:</span>
+<span class="sd">           :math:`(c-S)_{i + {1 \over 2}} - (c-S)_{i - {1 \over 2}}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">variable</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid variable specified (must be a daeVariable object or a callable)&#39;</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">variable</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">reversedFlow</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c_edge_plus</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>     <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c_edge_plus</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># reversible flow</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c_edge_plus_rev</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c_edge_plus_rev</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+            
+<div class="viewcode-block" id="daeHRUpwindSchemeEquation.d2c_dx2"><a class="viewcode-back" href="../../../hr_upwind_scheme.html#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.d2c_dx2">[docs]</a>    <span class="k">def</span> <span class="nf">d2c_dx2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Diffusion term in the cell-centered finite-volume discretisation:           </span>
+<span class="sd">           </span>
+<span class="sd">           :math:`\left( \partial c_i \over \partial x \\right)_{i + {1 \over 2}} - \left( \partial c_i \over \partial x \\right)_{i - {1 \over 2}}`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">variable</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Invalid variable specified (must be a daeVariable object or a callable)&#39;</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">variable</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">reversedFlow</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dc_dx_edge_plus</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>     <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dc_dx_edge_plus</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># reversible flow</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dc_dx_edge_plus_rev</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dc_dx_edge_plus_rev</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="daeHRUpwindSchemeEquation.source"><a class="viewcode-back" href="../../../hr_upwind_scheme.html#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.source">[docs]</a>    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Source term in the cell-centered finite-volume discretisation: </span>
+<span class="sd">            </span>
+<span class="sd">           :math:`\int_{\Omega_i} s(x) dx`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The cell average shouldn&#39;t depend on a flow direction.</span>
+        <span class="c1"># Anyhow, everything is fine as long as the grid is uniform.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AverageOverCell</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> </div>
+
+    <span class="c1">########################################################################</span>
+    <span class="c1"># Implementation details</span>
+    <span class="c1">########################################################################</span>
+    <span class="k">def</span> <span class="nf">_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Upwind ratio of consecutive solution gradients.</span>
+        <span class="c1"># It may include the source term integral S(x).</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_epsilon</span>
+        <span class="n">c</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">cs</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="n">S</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">if</span> <span class="n">S</span> <span class="k">else</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_r_rev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Upwind ratio of consecutive solution gradients for the reversed flow.</span>
+        <span class="c1"># It may include the source term integral S(x).</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r_epsilon</span>
+        <span class="n">c</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="n">S</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">if</span> <span class="n">S</span> <span class="k">else</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_c_edge_plus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+        <span class="c1"># c at the i+1/2 face (cell outlet)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi</span>
+        <span class="n">r</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r</span>
+        <span class="n">x</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">Nx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+        <span class="n">cs</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="n">S</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">if</span> <span class="n">S</span> <span class="k">else</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>      
+            <span class="c1"># Right face of the first cell: central interpolation (k=1)</span>
+            <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">cs</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+            <span class="c1"># Right face of the last cell: one-sided upwind scheme (k=-1)</span>
+            <span class="k">return</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>           
+            <span class="c1"># Other cells: k=1/3</span>
+            <span class="k">return</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">phi</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">S</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;c_edge_plus: Invalid index specified: </span><span class="si">%d</span><span class="s1"> (no. points is </span><span class="si">%d</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Nx</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_c_edge_plus_rev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+        <span class="c1"># c at the i+1/2 face (cell outlet) for the reversed flow</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi</span>
+        <span class="n">r</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_rev</span>
+        <span class="n">x</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">Nx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+        <span class="n">cs</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">j</span><span class="p">:</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="n">S</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">if</span> <span class="n">S</span> <span class="k">else</span> <span class="n">c</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Left face of the last cell (first in the reversed):</span>
+            <span class="k">return</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> 
+            <span class="c1"># Left face of the first cell (last in the reversed):</span>
+            <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">cs</span><span class="p">(</span><span class="n">Nx</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>           
+            <span class="c1"># Other cells: k=1/3</span>
+            <span class="k">return</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">phi</span><span class="p">(</span><span class="n">r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">S</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">cs</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;c_edge_plus_rev: Invalid index specified: </span><span class="si">%d</span><span class="s1"> (no. points is </span><span class="si">%d</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Nx</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_dc_dx_edge_plus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="c1"># Diffusion at the i+1/2 face (cell outlet)</span>
+        <span class="n">x</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">Nx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Right face of the first cell: biased central-difference</span>
+            <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Right face of the last cell: biased central-difference</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">9</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>           
+            <span class="c1"># Other cells: central-difference O(h^2)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;dc_dx_edge_plus: Invalid index specified: </span><span class="si">%d</span><span class="s1"> (no. points is </span><span class="si">%d</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Nx</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_dc_dx_edge_plus_rev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="c1"># Diffusion at the i+1/2 face (cell outlet) for the reversed flow</span>
+        <span class="n">x</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">Nx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Left face of the last cell: biased central-difference</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">9</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Left face of the first cell: biased central-difference</span>
+            <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>           
+            <span class="c1"># Other cells: central-difference O(h^2)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;dc_dx_edge_plus_rev: Invalid index specified: </span><span class="si">%d</span><span class="s1"> (no. points is </span><span class="si">%d</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Nx</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_AverageOverCell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;                                   i+1/2</span>
+<span class="sd">        Integral over a cell i: S = integral      (f(x)*dx)</span>
+<span class="sd">                                              i-1/2</span>
+
+<span class="sd">        We could use a simple trapezoidal rule: (x      - x     ) * [f(x     ) + f(x     )] / 2</span>
+<span class="sd">                                                  i+1/2    i-1/2        i+1/2       i-1/2</span>
+<span class="sd">        or to assume the source everywhere in the cell is equal to the value at the plus edge:</span>
+<span class="sd">                                                (x      - x     ) * f(x     )   </span>
+<span class="sd">                                                  i+1/2    i-1/2       i+1/2</span>
+<span class="sd">        The latter gives better results (double check why).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">xp</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">Points</span>
+        <span class="n">Nx</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">NumberOfPoints</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># The first cell</span>
+            <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># The last cell</span>
+            <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">xp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> 
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>           
+            <span class="c1"># Other cells</span>
+            <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">xp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;VolumeAverage: Invalid index specified: </span><span class="si">%d</span><span class="s1"> (no. points is </span><span class="si">%d</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">Nx</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_CHARM</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;CHARM&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_HCUS</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;HCUS&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">FABS</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_HQUICK</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;HQUICK&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">FABS</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_Koren</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Koren&quot;&quot;&quot;</span>
+        <span class="c1">#r = 1.0/r</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span> <span class="o">+</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_minmod</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;minmod&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_monotinized_central</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;MC&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">r</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">)))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_Osher</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Osher&quot;&quot;&quot;</span>
+        <span class="c1"># 1 &lt;= beta &lt;= 2</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">beta</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_ospre</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;ospre&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">r</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">r</span> <span class="o">+</span> <span class="n">r</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_smart</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;smart&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.25</span><span class="o">+</span><span class="mf">0.75</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_superbee</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;superbee&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MAX</span><span class="p">(</span><span class="n">MIN</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">MIN</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_Sweby</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sweby&quot;&quot;&quot;</span>
+        <span class="c1"># 1 &lt;= beta &lt;= 2</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MAX</span><span class="p">(</span><span class="n">MIN</span><span class="p">(</span><span class="n">beta</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">MIN</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">beta</span><span class="p">)))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_UMIST</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;UMIST&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.25</span><span class="o">+</span><span class="mf">0.75</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.75</span><span class="o">+</span><span class="mf">0.25</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_vanAlbada1</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;vanAlbada1&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">r</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">r</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_vanAlbada2</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;vanAlbada2&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">r</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_vanLeer</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;vanLeer&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">FABS</span><span class="p">(</span><span class="n">r</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">FABS</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">Phi_vanLeer_minmod</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;vanLeerMinmod&quot;&quot;&quot;</span>
+        <span class="c1"># 1 &lt;= theta &lt;= 2</span>
+        <span class="k">return</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="n">theta</span><span class="o">*</span><span class="n">r</span><span class="p">,</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">r</span><span class="p">),</span> <span class="n">theta</span><span class="p">)))</span></div>
+
+<span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">supported_flux_limiters</span> <span class="o">=</span> <span class="p">[</span><span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_HCUS</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_HQUICK</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_Koren</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_monotinized_central</span><span class="p">,</span>
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_minmod</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_Osher</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_ospre</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_smart</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_superbee</span><span class="p">,</span>
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_Sweby</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_UMIST</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_vanAlbada1</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_vanAlbada2</span><span class="p">,</span> 
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_vanLeer</span><span class="p">,</span>
+                                                     <span class="n">daeHRUpwindSchemeEquation</span><span class="o">.</span><span class="n">Phi_vanLeer_minmod</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">plot_flux_limiters</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">set_window_title</span><span class="p">(</span><span class="s1">&#39;Flux Limiters&#39;</span><span class="p">)</span>
+
+    <span class="n">tvdx</span>  <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">tvdy1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">tvdy2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">tvdx</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>   <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>  <span class="mi">5</span><span class="p">)</span>
+    <span class="n">tvdx</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>  <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span>   <span class="mf">1.0</span><span class="p">,</span>  <span class="mi">5</span><span class="p">)</span>
+    <span class="n">tvdx</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span>   <span class="mf">2.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">tvdx</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span>   <span class="mf">3.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">tvdy1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>   <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="mi">5</span><span class="p">)</span>
+    <span class="n">tvdy1</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>  <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="mi">5</span><span class="p">)</span>
+    <span class="n">tvdy1</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">tvdy1</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">tvdy2</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>   <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>  <span class="mi">5</span><span class="p">)</span>
+    <span class="n">tvdy2</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>  <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="mi">5</span><span class="p">)</span>
+    <span class="n">tvdy2</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">tvdy2</span><span class="p">[</span><span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">rs</span>       <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">rs_koren</span> <span class="o">=</span> <span class="n">rs</span>
+    <span class="n">phis</span>     <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">fl</span> <span class="ow">in</span> <span class="n">daeHRUpwindScheme</span><span class="o">.</span><span class="n">supported_flux_limiters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fl</span> <span class="o">==</span> <span class="n">daeHRUpwindScheme</span><span class="o">.</span><span class="n">Phi_Koren</span><span class="p">:</span>
+            <span class="n">phis</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fl</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rs_koren</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">phis</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fl</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rs</span><span class="p">]</span>
+
+        <span class="n">axes</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">counter</span><span class="p">)</span>
+        <span class="n">fp9</span>  <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;Cantarell&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">fp11</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;Cantarell&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">variant</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="n">phis</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">tvdx</span><span class="p">,</span> <span class="n">tvdy1</span><span class="p">,</span> <span class="n">tvdy2</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fp11</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$\phi( r )$&#39;</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fp11</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$r$&#39;</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fp11</span><span class="p">)</span>
+        <span class="n">axes</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">xlabel</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">():</span>
+            <span class="n">xlabel</span><span class="o">.</span><span class="n">set_fontproperties</span><span class="p">(</span><span class="n">fp9</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ylabel</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
+            <span class="n">ylabel</span><span class="o">.</span><span class="n">set_fontproperties</span><span class="p">(</span><span class="n">fp9</span><span class="p">)</span>
+
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Change the functions definitions to work with floats</span>
+    <span class="n">MIN</span>     <span class="o">=</span> <span class="nb">min</span>
+    <span class="n">MAX</span>     <span class="o">=</span> <span class="nb">max</span>
+    <span class="n">FABS</span>    <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span>
+    <span class="n">beta</span>    <span class="o">=</span> <span class="mf">1.5</span> <span class="c1"># For Sweby and Osher (1 &lt;= beta  &lt;= 2)</span>
+    <span class="n">theta</span>   <span class="o">=</span> <span class="mf">1.5</span> <span class="c1"># For van Leer minmod (1 &lt;= theta &lt;= 2)</span>
+
+    <span class="n">plot_flux_limiters</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

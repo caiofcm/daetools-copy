@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.9. Variable types &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7.10. Third party solvers" href="solvers.html" />
+    <link rel="prev" title="7.8. Module pyUnits" href="units.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">7.9. Variable types</a><ul>
+<li><a class="reference internal" href="#module-daetools.pyDAE.variable_types">7.9.1. Overview</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="variable-types">
+<h1>7.9. Variable types<a class="headerlink" href="#variable-types" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-daetools.pyDAE.variable_types">
+<span id="overview"></span><h2>7.9.1. Overview<a class="headerlink" href="#module-daetools.pyDAE.variable_types" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.time_t">
+<code class="descclassname">variable_types.</code><code class="descname">time_t</code><em class="property"> = daeVariableType(name=&quot;time_t&quot;, units=(s ** (1)), lowerBound=0, upperBound=1e+20, initialGuess=0, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.time_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.length_t">
+<code class="descclassname">variable_types.</code><code class="descname">length_t</code><em class="property"> = daeVariableType(name=&quot;length_t&quot;, units=(m ** (1)), lowerBound=0, upperBound=100000, initialGuess=0.5, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.length_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.area_t">
+<code class="descclassname">variable_types.</code><code class="descname">area_t</code><em class="property"> = daeVariableType(name=&quot;area_t&quot;, units=(m ** (2)), lowerBound=0, upperBound=100000, initialGuess=1, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.area_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.volume_t">
+<code class="descclassname">variable_types.</code><code class="descname">volume_t</code><em class="property"> = daeVariableType(name=&quot;volume_t&quot;, units=(m ** (3)), lowerBound=0, upperBound=100000, initialGuess=1, absoluteTolerance=1e-06, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.volume_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.velocity_t">
+<code class="descclassname">variable_types.</code><code class="descname">velocity_t</code><em class="property"> = daeVariableType(name=&quot;velocity_t&quot;, units=(m ** (1))*(s ** (-1)), lowerBound=-1e+10, upperBound=1e+10, initialGuess=0.001, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.velocity_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.pressure_t">
+<code class="descclassname">variable_types.</code><code class="descname">pressure_t</code><em class="property"> = daeVariableType(name=&quot;pressure_t&quot;, units=(Pa ** (1)), lowerBound=100, upperBound=1e+10, initialGuess=100000, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.pressure_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.temperature_t">
+<code class="descclassname">variable_types.</code><code class="descname">temperature_t</code><em class="property"> = daeVariableType(name=&quot;temperature_t&quot;, units=(K ** (1)), lowerBound=0, upperBound=100000, initialGuess=300, absoluteTolerance=0.01, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.temperature_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.fraction_t">
+<code class="descclassname">variable_types.</code><code class="descname">fraction_t</code><em class="property"> = daeVariableType(name=&quot;fraction_t&quot;, units=, lowerBound=-0.1, upperBound=2, initialGuess=0.25, absoluteTolerance=1e-06, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.fraction_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.no_t">
+<code class="descclassname">variable_types.</code><code class="descname">no_t</code><em class="property"> = daeVariableType(name=&quot;no_t&quot;, units=, lowerBound=-1e+20, upperBound=1e+20, initialGuess=0, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.no_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.moles_t">
+<code class="descclassname">variable_types.</code><code class="descname">moles_t</code><em class="property"> = daeVariableType(name=&quot;moles_t&quot;, units=(mol ** (1)), lowerBound=0, upperBound=1e+20, initialGuess=1, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.moles_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.molar_flux_t">
+<code class="descclassname">variable_types.</code><code class="descname">molar_flux_t</code><em class="property"> = daeVariableType(name=&quot;molar_flux_t&quot;, units=(m ** (-2))*(mol ** (1))*(s ** (-1)), lowerBound=-1e+20, upperBound=1e+20, initialGuess=0.001, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.molar_flux_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.molar_concentration_t">
+<code class="descclassname">variable_types.</code><code class="descname">molar_concentration_t</code><em class="property"> = daeVariableType(name=&quot;molar_concentration_t&quot;, units=(m ** (-3))*(mol ** (1)), lowerBound=0, upperBound=1e+10, initialGuess=1, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.molar_concentration_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.molar_flowrate_t">
+<code class="descclassname">variable_types.</code><code class="descname">molar_flowrate_t</code><em class="property"> = daeVariableType(name=&quot;molar_flowrate_t&quot;, units=(mol ** (1))*(s ** (-1)), lowerBound=-1e+10, upperBound=1e+10, initialGuess=0, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.molar_flowrate_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.heat_t">
+<code class="descclassname">variable_types.</code><code class="descname">heat_t</code><em class="property"> = daeVariableType(name=&quot;heat_t&quot;, units=(J ** (1)), lowerBound=-1e+20, upperBound=1e+20, initialGuess=1000, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.heat_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.heat_flux_t">
+<code class="descclassname">variable_types.</code><code class="descname">heat_flux_t</code><em class="property"> = daeVariableType(name=&quot;heat_flux_t&quot;, units=(W ** (1))*(m ** (-2)), lowerBound=-1e+20, upperBound=1e+20, initialGuess=0, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.heat_flux_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.heat_transfer_coefficient_t">
+<code class="descclassname">variable_types.</code><code class="descname">heat_transfer_coefficient_t</code><em class="property"> = daeVariableType(name=&quot;heat_transfer_coefficient_t&quot;, units=(K ** (-1))*(W ** (1))*(m ** (-2)), lowerBound=0, upperBound=1e+10, initialGuess=100, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.heat_transfer_coefficient_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.power_t">
+<code class="descclassname">variable_types.</code><code class="descname">power_t</code><em class="property"> = daeVariableType(name=&quot;power_t&quot;, units=(W ** (1)), lowerBound=-1e+20, upperBound=1e+20, initialGuess=0, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.power_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.specific_heat_capacity_t">
+<code class="descclassname">variable_types.</code><code class="descname">specific_heat_capacity_t</code><em class="property"> = daeVariableType(name=&quot;specific_heat_capacity_t&quot;, units=(J ** (1))*(K ** (-1))*(kg ** (-1)), lowerBound=0, upperBound=1e+20, initialGuess=1000, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.specific_heat_capacity_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.density_t">
+<code class="descclassname">variable_types.</code><code class="descname">density_t</code><em class="property"> = daeVariableType(name=&quot;density_t&quot;, units=(kg ** (1))*(m ** (-3)), lowerBound=0, upperBound=1e+20, initialGuess=1000, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.density_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.thermal_conductivity_t">
+<code class="descclassname">variable_types.</code><code class="descname">thermal_conductivity_t</code><em class="property"> = daeVariableType(name=&quot;thermal_conductivity_t&quot;, units=(K ** (-1))*(W ** (1))*(m ** (-1)), lowerBound=0, upperBound=1e+10, initialGuess=1, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.thermal_conductivity_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.dynamic_viscosity_t">
+<code class="descclassname">variable_types.</code><code class="descname">dynamic_viscosity_t</code><em class="property"> = daeVariableType(name=&quot;dynamic_viscosity_t&quot;, units=(Pa ** (1))*(s ** (1)), lowerBound=0, upperBound=1e+10, initialGuess=0.001, absoluteTolerance=1e-06, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.dynamic_viscosity_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.diffusivity_t">
+<code class="descclassname">variable_types.</code><code class="descname">diffusivity_t</code><em class="property"> = daeVariableType(name=&quot;diffusivity_t&quot;, units=(m ** (2))*(s ** (-1)), lowerBound=0, upperBound=100000, initialGuess=0.001, absoluteTolerance=1e-08, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.diffusivity_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.pyDAE.variable_types.amount_adsorbed_t">
+<code class="descclassname">variable_types.</code><code class="descname">amount_adsorbed_t</code><em class="property"> = daeVariableType(name=&quot;amount_adsorbed_t&quot;, units=(kg ** (-1))*(mol ** (1)), lowerBound=-1e+20, upperBound=1e+20, initialGuess=1, absoluteTolerance=1e-05, valueConstraint=0)</em><a class="headerlink" href="#daetools.pyDAE.variable_types.amount_adsorbed_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/variable_types.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.7. Module pyIDAS &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7.8. Module pyUnits" href="units.html" />
+    <link rel="prev" title="7.6. Module pyDataReporting" href="data_reporting.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">7.7. Module pyIDAS</a><ul>
+<li><a class="reference internal" href="#overview">7.7.1. Overview</a></li>
+<li><a class="reference internal" href="#classes">7.7.2. Classes</a></li>
+<li><a class="reference internal" href="#enumerations">7.7.3. Enumerations</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="module-pyidas">
+<h1>7.7. Module pyIDAS<a class="headerlink" href="#module-pyidas" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-pyIDAS"></span><div class="section" id="overview">
+<h2>7.7.1. Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="classes">
+<h2>7.7.2. Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyIDAS.daeDAESolver_t" title="pyIDAS.daeDAESolver_t"><code class="xref py py-obj docutils literal"><span class="pre">daeDAESolver_t</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyIDAS.daeIDAS" title="pyIDAS.daeIDAS"><code class="xref py py-obj docutils literal"><span class="pre">daeIDAS</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pyIDAS.daeDAESolver_t">
+<em class="property">class </em><code class="descname">daeDAESolver_t</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.instance</span></code></p>
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.InitialConditionMode">
+<code class="descname">InitialConditionMode</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.InitialConditionMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.IntegrationMode">
+<code class="descname">IntegrationMode</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.IntegrationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.Log">
+<code class="descname">Log</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.Log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.Name">
+<code class="descname">Name</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.Name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.NumberOfVariables">
+<code class="descname">NumberOfVariables</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.NumberOfVariables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeDAESolver_t.OnCalculateConditions">
+<code class="descname">OnCalculateConditions</code><span class="sig-paren">(</span><em>(daeDAESolver_t)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeDAESolver_t.OnCalculateConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateConditions( (daeDAESolver_t)arg1) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeDAESolver_t.OnCalculateJacobian">
+<code class="descname">OnCalculateJacobian</code><span class="sig-paren">(</span><em>(daeDAESolver_t)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeDAESolver_t.OnCalculateJacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateJacobian( (daeDAESolver_t)arg1) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeDAESolver_t.OnCalculateResiduals">
+<code class="descname">OnCalculateResiduals</code><span class="sig-paren">(</span><em>(daeDAESolver_t)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeDAESolver_t.OnCalculateResiduals" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateResiduals( (daeDAESolver_t)arg1) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeDAESolver_t.OnCalculateSensitivityResiduals">
+<code class="descname">OnCalculateSensitivityResiduals</code><span class="sig-paren">(</span><em>(daeDAESolver_t)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeDAESolver_t.OnCalculateSensitivityResiduals" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateSensitivityResiduals( (daeDAESolver_t)arg1) -&gt; None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.RelativeTolerance">
+<code class="descname">RelativeTolerance</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.RelativeTolerance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeDAESolver_t.SensitivityMatrix">
+<code class="descname">SensitivityMatrix</code><a class="headerlink" href="#pyIDAS.daeDAESolver_t.SensitivityMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyIDAS.daeIDAS">
+<em class="property">class </em><code class="descname">daeIDAS</code><a class="headerlink" href="#pyIDAS.daeIDAS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyIDAS.daeDAESolver_t" title="pyIDAS.daeDAESolver_t"><code class="xref py py-class docutils literal"><span class="pre">pyIDAS.daeDAESolver_t</span></code></a></p>
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.CallStats">
+<code class="descname">CallStats</code><a class="headerlink" href="#pyIDAS.daeIDAS.CallStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.ErrWeights">
+<code class="descname">ErrWeights</code><a class="headerlink" href="#pyIDAS.daeIDAS.ErrWeights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.EstLocalErrors">
+<code class="descname">EstLocalErrors</code><a class="headerlink" href="#pyIDAS.daeIDAS.EstLocalErrors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.IntegratorStats">
+<code class="descname">IntegratorStats</code><a class="headerlink" href="#pyIDAS.daeIDAS.IntegratorStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.Jacobian">
+<code class="descname">Jacobian</code><a class="headerlink" href="#pyIDAS.daeIDAS.Jacobian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.LASolver">
+<code class="descname">LASolver</code><a class="headerlink" href="#pyIDAS.daeIDAS.LASolver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeIDAS.OnCalculateConditions">
+<code class="descname">OnCalculateConditions</code><span class="sig-paren">(</span><em>(daeIDAS)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeIDAS.OnCalculateConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateConditions( (daeIDAS)self) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeIDAS.OnCalculateJacobian">
+<code class="descname">OnCalculateJacobian</code><span class="sig-paren">(</span><em>(daeIDAS)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeIDAS.OnCalculateJacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateJacobian( (daeIDAS)self) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeIDAS.OnCalculateResiduals">
+<code class="descname">OnCalculateResiduals</code><span class="sig-paren">(</span><em>(daeIDAS)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeIDAS.OnCalculateResiduals" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateResiduals( (daeIDAS)self) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeIDAS.OnCalculateSensitivityResiduals">
+<code class="descname">OnCalculateSensitivityResiduals</code><span class="sig-paren">(</span><em>(daeIDAS)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeIDAS.OnCalculateSensitivityResiduals" title="Permalink to this definition">¶</a></dt>
+<dd><p>OnCalculateSensitivityResiduals( (daeIDAS)self) -&gt; None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.Residuals">
+<code class="descname">Residuals</code><a class="headerlink" href="#pyIDAS.daeIDAS.Residuals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeIDAS.SaveMatrixAsXPM">
+<code class="descname">SaveMatrixAsXPM</code><span class="sig-paren">(</span><em>(daeIDAS)self</em>, <em>(str)xpmFilename</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeIDAS.SaveMatrixAsXPM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.SensitivityResiduals">
+<code class="descname">SensitivityResiduals</code><a class="headerlink" href="#pyIDAS.daeIDAS.SensitivityResiduals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIDAS.daeIDAS.SetLASolver">
+<code class="descname">SetLASolver</code><span class="sig-paren">(</span><em>(daeIDAS)self</em>, <em>(daeeIDALASolverType)solverType</em><span class="optional">[</span>, <em>(object)preconditioner=None</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIDAS.daeIDAS.SetLASolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetLASolver( (daeIDAS)self, (object)lasolver) -&gt; None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.TimeDerivatives">
+<code class="descname">TimeDerivatives</code><a class="headerlink" href="#pyIDAS.daeIDAS.TimeDerivatives" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeIDAS.Values">
+<code class="descname">Values</code><a class="headerlink" href="#pyIDAS.daeIDAS.Values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h2>7.7.3. Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyIDAS.daeeIDALASolverType" title="pyIDAS.daeeIDALASolverType"><code class="xref py py-obj docutils literal"><span class="pre">daeeIDALASolverType</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pyIDAS.daeeIDALASolverType">
+<em class="property">class </em><code class="descname">daeeIDALASolverType</code><a class="headerlink" href="#pyIDAS.daeeIDALASolverType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pyIDAS.daeeIDALASolverType.eSundialsGMRES">
+<code class="descname">eSundialsGMRES</code><em class="property"> = pyIDAS.daeeIDALASolverType.eSundialsGMRES</em><a class="headerlink" href="#pyIDAS.daeeIDALASolverType.eSundialsGMRES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeeIDALASolverType.eSundialsLU">
+<code class="descname">eSundialsLU</code><em class="property"> = pyIDAS.daeeIDALASolverType.eSundialsLU</em><a class="headerlink" href="#pyIDAS.daeeIDALASolverType.eSundialsLU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeeIDALASolverType.eSundialsLapack">
+<code class="descname">eSundialsLapack</code><em class="property"> = pyIDAS.daeeIDALASolverType.eSundialsLapack</em><a class="headerlink" href="#pyIDAS.daeeIDALASolverType.eSundialsLapack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyIDAS.daeeIDALASolverType.eThirdParty">
+<code class="descname">eThirdParty</code><em class="property"> = pyIDAS.daeeIDALASolverType.eThirdParty</em><a class="headerlink" href="#pyIDAS.daeeIDALASolverType.eThirdParty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/dae_solver.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

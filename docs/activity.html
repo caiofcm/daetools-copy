@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.5. Module pyActivity &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7.6. Module pyDataReporting" href="data_reporting.html" />
+    <link rel="prev" title="7.4. Message logs" href="log.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">7.5. Module pyActivity</a><ul>
+<li><a class="reference internal" href="#overview">7.5.1. Overview</a></li>
+<li><a class="reference internal" href="#module-pyActivity">7.5.2. Classes</a></li>
+<li><a class="reference internal" href="#enumerations">7.5.3. Enumerations</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="module-pyactivity">
+<h1>7.5. Module pyActivity<a class="headerlink" href="#module-pyactivity" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>7.5.1. Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyActivity">
+<span id="classes"></span><h2>7.5.2. Classes<a class="headerlink" href="#module-pyActivity" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyActivity.daeSimulation" title="pyActivity.daeSimulation"><code class="xref py py-obj docutils literal"><span class="pre">daeSimulation</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyActivity.daeOptimization" title="pyActivity.daeOptimization"><code class="xref py py-obj docutils literal"><span class="pre">daeOptimization</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">daeActivity</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pyActivity.daeSimulation">
+<em class="property">class </em><code class="descname">daeSimulation</code><a class="headerlink" href="#pyActivity.daeSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyActivity.daeSimulation_t</span></code></p>
+<p class="rubric">Initialization methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>(object)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Initialize">
+<code class="descname">Initialize</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(object)daeSolver</em>, <em>(object)dataReporter</em>, <em>(object)log</em><span class="optional">[</span>, <em>(bool)calculateSensitivities=False</em><span class="optional">[</span>, <em>(str)jsonRuntimeSettings=''</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SolveInitial">
+<code class="descname">SolveInitial</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SolveInitial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.m">
+<code class="descname">m</code><a class="headerlink" href="#pyActivity.daeSimulation.m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.model">
+<code class="descname">model</code><a class="headerlink" href="#pyActivity.daeSimulation.model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.Model">
+<code class="descname">Model</code><a class="headerlink" href="#pyActivity.daeSimulation.Model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.DAESolver">
+<code class="descname">DAESolver</code><a class="headerlink" href="#pyActivity.daeSimulation.DAESolver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.Log">
+<code class="descname">Log</code><a class="headerlink" href="#pyActivity.daeSimulation.Log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.DataReporter">
+<code class="descname">DataReporter</code><a class="headerlink" href="#pyActivity.daeSimulation.DataReporter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.AbsoluteTolerances">
+<code class="descname">AbsoluteTolerances</code><a class="headerlink" href="#pyActivity.daeSimulation.AbsoluteTolerances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.RelativeTolerance">
+<code class="descname">RelativeTolerance</code><a class="headerlink" href="#pyActivity.daeSimulation.RelativeTolerance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.TotalNumberOfVariables">
+<code class="descname">TotalNumberOfVariables</code><a class="headerlink" href="#pyActivity.daeSimulation.TotalNumberOfVariables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.NumberOfEquations">
+<code class="descname">NumberOfEquations</code><a class="headerlink" href="#pyActivity.daeSimulation.NumberOfEquations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Loading/storing the initialization data</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.LoadInitializationValues">
+<code class="descname">LoadInitializationValues</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(str)filename</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.LoadInitializationValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.StoreInitializationValues">
+<code class="descname">StoreInitializationValues</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(str)filename</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.StoreInitializationValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Clean up methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.CleanUpSetupData">
+<code class="descname">CleanUpSetupData</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.CleanUpSetupData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Finalize">
+<code class="descname">Finalize</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Finalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Simulation setup methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetUpParametersAndDomains">
+<code class="descname">SetUpParametersAndDomains</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetUpParametersAndDomains" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetUpVariables">
+<code class="descname">SetUpVariables</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetUpVariables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Optimization setup methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetUpOptimization">
+<code class="descname">SetUpOptimization</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetUpOptimization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.CreateInequalityConstraint">
+<code class="descname">CreateInequalityConstraint</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(str)description</em><span class="sig-paren">)</span> &rarr; daeOptimizationConstraint<a class="headerlink" href="#pyActivity.daeSimulation.CreateInequalityConstraint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.CreateEqualityConstraint">
+<code class="descname">CreateEqualityConstraint</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(str)description</em><span class="sig-paren">)</span> &rarr; daeOptimizationConstraint<a class="headerlink" href="#pyActivity.daeSimulation.CreateEqualityConstraint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetContinuousOptimizationVariable">
+<code class="descname">SetContinuousOptimizationVariable</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em>, <em>(float)lowerBound</em>, <em>(float)upperBound</em>, <em>(float)defaultValue</em><span class="sig-paren">)</span> &rarr; daeOptimizationVariable<a class="headerlink" href="#pyActivity.daeSimulation.SetContinuousOptimizationVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetContinuousOptimizationVariable( (daeSimulation)self, (daeVariable)variable, (quantity)qlowerBound, (quantity)qupperBound, (quantity)qdefaultValue) -&gt; daeOptimizationVariable</p>
+<p>SetContinuousOptimizationVariable( (daeSimulation)self, (adouble)ad, (float)lowerBound, (float)upperBound, (float)defaultValue) -&gt; daeOptimizationVariable</p>
+<p>SetContinuousOptimizationVariable( (daeSimulation)self, (adouble)ad, (float)qlowerBound, (float)qupperBound, (float)qdefaultValue) -&gt; daeOptimizationVariable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetIntegerOptimizationVariable">
+<code class="descname">SetIntegerOptimizationVariable</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em>, <em>(int)lowerBound</em>, <em>(int)upperBound</em>, <em>(int)defaultValue</em><span class="sig-paren">)</span> &rarr; daeOptimizationVariable<a class="headerlink" href="#pyActivity.daeSimulation.SetIntegerOptimizationVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetIntegerOptimizationVariable( (daeSimulation)self, (adouble)ad, (int)lowerBound, (int)upperBound, (int)defaultValue) -&gt; daeOptimizationVariable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetBinaryOptimizationVariable">
+<code class="descname">SetBinaryOptimizationVariable</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em>, <em>(bool)defaultValue</em><span class="sig-paren">)</span> &rarr; daeOptimizationVariable<a class="headerlink" href="#pyActivity.daeSimulation.SetBinaryOptimizationVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetBinaryOptimizationVariable( (daeSimulation)self, (adouble)ad, (bool)defaultValue) -&gt; daeOptimizationVariable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.OptimizationVariables">
+<code class="descname">OptimizationVariables</code><a class="headerlink" href="#pyActivity.daeSimulation.OptimizationVariables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.Constraints">
+<code class="descname">Constraints</code><a class="headerlink" href="#pyActivity.daeSimulation.Constraints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.NumberOfObjectiveFunctions">
+<code class="descname">NumberOfObjectiveFunctions</code><a class="headerlink" href="#pyActivity.daeSimulation.NumberOfObjectiveFunctions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ObjectiveFunction">
+<code class="descname">ObjectiveFunction</code><a class="headerlink" href="#pyActivity.daeSimulation.ObjectiveFunction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Parameter estimation setup methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetUpParameterEstimation">
+<code class="descname">SetUpParameterEstimation</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetUpParameterEstimation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetMeasuredVariable">
+<code class="descname">SetMeasuredVariable</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em><span class="sig-paren">)</span> &rarr; daeMeasuredVariable<a class="headerlink" href="#pyActivity.daeSimulation.SetMeasuredVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetMeasuredVariable( (daeSimulation)self, (adouble)ad) -&gt; daeMeasuredVariable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetInputVariable">
+<code class="descname">SetInputVariable</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em><span class="sig-paren">)</span> &rarr; daeVariableWrapper<a class="headerlink" href="#pyActivity.daeSimulation.SetInputVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetInputVariable( (daeSimulation)self, (adouble)ad) -&gt; daeVariableWrapper</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetModelParameter">
+<code class="descname">SetModelParameter</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em>, <em>(float)lowerBound</em>, <em>(float)upperBound</em>, <em>(float)defaultValue</em><span class="sig-paren">)</span> &rarr; daeOptimizationVariable<a class="headerlink" href="#pyActivity.daeSimulation.SetModelParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetModelParameter( (daeSimulation)self, (adouble)ad, (float)lowerBound, (float)upperBound, (float)defaultValue) -&gt; daeOptimizationVariable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.InputVariables">
+<code class="descname">InputVariables</code><a class="headerlink" href="#pyActivity.daeSimulation.InputVariables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.MeasuredVariables">
+<code class="descname">MeasuredVariables</code><a class="headerlink" href="#pyActivity.daeSimulation.MeasuredVariables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ModelParameters">
+<code class="descname">ModelParameters</code><a class="headerlink" href="#pyActivity.daeSimulation.ModelParameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Parameter estimation setup methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetUpSensitivityAnalysis">
+<code class="descname">SetUpSensitivityAnalysis</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetUpSensitivityAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Operating procedures methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.ReRun">
+<code class="descname">ReRun</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.ReRun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Pause">
+<code class="descname">Pause</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Pause" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Resume">
+<code class="descname">Resume</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Resume" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ActivityAction">
+<code class="descname">ActivityAction</code><a class="headerlink" href="#pyActivity.daeSimulation.ActivityAction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Integrate">
+<code class="descname">Integrate</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeeStopCriterion)stopCriterion</em><span class="optional">[</span>, <em>(bool)reportDataAroundDiscontinuities=True</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pyActivity.daeSimulation.Integrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.IntegrateForTimeInterval">
+<code class="descname">IntegrateForTimeInterval</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(float)timeInterval</em>, <em>(daeeStopCriterion)stopCriterion</em><span class="optional">[</span>, <em>(bool)reportDataAroundDiscontinuities=True</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pyActivity.daeSimulation.IntegrateForTimeInterval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.IntegrateUntilTime">
+<code class="descname">IntegrateUntilTime</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(float)time</em>, <em>(daeeStopCriterion)stopCriterion</em><span class="optional">[</span>, <em>(bool)reportDataAroundDiscontinuities=True</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pyActivity.daeSimulation.IntegrateUntilTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.IntegrateForOneStep">
+<code class="descname">IntegrateForOneStep</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeeStopCriterion)stopCriterion</em><span class="optional">[</span>, <em>(bool)reportDataAroundDiscontinuities=True</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pyActivity.daeSimulation.IntegrateForOneStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Reinitialize">
+<code class="descname">Reinitialize</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Reinitialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.Reset">
+<code class="descname">Reset</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.Reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.CurrentTime">
+<code class="descname">CurrentTime</code><a class="headerlink" href="#pyActivity.daeSimulation.CurrentTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.TimeHorizon">
+<code class="descname">TimeHorizon</code><a class="headerlink" href="#pyActivity.daeSimulation.TimeHorizon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ReportingInterval">
+<code class="descname">ReportingInterval</code><a class="headerlink" href="#pyActivity.daeSimulation.ReportingInterval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.NextReportingTime">
+<code class="descname">NextReportingTime</code><a class="headerlink" href="#pyActivity.daeSimulation.NextReportingTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ReportingTimes">
+<code class="descname">ReportingTimes</code><a class="headerlink" href="#pyActivity.daeSimulation.ReportingTimes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Data reporting methods</p>
+<dl class="method">
+<dt id="pyActivity.daeSimulation.ReportData">
+<code class="descname">ReportData</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(float)currentTime</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.ReportData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ReportTimeDerivatives">
+<code class="descname">ReportTimeDerivatives</code><a class="headerlink" href="#pyActivity.daeSimulation.ReportTimeDerivatives" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ReportSensitivities">
+<code class="descname">ReportSensitivities</code><a class="headerlink" href="#pyActivity.daeSimulation.ReportSensitivities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Various information</p>
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.IndexMappings">
+<code class="descname">IndexMappings</code><a class="headerlink" href="#pyActivity.daeSimulation.IndexMappings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.InitialConditionMode">
+<code class="descname">InitialConditionMode</code><a class="headerlink" href="#pyActivity.daeSimulation.InitialConditionMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.SimulationMode">
+<code class="descname">SimulationMode</code><a class="headerlink" href="#pyActivity.daeSimulation.SimulationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.VariableTypes">
+<code class="descname">VariableTypes</code><a class="headerlink" href="#pyActivity.daeSimulation.VariableTypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ActiveEquationSetMemory">
+<code class="descname">ActiveEquationSetMemory</code><a class="headerlink" href="#pyActivity.daeSimulation.ActiveEquationSetMemory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ActiveEquationSetNodeCount">
+<code class="descname">ActiveEquationSetNodeCount</code><a class="headerlink" href="#pyActivity.daeSimulation.ActiveEquationSetNodeCount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.CalculateSensitivities">
+<code class="descname">CalculateSensitivities</code><a class="headerlink" href="#pyActivity.daeSimulation.CalculateSensitivities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.CallStats">
+<code class="descname">CallStats</code><a class="headerlink" href="#pyActivity.daeSimulation.CallStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ComputeStackEvaluator">
+<code class="descname">ComputeStackEvaluator</code><a class="headerlink" href="#pyActivity.daeSimulation.ComputeStackEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.DOFs">
+<code class="descname">DOFs</code><a class="headerlink" href="#pyActivity.daeSimulation.DOFs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.DoDataPartitioning">
+<code class="descname">DoDataPartitioning</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeEquationsIndexes)equationsOverallIndexes</em>, <em>(map_ulong_ulong)mapOverallBlockIndexes</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.DoDataPartitioning" title="Permalink to this definition">¶</a></dt>
+<dd><p>DoDataPartitioning( (daeSimulation)self, (daeEquationsIndexes)equationsOverallIndexes, (map_ulong_ulong)mapOverallBlockIndexes) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.DoPostProcessing">
+<code class="descname">DoPostProcessing</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.DoPostProcessing" title="Permalink to this definition">¶</a></dt>
+<dd><p>DoPostProcessing( (daeSimulation)self) -&gt; None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.EquationExecutionInfos">
+<code class="descname">EquationExecutionInfos</code><a class="headerlink" href="#pyActivity.daeSimulation.EquationExecutionInfos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.EvaluationMode">
+<code class="descname">EvaluationMode</code><a class="headerlink" href="#pyActivity.daeSimulation.EvaluationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.ExportComputeStackStructs">
+<code class="descname">ExportComputeStackStructs</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(str)filenameComputeStacks</em>, <em>(str)filenameJacobianIndexes</em><span class="optional">[</span>, <em>(int)startEquationIndex=0</em><span class="optional">[</span>, <em>(int)endEquationIndex=-1</em><span class="optional">[</span>, <em>(dict)bi_to_bi_local={}</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.ExportComputeStackStructs" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExportComputeStackStructs( (daeSimulation)self, (str)filenameComputeStacks, (str)filenameJacobianIndexes, (list)equationIndexes, (dict)bi_to_bi_local) -&gt; None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.GetOpenCSModelData">
+<code class="descname">GetOpenCSModelData</code><span class="sig-paren">(</span><em>(daeSimulation)self</em><span class="sig-paren">)</span> &rarr; dict<a class="headerlink" href="#pyActivity.daeSimulation.GetOpenCSModelData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">IntegrateForOneStep</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeeStopCriterion)stopCriterion</em><span class="optional">[</span>, <em>(bool)reportDataAroundDiscontinuities=True</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; float</dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.IsInitialized">
+<code class="descname">IsInitialized</code><a class="headerlink" href="#pyActivity.daeSimulation.IsInitialized" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.IsSolveInitial">
+<code class="descname">IsSolveInitial</code><a class="headerlink" href="#pyActivity.daeSimulation.IsSolveInitial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.JSONRuntimeSettings">
+<code class="descname">JSONRuntimeSettings</code><a class="headerlink" href="#pyActivity.daeSimulation.JSONRuntimeSettings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.LastSatisfiedCondition">
+<code class="descname">LastSatisfiedCondition</code><a class="headerlink" href="#pyActivity.daeSimulation.LastSatisfiedCondition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.PrintStats">
+<code class="descname">PrintStats</code><span class="sig-paren">(</span><em>(daeSimulation)arg1</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.PrintStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.ReportDataAroundDiscontinuities">
+<code class="descname">ReportDataAroundDiscontinuities</code><a class="headerlink" href="#pyActivity.daeSimulation.ReportDataAroundDiscontinuities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ReportSensitivities</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ReportTimeDerivatives</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.SensitivityDataDirectory">
+<code class="descname">SensitivityDataDirectory</code><a class="headerlink" href="#pyActivity.daeSimulation.SensitivityDataDirectory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetComputeStackEvaluator">
+<code class="descname">SetComputeStackEvaluator</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(csComputeStackEvaluator_t)computeStackEvaluator</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetComputeStackEvaluator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetNumberOfObjectiveFunctions">
+<code class="descname">SetNumberOfObjectiveFunctions</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(int)numberOfOptimizationFunctions</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeSimulation.SetNumberOfObjectiveFunctions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeSimulation.SetSensitivityParameter">
+<code class="descname">SetSensitivityParameter</code><span class="sig-paren">(</span><em>(daeSimulation)self</em>, <em>(daeVariable)variable</em><span class="sig-paren">)</span> &rarr; daeOptimizationVariable<a class="headerlink" href="#pyActivity.daeSimulation.SetSensitivityParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetSensitivityParameter( (daeSimulation)self, (adouble)ad) -&gt; daeOptimizationVariable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.StopAtModelDiscontinuity">
+<code class="descname">StopAtModelDiscontinuity</code><a class="headerlink" href="#pyActivity.daeSimulation.StopAtModelDiscontinuity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.TimeDerivatives">
+<code class="descname">TimeDerivatives</code><a class="headerlink" href="#pyActivity.daeSimulation.TimeDerivatives" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeSimulation.Values">
+<code class="descname">Values</code><a class="headerlink" href="#pyActivity.daeSimulation.Values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyActivity.daeOptimization">
+<em class="property">class </em><code class="descname">daeOptimization</code><a class="headerlink" href="#pyActivity.daeOptimization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyActivity.daeOptimization_t</span></code></p>
+<dl class="method">
+<dt id="pyActivity.daeOptimization.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>(object)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeOptimization.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeOptimization.Initialize">
+<code class="descname">Initialize</code><span class="sig-paren">(</span><em>(daeOptimization)self</em>, <em>(object)simulation</em>, <em>(object)nlpSolver</em>, <em>(object)daeSolver</em>, <em>(object)dataReporter</em>, <em>(object)log</em><span class="optional">[</span>, <em>(str)initializationFile=''</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeOptimization.Initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeOptimization.Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><em>(daeOptimization)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeOptimization.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeOptimization.Finalize">
+<code class="descname">Finalize</code><span class="sig-paren">(</span><em>(daeOptimization)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeOptimization.Finalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeOptimization.EndIterationRun">
+<code class="descname">EndIterationRun</code><span class="sig-paren">(</span><em>(daeOptimization)self</em>, <em>(int)iteration</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeOptimization.EndIterationRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>EndIterationRun( (daeOptimization)self, (int)iteration) -&gt; None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeOptimization.Simulation">
+<code class="descname">Simulation</code><a class="headerlink" href="#pyActivity.daeOptimization.Simulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyActivity.daeOptimization.StartIterationRun">
+<code class="descname">StartIterationRun</code><span class="sig-paren">(</span><em>(daeOptimization)self</em>, <em>(int)iteration</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyActivity.daeOptimization.StartIterationRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>StartIterationRun( (daeOptimization)self, (int)iteration) -&gt; None</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h2>7.5.3. Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pyActivity.daeeStopCriterion" title="pyActivity.daeeStopCriterion"><code class="xref py py-obj docutils literal"><span class="pre">daeeStopCriterion</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#pyActivity.daeeActivityAction" title="pyActivity.daeeActivityAction"><code class="xref py py-obj docutils literal"><span class="pre">daeeActivityAction</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#pyActivity.daeeSimulationMode" title="pyActivity.daeeSimulationMode"><code class="xref py py-obj docutils literal"><span class="pre">daeeSimulationMode</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="pyActivity.daeeStopCriterion">
+<em class="property">class </em><code class="descname">daeeStopCriterion</code><a class="headerlink" href="#pyActivity.daeeStopCriterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pyActivity.daeeStopCriterion.eDoNotStopAtDiscontinuity">
+<code class="descname">eDoNotStopAtDiscontinuity</code><em class="property"> = pyActivity.daeeStopCriterion.eDoNotStopAtDiscontinuity</em><a class="headerlink" href="#pyActivity.daeeStopCriterion.eDoNotStopAtDiscontinuity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeeStopCriterion.eStopAtModelDiscontinuity">
+<code class="descname">eStopAtModelDiscontinuity</code><em class="property"> = pyActivity.daeeStopCriterion.eStopAtModelDiscontinuity</em><a class="headerlink" href="#pyActivity.daeeStopCriterion.eStopAtModelDiscontinuity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyActivity.daeeActivityAction">
+<em class="property">class </em><code class="descname">daeeActivityAction</code><a class="headerlink" href="#pyActivity.daeeActivityAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pyActivity.daeeActivityAction.eAAUnknown">
+<code class="descname">eAAUnknown</code><em class="property"> = pyActivity.daeeActivityAction.eAAUnknown</em><a class="headerlink" href="#pyActivity.daeeActivityAction.eAAUnknown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeeActivityAction.ePauseActivity">
+<code class="descname">ePauseActivity</code><em class="property"> = pyActivity.daeeActivityAction.ePauseActivity</em><a class="headerlink" href="#pyActivity.daeeActivityAction.ePauseActivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeeActivityAction.eRunActivity">
+<code class="descname">eRunActivity</code><em class="property"> = pyActivity.daeeActivityAction.eRunActivity</em><a class="headerlink" href="#pyActivity.daeeActivityAction.eRunActivity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyActivity.daeeSimulationMode">
+<em class="property">class </em><code class="descname">daeeSimulationMode</code><a class="headerlink" href="#pyActivity.daeeSimulationMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pyActivity.daeeSimulationMode.eOptimization">
+<code class="descname">eOptimization</code><em class="property"> = pyActivity.daeeSimulationMode.eOptimization</em><a class="headerlink" href="#pyActivity.daeeSimulationMode.eOptimization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeeSimulationMode.eParameterEstimation">
+<code class="descname">eParameterEstimation</code><em class="property"> = pyActivity.daeeSimulationMode.eParameterEstimation</em><a class="headerlink" href="#pyActivity.daeeSimulationMode.eParameterEstimation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyActivity.daeeSimulationMode.eSimulation">
+<code class="descname">eSimulation</code><em class="property"> = pyActivity.daeeSimulationMode.eSimulation</em><a class="headerlink" href="#pyActivity.daeeSimulationMode.eSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/activity.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.10. Third party solvers &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7.11. Code generators and model exchange" href="code_generators.html" />
+    <link rel="prev" title="7.9. Variable types" href="variable_types.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">7.10. Third party solvers</a><ul>
+<li><a class="reference internal" href="#linear-solvers">7.10.1. Linear solvers</a><ul>
+<li><a class="reference internal" href="#module-solvers.superlu.pySuperLU">7.10.1.1. SuperLU</a></li>
+<li><a class="reference internal" href="#module-solvers.superlu_mt.pySuperLU_MT">7.10.1.2. SuperLU_MT</a></li>
+<li><a class="reference internal" href="#module-solvers.trilinos.pyTrilinos">7.10.1.3. Trilinos</a></li>
+<li><a class="reference internal" href="#module-solvers.pardiso.pyPardiso">7.10.1.4. Pardiso</a></li>
+<li><a class="reference internal" href="#module-solvers.intel_pardiso.pyIntelPardiso">7.10.1.5. IntelPardiso</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optimisation-solvers">7.10.2. Optimisation solvers</a></li>
+<li><a class="reference internal" href="#parameter-estimation-solvers">7.10.3. Parameter estimation solvers</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="third-party-solvers">
+<h1>7.10. Third party solvers<a class="headerlink" href="#third-party-solvers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="linear-solvers">
+<h2>7.10.1. Linear solvers<a class="headerlink" href="#linear-solvers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyCore.daeIDALASolver_t">
+<em class="property">class </em><code class="descname">daeIDALASolver_t</code><a class="headerlink" href="#pyCore.daeIDALASolver_t" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyCore.daeIDALASolver_t.Name">
+<code class="descname">Name</code><a class="headerlink" href="#pyCore.daeIDALASolver_t.Name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyCore.daeIDALASolver_t.SaveAsXPM">
+<code class="descname">SaveAsXPM</code><span class="sig-paren">(</span><em>(daeIDALASolver_t)self</em>, <em>(str)xpmFilename</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pyCore.daeIDALASolver_t.SaveAsXPM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<div class="section" id="module-solvers.superlu.pySuperLU">
+<span id="superlu"></span><h3>7.10.1.1. SuperLU<a class="headerlink" href="#module-solvers.superlu.pySuperLU" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Instantiation function</p>
+<dl class="function">
+<dt id="pySuperLU.daeCreateSuperLUSolver">
+<code class="descname">daeCreateSuperLUSolver</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; daeLASolver_t<a class="headerlink" href="#pySuperLU.daeCreateSuperLUSolver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Classes</p>
+<dl class="class">
+<dt id="pySuperLU.daeSuperLU_Solver">
+<em class="property">class </em><code class="descname">daeSuperLU_Solver</code><a class="headerlink" href="#pySuperLU.daeSuperLU_Solver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pySuperLU.daeLASolver_t</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU.daeSuperLU_Solver.CallStats">
+<code class="descname">CallStats</code><a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.CallStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.GetOption_bool">
+<code class="descname">GetOption_bool</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; bool<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.GetOption_bool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.GetOption_float">
+<code class="descname">GetOption_float</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.GetOption_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.GetOption_int">
+<code class="descname">GetOption_int</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.GetOption_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.GetOption_string">
+<code class="descname">GetOption_string</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; str<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.GetOption_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.daeSuperLU_Solver.Options">
+<code class="descname">Options</code><a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.Options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.SaveAsMatrixMarketFile">
+<code class="descname">SaveAsMatrixMarketFile</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)filename</em>, <em>(str)matrixName</em>, <em>(str)description</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.SaveAsMatrixMarketFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.SetOption_bool">
+<code class="descname">SetOption_bool</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em>, <em>(bool)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.SetOption_bool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.SetOption_float">
+<code class="descname">SetOption_float</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em>, <em>(float)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.SetOption_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.SetOption_int">
+<code class="descname">SetOption_int</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em>, <em>(int)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.SetOption_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU.daeSuperLU_Solver.SetOption_string">
+<code class="descname">SetOption_string</code><span class="sig-paren">(</span><em>(daeSuperLU_Solver)self</em>, <em>(str)name</em>, <em>(str)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pySuperLU.daeSuperLU_Solver.SetOption_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pySuperLU.superlu_options_t">
+<em class="property">class </em><code class="descname">superlu_options_t</code><a class="headerlink" href="#pySuperLU.superlu_options_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.instance</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.ColPerm">
+<code class="descname">ColPerm</code><a class="headerlink" href="#pySuperLU.superlu_options_t.ColPerm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.ConditionNumber">
+<code class="descname">ConditionNumber</code><a class="headerlink" href="#pySuperLU.superlu_options_t.ConditionNumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.DiagPivotThresh">
+<code class="descname">DiagPivotThresh</code><a class="headerlink" href="#pySuperLU.superlu_options_t.DiagPivotThresh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.Equil">
+<code class="descname">Equil</code><a class="headerlink" href="#pySuperLU.superlu_options_t.Equil" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.PivotGrowth">
+<code class="descname">PivotGrowth</code><a class="headerlink" href="#pySuperLU.superlu_options_t.PivotGrowth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.PrintStat">
+<code class="descname">PrintStat</code><a class="headerlink" href="#pySuperLU.superlu_options_t.PrintStat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.superlu_options_t.RowPerm">
+<code class="descname">RowPerm</code><a class="headerlink" href="#pySuperLU.superlu_options_t.RowPerm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Enumerations</p>
+<dl class="class">
+<dt id="pySuperLU.rowperm_t">
+<em class="property">class </em><code class="descname">rowperm_t</code><a class="headerlink" href="#pySuperLU.rowperm_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU.rowperm_t.LargeDiag">
+<code class="descname">LargeDiag</code><em class="property"> = pySuperLU.rowperm_t.LargeDiag</em><a class="headerlink" href="#pySuperLU.rowperm_t.LargeDiag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.rowperm_t.MY_PERMR">
+<code class="descname">MY_PERMR</code><em class="property"> = pySuperLU.rowperm_t.MY_PERMR</em><a class="headerlink" href="#pySuperLU.rowperm_t.MY_PERMR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.rowperm_t.NOROWPERM">
+<code class="descname">NOROWPERM</code><em class="property"> = pySuperLU.rowperm_t.NOROWPERM</em><a class="headerlink" href="#pySuperLU.rowperm_t.NOROWPERM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pySuperLU.yes_no_t">
+<em class="property">class </em><code class="descname">yes_no_t</code><a class="headerlink" href="#pySuperLU.yes_no_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU.yes_no_t.NO">
+<code class="descname">NO</code><em class="property"> = pySuperLU.yes_no_t.NO</em><a class="headerlink" href="#pySuperLU.yes_no_t.NO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.yes_no_t.YES">
+<code class="descname">YES</code><em class="property"> = pySuperLU.yes_no_t.YES</em><a class="headerlink" href="#pySuperLU.yes_no_t.YES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pySuperLU.colperm_t">
+<em class="property">class </em><code class="descname">colperm_t</code><a class="headerlink" href="#pySuperLU.colperm_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU.colperm_t.COLAMD">
+<code class="descname">COLAMD</code><em class="property"> = pySuperLU.colperm_t.COLAMD</em><a class="headerlink" href="#pySuperLU.colperm_t.COLAMD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.colperm_t.METIS_AT_PLUS_A">
+<code class="descname">METIS_AT_PLUS_A</code><em class="property"> = pySuperLU.colperm_t.METIS_AT_PLUS_A</em><a class="headerlink" href="#pySuperLU.colperm_t.METIS_AT_PLUS_A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.colperm_t.MMD_ATA">
+<code class="descname">MMD_ATA</code><em class="property"> = pySuperLU.colperm_t.MMD_ATA</em><a class="headerlink" href="#pySuperLU.colperm_t.MMD_ATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.colperm_t.MMD_AT_PLUS_A">
+<code class="descname">MMD_AT_PLUS_A</code><em class="property"> = pySuperLU.colperm_t.MMD_AT_PLUS_A</em><a class="headerlink" href="#pySuperLU.colperm_t.MMD_AT_PLUS_A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU.colperm_t.NATURAL">
+<code class="descname">NATURAL</code><em class="property"> = pySuperLU.colperm_t.NATURAL</em><a class="headerlink" href="#pySuperLU.colperm_t.NATURAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-solvers.superlu_mt.pySuperLU_MT">
+<span id="superlu-mt"></span><h3>7.10.1.2. SuperLU_MT<a class="headerlink" href="#module-solvers.superlu_mt.pySuperLU_MT" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Instantiation function</p>
+<dl class="function">
+<dt id="pySuperLU_MT.daeCreateSuperLUSolver">
+<code class="descname">daeCreateSuperLUSolver</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; daeLASolver_t<a class="headerlink" href="#pySuperLU_MT.daeCreateSuperLUSolver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Classes</p>
+<dl class="class">
+<dt id="pySuperLU_MT.daeSuperLU_MT_Solver">
+<em class="property">class </em><code class="descname">daeSuperLU_MT_Solver</code><a class="headerlink" href="#pySuperLU_MT.daeSuperLU_MT_Solver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pySuperLU_MT.daeLASolver_t</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU_MT.daeSuperLU_MT_Solver.CallStats">
+<code class="descname">CallStats</code><a class="headerlink" href="#pySuperLU_MT.daeSuperLU_MT_Solver.CallStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.daeSuperLU_MT_Solver.Options">
+<code class="descname">Options</code><a class="headerlink" href="#pySuperLU_MT.daeSuperLU_MT_Solver.Options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pySuperLU_MT.daeSuperLU_MT_Solver.SaveAsMatrixMarketFile">
+<code class="descname">SaveAsMatrixMarketFile</code><span class="sig-paren">(</span><em>(daeSuperLU_MT_Solver)self</em>, <em>(str)filename</em>, <em>(str)matrixName</em>, <em>(str)description</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pySuperLU_MT.daeSuperLU_MT_Solver.SaveAsMatrixMarketFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pySuperLU_MT.superlumt_options_t">
+<em class="property">class </em><code class="descname">superlumt_options_t</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.instance</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.ColPerm">
+<code class="descname">ColPerm</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.ColPerm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.PrintStat">
+<code class="descname">PrintStat</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.PrintStat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.diag_pivot_thresh">
+<code class="descname">diag_pivot_thresh</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.diag_pivot_thresh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.drop_tol">
+<code class="descname">drop_tol</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.drop_tol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.nprocs">
+<code class="descname">nprocs</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.nprocs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.panel_size">
+<code class="descname">panel_size</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.panel_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.superlumt_options_t.relax">
+<code class="descname">relax</code><a class="headerlink" href="#pySuperLU_MT.superlumt_options_t.relax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Enumerations</p>
+<dl class="class">
+<dt id="pySuperLU_MT.yes_no_t">
+<em class="property">class </em><code class="descname">yes_no_t</code><a class="headerlink" href="#pySuperLU_MT.yes_no_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU_MT.yes_no_t.NO">
+<code class="descname">NO</code><em class="property"> = pySuperLU_MT.yes_no_t.NO</em><a class="headerlink" href="#pySuperLU_MT.yes_no_t.NO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.yes_no_t.YES">
+<code class="descname">YES</code><em class="property"> = pySuperLU_MT.yes_no_t.YES</em><a class="headerlink" href="#pySuperLU_MT.yes_no_t.YES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pySuperLU_MT.colperm_t">
+<em class="property">class </em><code class="descname">colperm_t</code><a class="headerlink" href="#pySuperLU_MT.colperm_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.enum</span></code></p>
+<dl class="attribute">
+<dt id="pySuperLU_MT.colperm_t.COLAMD">
+<code class="descname">COLAMD</code><em class="property"> = pySuperLU_MT.colperm_t.COLAMD</em><a class="headerlink" href="#pySuperLU_MT.colperm_t.COLAMD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.colperm_t.METIS_AT_PLUS_A">
+<code class="descname">METIS_AT_PLUS_A</code><em class="property"> = pySuperLU_MT.colperm_t.METIS_AT_PLUS_A</em><a class="headerlink" href="#pySuperLU_MT.colperm_t.METIS_AT_PLUS_A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.colperm_t.MMD_ATA">
+<code class="descname">MMD_ATA</code><em class="property"> = pySuperLU_MT.colperm_t.MMD_ATA</em><a class="headerlink" href="#pySuperLU_MT.colperm_t.MMD_ATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.colperm_t.MMD_AT_PLUS_A">
+<code class="descname">MMD_AT_PLUS_A</code><em class="property"> = pySuperLU_MT.colperm_t.MMD_AT_PLUS_A</em><a class="headerlink" href="#pySuperLU_MT.colperm_t.MMD_AT_PLUS_A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pySuperLU_MT.colperm_t.NATURAL">
+<code class="descname">NATURAL</code><em class="property"> = pySuperLU_MT.colperm_t.NATURAL</em><a class="headerlink" href="#pySuperLU_MT.colperm_t.NATURAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-solvers.trilinos.pyTrilinos">
+<span id="trilinos"></span><h3>7.10.1.3. Trilinos<a class="headerlink" href="#module-solvers.trilinos.pyTrilinos" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Instantiation function</p>
+<dl class="function">
+<dt id="pyTrilinos.daeTrilinosSupportedSolvers">
+<code class="descname">daeTrilinosSupportedSolvers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; list<a class="headerlink" href="#pyTrilinos.daeTrilinosSupportedSolvers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyTrilinos.daeCreateTrilinosSolver">
+<code class="descname">daeCreateTrilinosSolver</code><span class="sig-paren">(</span><em>(str)solverName</em>, <em>(str)preconditionerName</em><span class="sig-paren">)</span> &rarr; daeLASolver_t<a class="headerlink" href="#pyTrilinos.daeCreateTrilinosSolver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Classes</p>
+<dl class="class">
+<dt id="pyTrilinos.daeTrilinosSolver">
+<em class="property">class </em><code class="descname">daeTrilinosSolver</code><a class="headerlink" href="#pyTrilinos.daeTrilinosSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyTrilinos.daeLASolver_t</span></code></p>
+<dl class="attribute">
+<dt id="pyTrilinos.daeTrilinosSolver.CallStats">
+<code class="descname">CallStats</code><a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.CallStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.GetOption_bool">
+<code class="descname">GetOption_bool</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; bool<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.GetOption_bool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.GetOption_float">
+<code class="descname">GetOption_float</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.GetOption_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.GetOption_int">
+<code class="descname">GetOption_int</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.GetOption_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.GetOption_string">
+<code class="descname">GetOption_string</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; str<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.GetOption_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyTrilinos.daeTrilinosSolver.NumIters">
+<code class="descname">NumIters</code><a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.NumIters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyTrilinos.daeTrilinosSolver.ParameterList">
+<code class="descname">ParameterList</code><a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.ParameterList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyTrilinos.daeTrilinosSolver.PreconditionerName">
+<code class="descname">PreconditionerName</code><a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.PreconditionerName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.PrintPreconditionerInfo">
+<code class="descname">PrintPreconditionerInfo</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.PrintPreconditionerInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.SaveAsMatrixMarketFile">
+<code class="descname">SaveAsMatrixMarketFile</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)filename</em>, <em>(str)matrixName</em>, <em>(str)description</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.SaveAsMatrixMarketFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.SetOption_bool">
+<code class="descname">SetOption_bool</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em>, <em>(bool)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.SetOption_bool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.SetOption_float">
+<code class="descname">SetOption_float</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em>, <em>(float)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.SetOption_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.SetOption_int">
+<code class="descname">SetOption_int</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em>, <em>(int)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.SetOption_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.daeTrilinosSolver.SetOption_string">
+<code class="descname">SetOption_string</code><span class="sig-paren">(</span><em>(daeTrilinosSolver)self</em>, <em>(str)name</em>, <em>(str)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.SetOption_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyTrilinos.daeTrilinosSolver.Tolerance">
+<code class="descname">Tolerance</code><a class="headerlink" href="#pyTrilinos.daeTrilinosSolver.Tolerance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyTrilinos.TeuchosParameterList">
+<em class="property">class </em><code class="descname">TeuchosParameterList</code><a class="headerlink" href="#pyTrilinos.TeuchosParameterList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Boost.Python.instance</span></code></p>
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.Print">
+<code class="descname">Print</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.Print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.get_bool">
+<code class="descname">get_bool</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; bool<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.get_bool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.get_float">
+<code class="descname">get_float</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; float<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.get_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.get_int">
+<code class="descname">get_int</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; int<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.get_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.get_string">
+<code class="descname">get_string</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; str<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.get_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.set_bool">
+<code class="descname">set_bool</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em>, <em>(bool)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.set_bool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.set_float">
+<code class="descname">set_float</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em>, <em>(float)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.set_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.set_int">
+<code class="descname">set_int</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em>, <em>(int)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.set_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyTrilinos.TeuchosParameterList.set_string">
+<code class="descname">set_string</code><span class="sig-paren">(</span><em>(TeuchosParameterList)self</em>, <em>(str)name</em>, <em>(str)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyTrilinos.TeuchosParameterList.set_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-solvers.pardiso.pyPardiso">
+<span id="pardiso"></span><h3>7.10.1.4. Pardiso<a class="headerlink" href="#module-solvers.pardiso.pyPardiso" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Instantiation function</p>
+<p class="rubric">Classes</p>
+</div>
+<div class="section" id="module-solvers.intel_pardiso.pyIntelPardiso">
+<span id="intelpardiso"></span><h3>7.10.1.5. IntelPardiso<a class="headerlink" href="#module-solvers.intel_pardiso.pyIntelPardiso" title="Permalink to this headline">¶</a></h3>
+<p class="rubric">Instantiation function</p>
+<dl class="function">
+<dt id="pyIntelPardiso.daeCreateIntelPardisoSolver">
+<code class="descname">daeCreateIntelPardisoSolver</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; daeLASolver_t :<a class="headerlink" href="#pyIntelPardiso.daeCreateIntelPardisoSolver" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>dae::solver::daeLASolver_t* daeCreateIntelPardisoSolver()</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Classes</p>
+<dl class="class">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver">
+<em class="property">class </em><code class="descname">daeIntelPardisoSolver</code><a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyIntelPardiso.daeLASolver_t</span></code></p>
+<dl class="attribute">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.CallStats">
+<code class="descname">CallStats</code><a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.CallStats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.GetOption_bool">
+<code class="descname">GetOption_bool</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; bool :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.GetOption_bool" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>bool GetOption_bool(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.GetOption_float">
+<code class="descname">GetOption_float</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; float :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.GetOption_float" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>double GetOption_float(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.GetOption_int">
+<code class="descname">GetOption_int</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; int :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.GetOption_int" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>int GetOption_int(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.GetOption_string">
+<code class="descname">GetOption_string</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em><span class="sig-paren">)</span> &rarr; str :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.GetOption_string" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; GetOption_string(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.SaveAsMatrixMarketFile">
+<code class="descname">SaveAsMatrixMarketFile</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)arg1</em>, <em>(str)arg2</em>, <em>(str)arg3</em>, <em>(str)arg4</em><span class="sig-paren">)</span> &rarr; int :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.SaveAsMatrixMarketFile" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>int SaveAsMatrixMarketFile(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;,std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;,std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.SetOption_bool">
+<code class="descname">SetOption_bool</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em>, <em>(bool)value</em><span class="sig-paren">)</span> &rarr; None :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.SetOption_bool" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void SetOption_bool(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;,bool)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.SetOption_float">
+<code class="descname">SetOption_float</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em>, <em>(float)value</em><span class="sig-paren">)</span> &rarr; None :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.SetOption_float" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void SetOption_float(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;,double)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.SetOption_int">
+<code class="descname">SetOption_int</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em>, <em>(int)value</em><span class="sig-paren">)</span> &rarr; None :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.SetOption_int" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void SetOption_int(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;,int)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.SetOption_string">
+<code class="descname">SetOption_string</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)self</em>, <em>(str)name</em>, <em>(str)value</em><span class="sig-paren">)</span> &rarr; None :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.SetOption_string" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void SetOption_string(dae::solver::daeIntelPardisoSolver {lvalue},std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;,std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.get_iparm">
+<code class="descname">get_iparm</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)arg1</em><span class="sig-paren">)</span> &rarr; list :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.get_iparm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>boost::python::list get_iparm(dae::solver::daeIntelPardisoSolver {lvalue})</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyIntelPardiso.daeIntelPardisoSolver.set_iparm">
+<code class="descname">set_iparm</code><span class="sig-paren">(</span><em>(daeIntelPardisoSolver)arg1</em>, <em>(list)arg2</em><span class="sig-paren">)</span> &rarr; None :<a class="headerlink" href="#pyIntelPardiso.daeIntelPardisoSolver.set_iparm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void set_iparm(dae::solver::daeIntelPardisoSolver {lvalue},boost::python::list)</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="optimisation-solvers">
+<h2>7.10.2. Optimisation solvers<a class="headerlink" href="#optimisation-solvers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descname">daeIDALASolver_t</code></dt>
+<dd><dl class="attribute">
+<dt>
+<code class="descname">Name</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyCore.daeIDALASolver_t.Initialize">
+<code class="descname">Initialize</code><span class="sig-paren">(</span><em>(daeIDALASolver_t)self</em>, <em>(daeSimulation_t)simulation</em>, <em>(daeDAESolver_t)daeSolver</em>, <em>(daeDataReporter_t)dataReporter</em>, <em>(daeLog_t)log</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyCore.daeIDALASolver_t.Initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyCore.daeIDALASolver_t.Solve">
+<code class="descname">Solve</code><span class="sig-paren">(</span><em>(daeIDALASolver_t)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyCore.daeIDALASolver_t.Solve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-solvers.ipopt.pyIPOPT"></span><dl class="class">
+<dt id="pyIPOPT.daeIPOPT">
+<em class="property">class </em><code class="descname">daeIPOPT</code><a class="headerlink" href="#pyIPOPT.daeIPOPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyIPOPT.daeNLPSolver_t</span></code></p>
+<dl class="method">
+<dt id="pyIPOPT.daeIPOPT.ClearOptions">
+<code class="descname">ClearOptions</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIPOPT.daeIPOPT.ClearOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIPOPT.daeIPOPT.LoadOptionsFile">
+<code class="descname">LoadOptionsFile</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em>, <em>(str)optionsFilename</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIPOPT.daeIPOPT.LoadOptionsFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIPOPT.daeIPOPT.PrintOptions">
+<code class="descname">PrintOptions</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIPOPT.daeIPOPT.PrintOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIPOPT.daeIPOPT.PrintUserOptions">
+<code class="descname">PrintUserOptions</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIPOPT.daeIPOPT.PrintUserOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIPOPT.daeIPOPT.SetOpenBLASNoThreads">
+<code class="descname">SetOpenBLASNoThreads</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em>, <em>(int)noThreads</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIPOPT.daeIPOPT.SetOpenBLASNoThreads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyIPOPT.daeIPOPT.SetOption">
+<code class="descname">SetOption</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em>, <em>(str)name</em>, <em>(str)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyIPOPT.daeIPOPT.SetOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetOption( (daeBONMIN)self, (str)name, (float)value) -&gt; None</p>
+<p>SetOption( (daeBONMIN)self, (str)name, (int)value) -&gt; None</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-solvers.bonmin.pyBONMIN"></span><dl class="class">
+<dt id="pyBONMIN.daeBONMIN">
+<em class="property">class </em><code class="descname">daeBONMIN</code><a class="headerlink" href="#pyBONMIN.daeBONMIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyBONMIN.daeNLPSolver_t</span></code></p>
+<dl class="method">
+<dt id="pyBONMIN.daeBONMIN.ClearOptions">
+<code class="descname">ClearOptions</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyBONMIN.daeBONMIN.ClearOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyBONMIN.daeBONMIN.LoadOptionsFile">
+<code class="descname">LoadOptionsFile</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em>, <em>(str)optionsFilename</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyBONMIN.daeBONMIN.LoadOptionsFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyBONMIN.daeBONMIN.PrintOptions">
+<code class="descname">PrintOptions</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyBONMIN.daeBONMIN.PrintOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyBONMIN.daeBONMIN.PrintUserOptions">
+<code class="descname">PrintUserOptions</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyBONMIN.daeBONMIN.PrintUserOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyBONMIN.daeBONMIN.SetOpenBLASNoThreads">
+<code class="descname">SetOpenBLASNoThreads</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em>, <em>(int)noThreads</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyBONMIN.daeBONMIN.SetOpenBLASNoThreads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyBONMIN.daeBONMIN.SetOption">
+<code class="descname">SetOption</code><span class="sig-paren">(</span><em>(daeBONMIN)self</em>, <em>(str)name</em>, <em>(str)value</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyBONMIN.daeBONMIN.SetOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>SetOption( (daeBONMIN)self, (str)name, (float)value) -&gt; None</p>
+<p>SetOption( (daeBONMIN)self, (str)name, (int)value) -&gt; None</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-solvers.nlopt.pyNLOPT"></span><dl class="class">
+<dt id="pyNLOPT.daeNLOPT">
+<em class="property">class </em><code class="descname">daeNLOPT</code><a class="headerlink" href="#pyNLOPT.daeNLOPT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyNLOPT.daeNLPSolver_t</span></code></p>
+<dl class="method">
+<dt id="pyNLOPT.daeNLOPT.PrintOptions">
+<code class="descname">PrintOptions</code><span class="sig-paren">(</span><em>(daeNLOPT)self</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyNLOPT.daeNLOPT.PrintOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyNLOPT.daeNLOPT.SetOpenBLASNoThreads">
+<code class="descname">SetOpenBLASNoThreads</code><span class="sig-paren">(</span><em>(daeNLOPT)self</em>, <em>(int)noThreads</em><span class="sig-paren">)</span> &rarr; None<a class="headerlink" href="#pyNLOPT.daeNLOPT.SetOpenBLASNoThreads" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyNLOPT.daeNLOPT.ftol_abs">
+<code class="descname">ftol_abs</code><a class="headerlink" href="#pyNLOPT.daeNLOPT.ftol_abs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyNLOPT.daeNLOPT.ftol_rel">
+<code class="descname">ftol_rel</code><a class="headerlink" href="#pyNLOPT.daeNLOPT.ftol_rel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyNLOPT.daeNLOPT.xtol_abs">
+<code class="descname">xtol_abs</code><a class="headerlink" href="#pyNLOPT.daeNLOPT.xtol_abs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyNLOPT.daeNLOPT.xtol_rel">
+<code class="descname">xtol_rel</code><a class="headerlink" href="#pyNLOPT.daeNLOPT.xtol_rel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="parameter-estimation-solvers">
+<h2>7.10.3. Parameter estimation solvers<a class="headerlink" href="#parameter-estimation-solvers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq">
+<em class="property">class </em><code class="descname">daeMinpackLeastSq</code><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.Finalize">
+<code class="descname">Finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.Finalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.Finalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.Initialize">
+<code class="descname">Initialize</code><span class="sig-paren">(</span><em>simulation</em>, <em>daesolver</em>, <em>datareporter</em>, <em>log</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.Initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.Initialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.getConfidenceCoefficient">
+<code class="descname">getConfidenceCoefficient</code><span class="sig-paren">(</span><em>confidence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.getConfidenceCoefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.getConfidenceCoefficient" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.getConfidenceEllipsoid">
+<code class="descname">getConfidenceEllipsoid</code><span class="sig-paren">(</span><em>x_param_index</em>, <em>y_param_index</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.getConfidenceEllipsoid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.getConfidenceEllipsoid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.getFit_Dyn">
+<code class="descname">getFit_Dyn</code><span class="sig-paren">(</span><em>measured_variable_index</em>, <em>experiment_index</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.getFit_Dyn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.getFit_Dyn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.solvers.minpack.daeMinpackLeastSq.getFit_SS">
+<code class="descname">getFit_SS</code><span class="sig-paren">(</span><em>input_variable_index</em>, <em>measured_variable_index</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/solvers/minpack.html#daeMinpackLeastSq.getFit_SS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.solvers.minpack.daeMinpackLeastSq.getFit_SS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/solvers.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

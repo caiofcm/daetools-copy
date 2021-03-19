@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.3. Code Verification Tests &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8.4. Finite Element Tutorials" href="tutorials-fe.html" />
+    <link rel="prev" title="8.2. Advanced Tutorials" href="tutorials-advanced.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">8.3. Code Verification Tests</a><ul>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_1">8.3.1. Code Verification Test 1</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_2">8.3.2. Code Verification Test 2</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_3">8.3.3. Code Verification Test 3</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_4">8.3.4. Code Verification Test 4</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_5">8.3.5. Code Verification Test 5</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_6">8.3.6. Code Verification Test 6</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_7">8.3.7. Code Verification Test 7</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_8">8.3.8. Code Verification Test 8</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_9">8.3.9. Code Verification Test 9</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_10">8.3.10. Code Verification Test 10</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_cv_11">8.3.11. Code Verification Test 11</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="code-verification-tests">
+<h1>8.3. Code Verification Tests<a class="headerlink" href="#code-verification-tests" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-1"><span class="std std-ref">Code Verification Test 1</span></a></td>
+<td>Code verification method using the Method of Exact Solutions
+(sensitivity analysis; first order differential equations with constant coefficients).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-2"><span class="std std-ref">Code Verification Test 2</span></a></td>
+<td>Code verification method using the Method of Manufactured Solutions
+(1D transient convection-diffusion equation with Dirichlet boundary conditions).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-3"><span class="std std-ref">Code Verification Test 3</span></a></td>
+<td>Code verification method using the Method of Manufactured Solutions
+(1D transient convection-diffusion equation with Neumann boundary conditions).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-4"><span class="std std-ref">Code Verification Test 4</span></a></td>
+<td>Code verification method using the Method of Manufactured Solutions
+(2D transient convection-diffusion equation with Dirichlet boundary conditions).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-5"><span class="std std-ref">Code Verification Test 5</span></a></td>
+<td>Code verification method using the Method of Manufactured Solutions
+(1D transient conduction equation using the Finite Elements method).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-6"><span class="std std-ref">Code Verification Test 6</span></a></td>
+<td>Code verification method using the Method of Exact Solutions
+(1D homogeneous transient convection-diffusion equation
+solved using the high-resolution upwind finite volume scheme with flux limiter).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-7"><span class="std std-ref">Code Verification Test 7</span></a></td>
+<td>Code verification method using the Method of Manufactured Solutions
+(1D steady-state convection-diffusion-reaction equation
+solved using the high-resolution upwind finite volume scheme with flux limiter).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-8"><span class="std std-ref">Code Verification Test 8</span></a></td>
+<td>Code verification method using the Method of Manufactured Solutions
+(1D transient convection-diffusion-reaction equation
+solved using the high-resolution upwind finite volume scheme with flux limiter).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-9"><span class="std std-ref">Code Verification Test 9</span></a></td>
+<td>Code verification using the Method of Exact Solutions
+(Solid Body Rotation problem solved using the Finite Elements method).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-10"><span class="std std-ref">Code Verification Test 10</span></a></td>
+<td>Code verification using the Method of Exact Solutions
+(Rotating Gaussian Hill problem solved using the Finite Elements method).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-cv-11"><span class="std std-ref">Code Verification Test 11</span></a></td>
+<td>Code verification method using the Method of Exact Solutions
+(1D homogeneous transient convection-diffusion equation
+solved using the high-resolution upwind finite volume scheme with flux limiter
+for the reversed fluid flow).</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="module-daetools.examples.tutorial_cv_1">
+<span id="code-verification-test-1"></span><span id="tutorial-cv-1"></span><h2>8.3.1. Code Verification Test 1<a class="headerlink" href="#module-daetools.examples.tutorial_cv_1" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Exact Solutions.</p>
+<p>Here, the numerical solution and numerical sensitivities for the Constant coefficient 
+first order equations are compared to the available analytical solution.</p>
+<p>The sensitivity analysis is enabled and the sensitivities are reported to the data reporter.
+The sensitivity data can be obtained in two ways:</p>
+<ul class="simple">
+<li>Directly from the DAE solver in the user-defined Run function using the
+DAESolver.SensitivityMatrix property.</li>
+<li>From the data reporter as any ordinary variable.</li>
+</ul>
+<p>The comparison between the numerical and the analytical sensitivities:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_1-results.png"><img alt="_images/tutorial_cv_1-results.png" src="_images/tutorial_cv_1-results.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_1.xml">tutorial_cv_1.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_1-rt.xml">tutorial_cv_1-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_1.html">tutorial_cv_1.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_2">
+<span id="code-verification-test-2"></span><span id="tutorial-cv-2"></span><h2>8.3.2. Code Verification Test 2<a class="headerlink" href="#module-daetools.examples.tutorial_cv_2" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Manufactured Solutions.</p>
+<p>References:</p>
+<ol class="arabic simple">
+<li>G. Tryggvason. Method of Manufactured Solutions, Lecture 33: Predictivity-I, 2011.
+<a class="reference external" href="http://www3.nd.edu/~gtryggva/CFD-Course/2011-Lecture-33.pdf">PDF</a></li>
+<li>K. Salari and P. Knupp. Code Verification by the Method of Manufactured Solutions. 
+SAND2000 – 1444 (2000).
+<a class="reference external" href="https://doi.org/10.2172/759450">doi:10.2172/759450</a></li>
+<li>P.J. Roache. Fundamentals of Verification and Validation. Hermosa, 2009.
+<a class="reference external" href="http://www.isbnsearch.org/isbn/0913478121">ISBN-10:0913478121</a></li>
+</ol>
+<p>The procedure for the <em>transient convection-diffusion</em> (Burger&#8217;s) equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>L(f) = df/dt + f*df/dx - D*d2f/dx2 = 0
+</pre></div>
+</div>
+<p>is the following:</p>
+<ol class="arabic">
+<li><p class="first">Pick a function (q, the manufactured solution):</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>q = A + sin(x + Ct)
+</pre></div>
+</div>
+</li>
+<li><p class="first">Compute the new source term (g) for the original problem:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>g = dq/dt + q*dq/dx - D*d2q/dx2
+</pre></div>
+</div>
+</li>
+<li><p class="first">Solve the original problem with the new source term:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>df/dt + f*df/dx - D*d2f/dx2 = g
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Since L(f) = g and g = L(q), consequently we have: f = q.
+Therefore, the computed numerical solution (f) should be equal to the manufactured one (q).</p>
+<p>The terms in the source g term are:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dq/dt   = C * cos(x + C*t)
+dq/dx   = cos(x + C*t)
+d2q/dx2 = -sin(x + C*t)
+</pre></div>
+</div>
+<p>The equations are solved for Dirichlet boundary conditions:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>f(x=0)   = q(x=0)   = A + sin(0 + Ct)
+f(x=2pi) = q(x=2pi) = A + sin(2pi + Ct)
+</pre></div>
+</div>
+<p>Numerical vs. manufactured solution plot (no. elements = 60, t = 1.0s):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_2-results.png"><img alt="_images/tutorial_cv_2-results.png" src="_images/tutorial_cv_2-results.png" style="width: 500px;" /></a>
+<p>The normalised global errors and the order of accuracy plots (no. elements = [60, 90, 120, 150], t = 1.0s):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_2-results2.png"><img alt="_images/tutorial_cv_2-results2.png" src="_images/tutorial_cv_2-results2.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_2.xml">tutorial_cv_2.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_2-rt.xml">tutorial_cv_2-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_2.html">tutorial_cv_2.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_3">
+<span id="code-verification-test-3"></span><span id="tutorial-cv-3"></span><h2>8.3.3. Code Verification Test 3<a class="headerlink" href="#module-daetools.examples.tutorial_cv_3" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Manufactured Solutions.</p>
+<p>References:</p>
+<ol class="arabic simple">
+<li>G. Tryggvason. Method of Manufactured Solutions, Lecture 33: Predictivity-I, 2011.
+<a class="reference external" href="http://www3.nd.edu/~gtryggva/CFD-Course/2011-Lecture-33.pdf">PDF</a></li>
+<li>K. Salari and P. Knupp. Code Verification by the Method of Manufactured Solutions. 
+SAND2000 – 1444 (2000).
+<a class="reference external" href="https://doi.org/10.2172/759450">doi:10.2172/759450</a></li>
+<li>P.J. Roache. Fundamentals of Verification and Validation. Hermosa, 2009.
+<a class="reference external" href="http://www.isbnsearch.org/isbn/0913478121">ISBN-10:0913478121</a></li>
+</ol>
+<p>The problem in this tutorial is identical to tutorial_cv_3. The only difference is that 
+the Neumann boundary conditions are applied:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>df(x=0)/dx   = dq(x=0)/dx   = cos(0 + Ct)
+df(x=2pi)/dx = dq(x=2pi)/dx = cos(2pi + Ct)
+</pre></div>
+</div>
+<p>Numerical vs. manufactured solution plot (no. elements = 60, t = 1.0s):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_3-results.png"><img alt="_images/tutorial_cv_3-results.png" src="_images/tutorial_cv_3-results.png" style="width: 500px;" /></a>
+<p>The normalised global errors and the order of accuracy plots (no. elements = [60, 90, 120, 150], t = 1.0s):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_3-results2.png"><img alt="_images/tutorial_cv_3-results2.png" src="_images/tutorial_cv_3-results2.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_3.xml">tutorial_cv_3.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_3-rt.xml">tutorial_cv_3-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_3.html">tutorial_cv_3.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_4">
+<span id="code-verification-test-4"></span><span id="tutorial-cv-4"></span><h2>8.3.4. Code Verification Test 4<a class="headerlink" href="#module-daetools.examples.tutorial_cv_4" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Manufactured Solutions.</p>
+<p>Reference:</p>
+<ol class="arabic simple">
+<li>K. Salari and P. Knupp. Code Verification by the Method of Manufactured Solutions. 
+SAND2000 – 1444 (2000).
+<a class="reference external" href="https://doi.org/10.2172/759450">doi:10.2172/759450</a></li>
+</ol>
+<p>The problem in this tutorial is the <em>transient convection-diffusion</em> equation 
+distributed on a rectangular 2D domain with u and v components of velocity:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>L(u) = du/dt + (d(uu)/dx + d(uv)/dy) - ni * (d2u/dx2 + d2u/dy2) = 0
+L(v) = dv/dt + (d(vu)/dx + d(vv)/dy) - ni * (d2v/dx2 + d2v/dy2) = 0
+</pre></div>
+</div>
+<p>The manufactured solutions are:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>um = u0 * (sin(x**2 + y**2 + w0*t) + eps)
+vm = v0 * (cos(x**2 + y**2 + w0*t) + eps)
+</pre></div>
+</div>
+<p>The terms in the new sources Su and Sv are computed using the daetools derivative 
+functions (dt, d and d2).</p>
+<p>Again, the Dirichlet boundary conditions are used:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>u(LB, y)  = um(LB, y)
+u(UB, y)  = um(UB, y)
+u(x,  LB) = um(x,  LB)
+u(x,  UB) = um(x,  UB)
+
+v(LB, y)  = vm(LB, y)
+v(UB, y)  = vm(UB, y)
+v(x,  LB) = vm(x,  LB)
+v(x,  UB) = vm(x,  UB)
+</pre></div>
+</div>
+<p>Steady-state results (w0 = 0.0) for the u-component:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_4-u_component.png"><img alt="_images/tutorial_cv_4-u_component.png" src="_images/tutorial_cv_4-u_component.png" style="width: 500px;" /></a>
+<p>Steady-state results (w0 = 0.0) for the v-component:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_4-v_component.png"><img alt="_images/tutorial_cv_4-v_component.png" src="_images/tutorial_cv_4-v_component.png" style="width: 500px;" /></a>
+<p>Numerical vs. manufactured solution plot (u velocity component, 40x32 grid):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_4-results.png"><img alt="_images/tutorial_cv_4-results.png" src="_images/tutorial_cv_4-results.png" style="width: 500px;" /></a>
+<p>The normalised global errors and the order of accuracy plots 
+(grids 10x8, 20x16, 40x32, 80x64):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_4-results2.png"><img alt="_images/tutorial_cv_4-results2.png" src="_images/tutorial_cv_4-results2.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_4.xml">tutorial_cv_4.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_4-rt.xml">tutorial_cv_4-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_4.html">tutorial_cv_4.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_5">
+<span id="code-verification-test-5"></span><span id="tutorial-cv-5"></span><h2>8.3.5. Code Verification Test 5<a class="headerlink" href="#module-daetools.examples.tutorial_cv_5" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Manufactured Solutions.</p>
+<p>This problem and its solution in <a class="reference external" href="https://www.comsol.com">COMSOL Multiphysics</a> software 
+is described in the COMSOL blog:
+<a class="reference external" href="https://www.comsol.com/blogs/verify-simulations-with-the-method-of-manufactured-solutions">Verify Simulations with the Method of Manufactured Solutions (2015)</a>.</p>
+<p>Here, a 1D transient heat conduction problem in a bar of length L is solved using the FE method:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dT/dt - k/(rho*cp) * d2T/dx2 = 0, x in [0,L]
+</pre></div>
+</div>
+<p>with the following boundary:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>T(0,t) = 500 K
+T(L,t) = 500 K
+</pre></div>
+</div>
+<p>and initial conditions:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>T(x,0) = 500 K
+</pre></div>
+</div>
+<p>The manufactured solution is given by function u(x):</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>u(x) = 500 + (x/L) * (x/L - 1) * (t/tau)
+</pre></div>
+</div>
+<p>The new source term is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>g(x) = du/dt - k/(rho*cp) * d2u/dx2
+</pre></div>
+</div>
+<p>The terms in the source g term are:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>du_dt   = (x/L) * (x/L - 1) * (1/tau)
+d2u_dx2 = (2/(L**2)) * (t/tau)
+</pre></div>
+</div>
+<p>Finally, the original problem with the new source term is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dT/dt - k/(rho*cp) * d2T/dx2 = g(x), x in [0,L]
+</pre></div>
+</div>
+<p>The mesh is linear (a bar) with a length of 100 m:</p>
+<a class="reference internal image-reference" href="_images/bar(0,100)-20.png"><img alt="_images/bar(0,100)-20.png" src="_images/bar(0,100)-20.png" style="width: 500px;" /></a>
+<p>The comparison plots for the coarse mesh and linear elements:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_5-results-5_elements-I_order.png"><img alt="_images/tutorial_cv_5-results-5_elements-I_order.png" src="_images/tutorial_cv_5-results-5_elements-I_order.png" style="width: 400px;" /></a>
+<p>The comparison plots for the coarse mesh and quadratic elements:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_5-results-5_elements-II_order.png"><img alt="_images/tutorial_cv_5-results-5_elements-II_order.png" src="_images/tutorial_cv_5-results-5_elements-II_order.png" style="width: 400px;" /></a>
+<p>The comparison plots for the fine mesh and linear elements:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_5-results-20_elements-I_order.png"><img alt="_images/tutorial_cv_5-results-20_elements-I_order.png" src="_images/tutorial_cv_5-results-20_elements-I_order.png" style="width: 400px;" /></a>
+<p>The comparison plots for the fine mesh and quadratic elements:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_5-results-20_elements-II_order.png"><img alt="_images/tutorial_cv_5-results-20_elements-II_order.png" src="_images/tutorial_cv_5-results-20_elements-II_order.png" style="width: 400px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_5.xml">tutorial_cv_5.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_5-rt.xml">tutorial_cv_5-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_5.html">tutorial_cv_5.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_6">
+<span id="code-verification-test-6"></span><span id="tutorial-cv-6"></span><h2>8.3.6. Code Verification Test 6<a class="headerlink" href="#module-daetools.examples.tutorial_cv_6" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Exact Solutions.</p>
+<p>Reference (section 3.3):</p>
+<ul class="simple">
+<li>B. Koren. A robust upwind discretization method for advection, diffusion and source terms. 
+Department of Numerical Mathematics. Report NM-R9308 (1993). 
+<a class="reference external" href="http://oai.cwi.nl/oai/asset/5293/05293D.pdf">PDF</a></li>
+</ul>
+<p>The problem in this tutorial is 1D <em>transient convection-diffusion</em> equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc_dt + u*dc/dx - D*d2c/dc2 = 0
+</pre></div>
+</div>
+<p>The equation is solved using the high resolution cell-centered finite volume upwind scheme
+with flux limiter described in the article.</p>
+<p>Numerical vs. exact solution plots (Nx = [20, 40, 80]):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_6-results.png"><img alt="_images/tutorial_cv_6-results.png" src="_images/tutorial_cv_6-results.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_6.xml">tutorial_cv_6.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_6-rt.xml">tutorial_cv_6-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_6.html">tutorial_cv_6.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_7">
+<span id="code-verification-test-7"></span><span id="tutorial-cv-7"></span><h2>8.3.7. Code Verification Test 7<a class="headerlink" href="#module-daetools.examples.tutorial_cv_7" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Manufactured Solutions.</p>
+<p>Reference (section 4.2):</p>
+<ul class="simple">
+<li>B. Koren. A robust upwind discretization method for advection, diffusion and source terms. 
+Department of Numerical Mathematics. Report NM-R9308 (1993). 
+<a class="reference external" href="http://oai.cwi.nl/oai/asset/5293/05293D.pdf">PDF</a></li>
+</ul>
+<p>The problem in this tutorial is 1D <em>steady-state convection-diffusion</em> (Burger&#8217;s) equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>u*dc/dx - D*d2c/dc2 = 0
+</pre></div>
+</div>
+<p>The manufactured solution is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c(x) = 0.5 * (1 - cos(2*pi*(x-a)/(b-a))), x in [a,b]
+c(x) = 0, otherwise
+</pre></div>
+</div>
+<p>The new source term is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>s(x) = pi/(b-a) * u * sin(2*pi*(x-a)/(b-a)) - 2*(pi/(b-a))**2 * D * cos(2*pi*(x-a)/(b-a)), x in [a,b]
+s(x) = 0, otherwise
+</pre></div>
+</div>
+<p>The modified equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>u*dc/dx - D*d2c/dc2 = s(x)
+</pre></div>
+</div>
+<p>is solved using the high resolution cell-centered finite volume upwind scheme
+with flux limiter described in the article.</p>
+<p>In order to obtain the consistent discretisation of the convection and the source terms 
+an integral of the source term: S(x) = 1/u * Integral s(x)*dx must be calculated.
+The result of integration is given as:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>S(x) = 0.5 * (1 - cos(2*pi*(x-a)/(b-a)))) - pi/(b-a) * D/u * sin(2*pi*(x-a)/(b-a))), x in [a,b]
+S(x) = 0, otherwise
+</pre></div>
+</div>
+<p>Numerical vs. manufactured solution plot (Nx=80):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_7-results.png"><img alt="_images/tutorial_cv_7-results.png" src="_images/tutorial_cv_7-results.png" style="width: 500px;" /></a>
+<p>The normalised global errors and the order of accuracy plots 
+for the Koren flux limiter (grids 40, 60, 80, 120):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_7-results-koren.png"><img alt="_images/tutorial_cv_7-results-koren.png" src="_images/tutorial_cv_7-results-koren.png" style="width: 800px;" /></a>
+<p>The normalised global errors and the order of accuracy plots 
+for the Superbee flux limiter (grids 40, 60, 80, 120):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_7-results-superbee.png"><img alt="_images/tutorial_cv_7-results-superbee.png" src="_images/tutorial_cv_7-results-superbee.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_7.xml">tutorial_cv_7.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_7-rt.xml">tutorial_cv_7-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_7.html">tutorial_cv_7.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_8">
+<span id="code-verification-test-8"></span><span id="tutorial-cv-8"></span><h2>8.3.8. Code Verification Test 8<a class="headerlink" href="#module-daetools.examples.tutorial_cv_8" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Manufactured Solutions.</p>
+<p>Reference (page 64):</p>
+<ul class="simple">
+<li>W. Hundsdorfer. Numerical Solution of Advection-Diffusion-Reaction Equations. 
+Lecture notes (2000), Thomas Stieltjes Institute. 
+<a class="reference external" href="http://homepages.cwi.nl/~willem/Coll_AdvDiffReac/notes.pdf">PDF</a></li>
+</ul>
+<p>The problem in this tutorial is 1D <em>transient convection-reaction</em> equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc/dt + dc/dx = c**2
+</pre></div>
+</div>
+<p>The exact solution is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c(x,t) = sin(pi*(x-t))**2 / (1 - t*sin(pi*(x-t))**2)
+</pre></div>
+</div>
+<p>The equation is solved using the high resolution cell-centered finite volume upwind scheme
+with flux limiter described in the article. The boundary and initial conditions are obtained 
+from the exact solution.</p>
+<p>The consistent discretisation of the convection and the source terms cannot be done
+since the constant C1 in the integral of the source term:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>S(x) = 1/u * Integral s(x)*dx = u**/3 + C1 
+</pre></div>
+</div>
+<p>is not known. Therefore, the numerical cell average is used:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Snum(x) = Integral s(x)*dx = s(i) * (x[i]-x[i-1]).
+</pre></div>
+</div>
+<p>Numerical vs. manufactured solution plot (Nx=80):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_8-results.png"><img alt="_images/tutorial_cv_8-results.png" src="_images/tutorial_cv_8-results.png" style="width: 500px;" /></a>
+<p>The normalised global errors and the order of accuracy plots 
+for the Koren flux limiter (grids 40, 60, 80, 120):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_8-results-koren.png"><img alt="_images/tutorial_cv_8-results-koren.png" src="_images/tutorial_cv_8-results-koren.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_8.xml">tutorial_cv_8.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_8-rt.xml">tutorial_cv_8-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_8.html">tutorial_cv_8.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_9">
+<span id="code-verification-test-9"></span><span id="tutorial-cv-9"></span><h2>8.3.9. Code Verification Test 9<a class="headerlink" href="#module-daetools.examples.tutorial_cv_9" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Exact Solutions (Solid Body Rotation problem).</p>
+<p>Reference (section 4.4.6.1 Solid Body Rotation):</p>
+<ul class="simple">
+<li>D. Kuzmin (2010). A Guide to Numerical Methods for Transport Equations. 
+<a class="reference external" href="http://www.mathematik.uni-dortmund.de/~kuzmin/Transport.pdf">PDF</a></li>
+</ul>
+<p>Solid body rotation illustrates the ability of a numerical scheme to transport initial
+data without distortion. Here, a 2D transient convection problem in a rectangular 
+(0,1)x(0,1) domain is solved using the FE method:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc/dt + div(u*c) = 0, in Omega = (0,1)x(0,1)
+</pre></div>
+</div>
+<p>The initial conditions define a conical body which is rotated counterclockwise around
+the point (0.5, 0.5) using the velocity field u = (0.5 - y, x - 0.5). 
+The cone is defined by the following equation:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>r0 = 0.15
+(x0, y0) = (0.5, 0.25)
+c(x,y,0) = 1 - (1/r0) * sqrt((x-x0)**2 + (y-y0)**2)
+</pre></div>
+</div>
+<p>After t = 2pi the body should arrive at the starting position.</p>
+<p>Homogeneous Dirichlet boundary conditions are prescribed at all four edges:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c(x,y,t) = 0.0
+</pre></div>
+</div>
+<p>The mesh is a square (0,1)x(0,1):</p>
+<a class="reference internal image-reference" href="_images/square(0,1)x(0,1)-64x64.png"><img alt="_images/square(0,1)x(0,1)-64x64.png" src="_images/square(0,1)x(0,1)-64x64.png" style="width: 300px;" /></a>
+<p>The solution plot at t = 0 and t = 2pi (96x96 grid):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_9-results1.png"><img alt="_images/tutorial_cv_9-results1.png" src="_images/tutorial_cv_9-results1.png" style="height: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/tutorial_cv_9-results2.png"><img alt="_images/tutorial_cv_9-results2.png" src="_images/tutorial_cv_9-results2.png" style="height: 400px;" /></a>
+<p>Animations for 32x32 and 96x96 grids:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_9-animation-32x32.gif"><img alt="_images/tutorial_cv_9-animation-32x32.gif" src="_images/tutorial_cv_9-animation-32x32.gif" style="height: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/tutorial_cv_9-animation-96x96.gif"><img alt="_images/tutorial_cv_9-animation-96x96.gif" src="_images/tutorial_cv_9-animation-96x96.gif" style="height: 400px;" /></a>
+<p>It can be observed that the shape of the cone is preserved. Also, since the above
+equation is hyperbolic some oscillations in the solution out of the cone appear,
+which are more pronounced for coarser grids.
+This problem was resolved in the original example using the flux linearisation technique.</p>
+<p>The normalised global errors and the order of accuracy plots 
+(no. elements = [32x32, 64x64, 96x96, 128x128], t = 2pi):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_9-results3.png"><img alt="_images/tutorial_cv_9-results3.png" src="_images/tutorial_cv_9-results3.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_9.xml">tutorial_cv_9.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_9-rt.xml">tutorial_cv_9-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_9.html">tutorial_cv_9.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_10">
+<span id="code-verification-test-10"></span><span id="tutorial-cv-10"></span><h2>8.3.10. Code Verification Test 10<a class="headerlink" href="#module-daetools.examples.tutorial_cv_10" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Exact Solutions (Rotating Gaussian Hill problem).</p>
+<p>Reference (section 4.4.6.3 Convection-Diffusion):</p>
+<ul class="simple">
+<li>D. Kuzmin (2010). A Guide to Numerical Methods for Transport Equations. 
+<a class="reference external" href="http://www.mathematik.uni-dortmund.de/~kuzmin/Transport.pdf">PDF</a></li>
+</ul>
+<p>Here, a 2D transient convection-diffusion problem in a rectangular (-1,1)x(-1,1) domain 
+is solved using the FE method:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>dc/dt + div(u*c) - eps*nabla(c) = 0, in Omega = (-1,1)x(-1,1)
+</pre></div>
+</div>
+<p>The exact solution is given by the following function:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>(x0, y0) = (0.0, 0.5)
+x_bar(t) = x0*cos(t) - y0*sin(t)
+y_bar(t) = -x0*sin(t) + y0*cos(t)
+r2(x,y,t) = (x-x_bar(t))**2 + (y-y_bar(t))**2
+
+c_exact(x,y,t) = 1.0 / (4*pi*eps*t) * exp(-r2(x,y,t) / (4*eps*t))
+</pre></div>
+</div>
+<p>The initial conditions define a Gaussian hill which is rotated counterclockwise around
+the point (0.0, 0.0) using the velocity field u = (-y, x). Since at t = 0 the 
+value of c_exact is the Dirac delta function it is better to start the simulation at t &gt; 0.
+Therefore, the simulation is started and t = pi/2 by reinitialising variable c to:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c(x,y,pi/2) = c_exact(x,y,pi/2)
+</pre></div>
+</div>
+<p>At t = 5/2 pi the peak smeared by the diffusion should arrive at the starting position.</p>
+<p>Homogeneous Dirichlet boundary conditions are prescribed at all four edges:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c(x,y,t) = 0.0
+</pre></div>
+</div>
+<p>The mesh is a rectangle (-1,1)x(-1,1):</p>
+<a class="reference internal image-reference" href="_images/square(-1,1)x(-1,1)-64x64.png"><img alt="_images/square(-1,1)x(-1,1)-64x64.png" src="_images/square(-1,1)x(-1,1)-64x64.png" style="width: 300px;" /></a>
+<p>The solution plots at t = pi/2 (the initial peak) and t = 5/2pi (96x96 grid):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_10-results1.png"><img alt="_images/tutorial_cv_10-results1.png" src="_images/tutorial_cv_10-results1.png" style="height: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/tutorial_cv_10-results2.png"><img alt="_images/tutorial_cv_10-results2.png" src="_images/tutorial_cv_10-results2.png" style="height: 400px;" /></a>
+<p>Animations for 32x32 and 96x96 grids:</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_10-animation-32x32.gif"><img alt="_images/tutorial_cv_10-animation-32x32.gif" src="_images/tutorial_cv_10-animation-32x32.gif" style="height: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/tutorial_cv_10-animation-96x96.gif"><img alt="_images/tutorial_cv_10-animation-96x96.gif" src="_images/tutorial_cv_10-animation-96x96.gif" style="height: 400px;" /></a>
+<p>Again, some low-magnitude oscillations in the solution appear, which are more pronounced 
+for coarser grids.
+In the original example this problem was resolved using the flux linearisation technique.</p>
+<p>The normalised global errors and the order of accuracy plots 
+(no. elements = [32x32, 64x64, 96x96, 128x128], t = 5/2pi):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_10-results3.png"><img alt="_images/tutorial_cv_10-results3.png" src="_images/tutorial_cv_10-results3.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_10.xml">tutorial_cv_10.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_10-rt.xml">tutorial_cv_10-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_10.html">tutorial_cv_10.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_cv_11">
+<span id="code-verification-test-11"></span><span id="tutorial-cv-11"></span><h2>8.3.11. Code Verification Test 11<a class="headerlink" href="#module-daetools.examples.tutorial_cv_11" title="Permalink to this headline">¶</a></h2>
+<p>Code verification using the Method of Exact Solutions.</p>
+<p>The problem is identical to the problem in the tutorial_cv_6.
+The only difference is that the flow is reversed to test the high resolution scheme
+for the reversed flow mode.</p>
+<p>Numerical vs. exact solution plots (Nx = [20, 40, 80]):</p>
+<a class="reference internal image-reference" href="_images/tutorial_cv_11-results.png"><img alt="_images/tutorial_cv_11-results.png" src="_images/tutorial_cv_11-results.png" style="width: 800px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_11.xml">tutorial_cv_11.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_cv_11-rt.xml">tutorial_cv_11-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_cv_11.html">tutorial_cv_11.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/tutorials-cv.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
