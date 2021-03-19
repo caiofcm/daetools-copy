@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>daetools.dae_simulator.web_service &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="../../../_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html"><span><img src="../../../_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for daetools.dae_simulator.web_service</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;********************************************************************************</span>
+<span class="sd">                            web_service.py</span>
+<span class="sd">                 DAE Tools: pyDAE module, www.daetools.com</span>
+<span class="sd">                 Copyright (C) Dragan Nikolic</span>
+<span class="sd">***********************************************************************************</span>
+<span class="sd">DAE Tools is free software; you can redistribute it and/or modify it under the</span>
+<span class="sd">terms of the GNU General Public License version 3 as published by the Free Software</span>
+<span class="sd">Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT</span>
+<span class="sd">ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A</span>
+<span class="sd">PARTICULAR PURPOSE. See the GNU General Public License for more details.</span>
+<span class="sd">You should have received a copy of the GNU General Public License along with the</span>
+<span class="sd">DAE Tools software; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">********************************************************************************&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">traceback</span><span class="o">,</span> <span class="nn">cgi</span>
+<span class="kn">import</span> <span class="nn">uuid</span><span class="o">,</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">cgitb</span><span class="o">,</span> <span class="nn">hashlib</span><span class="o">,</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
+<span class="kn">from</span> <span class="nn">daetools.pyDAE</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># python 3</span>
+    <span class="kn">import</span> <span class="nn">http.client</span> <span class="k">as</span> <span class="nn">http_client</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># python 2</span>
+    <span class="kn">import</span> <span class="nn">httplib</span> <span class="k">as</span> <span class="nn">http_client</span>
+    <span class="kn">from</span> <span class="nn">urlparse</span> <span class="k">import</span> <span class="n">urlparse</span>
+
+<span class="c1"># cgi traceback</span>
+<span class="c1">#logdir = os.path.join(os.path.expanduser(&#39;~&#39;), &#39;daetools_ws&#39;)</span>
+<span class="c1">#cgitb.enable(display = 0, logdir = logdir, format = &#39;html&#39;) </span>
+
+<div class="viewcode-block" id="BadRequest"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.BadRequest">[docs]</a><span class="k">class</span> <span class="nc">BadRequest</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Results in: 400 Bad Request response&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="ServerError"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.ServerError">[docs]</a><span class="k">class</span> <span class="nc">ServerError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Results in: 500 Internal Server Error response&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="daeWebService"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService">[docs]</a><span class="k">class</span> <span class="nc">daeWebService</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The base class for web applications/web services.</span>
+<span class="sd">     Performs the low level tasks such as parsing the query to get its arguments</span>
+<span class="sd">     and sending responses with results to the clients.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noHTTPRequests</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activeObjects</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpServer</span>    <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="daeWebService.startWebService"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.startWebService">[docs]</a>    <span class="k">def</span> <span class="nf">startWebService</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">serveForever</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Start the web application.&quot;&quot;&quot;</span>
+        <span class="n">http_port</span>    <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+        <span class="n">http_address</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+        
+        <span class="n">httpd</span> <span class="o">=</span> <span class="n">wsgiref</span><span class="o">.</span><span class="n">simple_server</span><span class="o">.</span><span class="n">make_server</span><span class="p">(</span><span class="n">http_address</span><span class="p">,</span> <span class="n">http_port</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">handler_class</span><span class="o">=</span><span class="n">NoLoggingWSGIRequestHandler</span><span class="p">)</span>
+        <span class="n">application</span><span class="o">.</span><span class="n">httpServer</span> <span class="o">=</span> <span class="n">httpd</span>
+        <span class="k">if</span> <span class="n">serveForever</span><span class="p">:</span>
+            <span class="c1"># Serve even if there is no active clients.</span>
+            <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">(</span><span class="n">poll_interval</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Serve as long as the function keepRunning returns True.</span>
+            <span class="c1"># keepRunning will return False if all clients freed their objects and exited.</span>
+            <span class="k">while</span> <span class="n">application</span><span class="o">.</span><span class="n">keepRunning</span><span class="p">():</span>
+                <span class="n">httpd</span><span class="o">.</span><span class="n">handle_request</span><span class="p">()</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="daeWebService.tryConnectWebService"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.tryConnectWebService">[docs]</a>    <span class="k">def</span> <span class="nf">tryConnectWebService</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Try to connect to the above server (timeout is 10s).</span>
+<span class="sd">        If successful, the server has successfully been started</span>
+<span class="sd">        and the subsequent clients can connect to it.&quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">http_client</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="daeWebService.keepRunning"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.keepRunning">[docs]</a>    <span class="k">def</span> <span class="nf">keepRunning</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Server will stop if at least one request has been processed and no activeObjects exist</span>
+<span class="sd">        (all active objects finished with the simulation).</span>
+<span class="sd">        Therefore, the server can serve multiple clients but will shutdown after all objects </span>
+<span class="sd">        freed their resources and the number of active objects goes to zero.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activeObjects</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">noHTTPRequests</span> <span class="o">==</span> <span class="mi">0</span></div>
+    
+<div class="viewcode-block" id="daeWebService.getQueryArguments"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.getQueryArguments">[docs]</a>    <span class="k">def</span> <span class="nf">getQueryArguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the query arguments&#39; values as a dictionary object.</span>
+<span class="sd">        Can process both GET and POST requests (double check this).&quot;&quot;&quot;</span>
+        <span class="n">arguments</span>   <span class="o">=</span> <span class="n">cgi</span><span class="o">.</span><span class="n">FieldStorage</span><span class="p">(</span><span class="n">fp</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.input&#39;</span><span class="p">],</span> <span class="n">environ</span> <span class="o">=</span> <span class="n">environ</span><span class="p">)</span> 
+        <span class="n">pathInfo</span>    <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pathInfo</span><span class="p">,</span> <span class="n">arguments</span></div>
+        
+<div class="viewcode-block" id="daeWebService.jsonBadRequest"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.jsonBadRequest">[docs]</a>    <span class="k">def</span> <span class="nf">jsonBadRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">start_response</span><span class="p">,</span> <span class="n">simulationID</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the bad request error status to the client.</span>
+<span class="sd">        The argument reason is a string with the exception description.</span>
+<span class="sd">        It is not a fatal error, thus DO NOT delete the current object identified by its simulationID.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">simulationID</span> <span class="ow">and</span> <span class="n">simulationID</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">activeObjects</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">activeObjects</span><span class="p">[</span><span class="n">simulationID</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Status&#39;</span><span class="p">:</span> <span class="s1">&#39;Error&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Reason&#39;</span><span class="p">:</span> <span class="n">reason</span><span class="p">,</span>
+               <span class="s1">&#39;Result&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendResponse_json</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;400 Bad Request&#39;</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="daeWebService.jsonError"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.jsonError">[docs]</a>    <span class="k">def</span> <span class="nf">jsonError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">start_response</span><span class="p">,</span> <span class="n">simulationID</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the error status to the client.</span>
+<span class="sd">        The argument reason is a string with the exception description.</span>
+<span class="sd">        In case of errors always deletes the current object identified by its simulationID.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">simulationID</span> <span class="ow">and</span> <span class="n">simulationID</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">activeObjects</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">activeObjects</span><span class="p">[</span><span class="n">simulationID</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Status&#39;</span><span class="p">:</span> <span class="s1">&#39;Error&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Reason&#39;</span><span class="p">:</span> <span class="n">reason</span><span class="p">,</span>
+               <span class="s1">&#39;Result&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendResponse_json</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;500 Internal Server Error&#39;</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="daeWebService.jsonSuccess"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.jsonSuccess">[docs]</a>    <span class="k">def</span> <span class="nf">jsonSuccess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the success status to the client and no results.&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Status&#39;</span><span class="p">:</span> <span class="s1">&#39;Success&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Reason&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="s1">&#39;Result&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendResponse_json</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="daeWebService.jsonResult"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.daeWebService.jsonResult">[docs]</a>    <span class="k">def</span> <span class="nf">jsonResult</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the success status and the data to the client.&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Status&#39;</span><span class="p">:</span> <span class="s1">&#39;Success&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Reason&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="s1">&#39;Result&#39;</span><span class="p">:</span> <span class="n">result</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sendResponse_json</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_sendResponse_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Low level function that sends the HTTP response in JSON format.</span>
+<span class="sd">        The argument obj contains the data to be sent as JSON message.&quot;&quot;&quot;</span>
+        <span class="n">json_b</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">indent</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span> <span class="c1"># default is utf-8</span>
+        <span class="n">start_response</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Methods&#39;</span><span class="p">,</span> <span class="s1">&#39;POST, GET, OPTIONS&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;Content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">json_b</span><span class="p">)))])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">json_b</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_sendResponse_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html_content</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Low level function that sends the HTTP response in HTML format.</span>
+<span class="sd">        The argument html_content contains the HTML message.&quot;&quot;&quot;</span>
+        <span class="n">html_b</span> <span class="o">=</span> <span class="n">html_content</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span> <span class="c1"># default is utf-8</span>
+        <span class="n">start_response</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Methods&#39;</span><span class="p">,</span> <span class="s1">&#39;POST, GET, OPTIONS&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;Content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">),</span>
+                                <span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">html_b</span><span class="p">)))])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">html_b</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_sendFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">contentType</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Low level function that sends a file as the HTTP response.</span>
+<span class="sd">        The argument html_content contains the HTML message.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+            <span class="n">content</span>     <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">filename</span>    <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+            <span class="n">content_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="s1">&#39;Access-Control-Allow-Methods&#39;</span><span class="p">,</span> <span class="s1">&#39;POST, GET, OPTIONS&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="s1">&#39;Content-type&#39;</span><span class="p">,</span> <span class="n">contentType</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">,</span> <span class="s1">&#39;attachment; filename=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">content_len</span><span class="p">))])</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">content</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="NoLoggingWSGIRequestHandler"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.NoLoggingWSGIRequestHandler">[docs]</a><span class="k">class</span> <span class="nc">NoLoggingWSGIRequestHandler</span><span class="p">(</span><span class="n">wsgiref</span><span class="o">.</span><span class="n">simple_server</span><span class="o">.</span><span class="n">WSGIRequestHandler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Request handler that suppresses logging to the stderr.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NoLoggingWSGIRequestHandler.log_message"><a class="viewcode-back" href="../../../dae_simulator.html#daetools.dae_simulator.web_service.NoLoggingWSGIRequestHandler.log_message">[docs]</a>    <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

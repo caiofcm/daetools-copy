@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.2. Advanced Tutorials &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8.3. Code Verification Tests" href="tutorials-cv.html" />
+    <link rel="prev" title="8.1. Basic Tutorials" href="tutorials-basic.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">8. Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">8.2. Advanced Tutorials</a><ul>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_adv_1">8.2.1. Advanced Tutorial 1</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_adv_2">8.2.2. Advanced Tutorial 2</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_adv_3">8.2.3. Advanced Tutorial 3</a></li>
+<li><a class="reference internal" href="#module-daetools.examples.tutorial_adv_4">8.2.4. Advanced Tutorial 4</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="advanced-tutorials">
+<h1>8.2. Advanced Tutorials<a class="headerlink" href="#advanced-tutorials" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-adv-1"><span class="std std-ref">Advanced Tutorial 1</span></a></td>
+<td>Interactive operating procedures (pyQt GUI).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-adv-2"><span class="std std-ref">Advanced Tutorial 2</span></a></td>
+<td>Solution of a discretized population balance using
+high resolution upwind schemes with flux limiter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="tutorials-all.html#tutorial-adv-3"><span class="std std-ref">Advanced Tutorial 3</span></a></td>
+<td>Using code-generators (Scilab/GNU_Octave/Matlab MEX functions,
+Simulink S-functions, Modelica/gPROMS/FMI code-generators).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="tutorials-all.html#tutorial-adv-4"><span class="std std-ref">Advanced Tutorial 4</span></a></td>
+<td>OpenCS code generator.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="module-daetools.examples.tutorial_adv_1">
+<span id="advanced-tutorial-1"></span><span id="tutorial-adv-1"></span><h2>8.2.1. Advanced Tutorial 1<a class="headerlink" href="#module-daetools.examples.tutorial_adv_1" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial presents a user-defined simulation which instead of simply integrating
+the system shows the pyQt graphical user interface (GUI) where the simulation can be
+manipulated (a sort of interactive operating procedure).</p>
+<p>The model in this example is the same as in the tutorial 4.</p>
+<p>The simulation.Run() function is modifed to show the graphical user interface (GUI)
+that allows to specify the input power of the heater (degree of freedom), a time period
+for integration, and a reporting interval. The GUI also contains the temperature plot
+updated in real time, as the simulation progresses.</p>
+<p>The screenshot of the pyQt GUI:</p>
+<a class="reference internal image-reference" href="_images/tutorial_adv_1-screenshot.png"><img alt="_images/tutorial_adv_1-screenshot.png" src="_images/tutorial_adv_1-screenshot.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_1.xml">tutorial_adv_1.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_1-rt.xml">tutorial_adv_1-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_adv_1.html">tutorial_adv_1.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_adv_2">
+<span id="advanced-tutorial-2"></span><span id="tutorial-adv-2"></span><h2>8.2.2. Advanced Tutorial 2<a class="headerlink" href="#module-daetools.examples.tutorial_adv_2" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial demonstrates a solution of a discretized population balance using
+high resolution upwind schemes with flux limiter.</p>
+<p>Reference: Qamar S., Elsner M.P., Angelov I.A., Warnecke G., Seidel-Morgenstern A. (2006)
+A comparative study of high resolution schemes for solving population balances in crystallization.
+Computers and Chemical Engineering 30(6-7):1119-1131.
+<a class="reference external" href="http://dx.doi.org/10.1016/j.compchemeng.2006.02.012">doi:10.1016/j.compchemeng.2006.02.012</a></p>
+<p>It shows a comparison between the analytical results and various discretization schemes:</p>
+<ul class="simple">
+<li>I order upwind scheme</li>
+<li>II order central scheme</li>
+<li>Cell centered finite volume method solved using the high resolution upwind scheme
+(Van Leer k-interpolation with k = 1/3 and Koren flux limiter)</li>
+</ul>
+<p>The problem is from the section 3.1 Size-independent growth.</p>
+<p>Could be also found in: Motz S., Mitrović A., Gilles E.-D. (2002)
+Comparison of numerical methods for the simulation of dispersed phase systems.
+Chemical Engineering Science 57(20):4329-4344.
+<a class="reference external" href="http://dx.doi.org/10.1016/S0009-2509(02)00349-4">doi:10.1016/S0009-2509(02)00349-4</a></p>
+<p>The comparison of number density functions between the analytical solution and the
+high-resolution scheme:</p>
+<a class="reference internal image-reference" href="_images/tutorial_adv_2-results.png"><img alt="_images/tutorial_adv_2-results.png" src="_images/tutorial_adv_2-results.png" style="width: 500px;" /></a>
+<p>The comparison of number density functions between the analytical solution and the
+I order upwind, II order upwind and II order central difference schemes:</p>
+<a class="reference internal image-reference" href="_images/tutorial_adv_2-results2.png"><img alt="_images/tutorial_adv_2-results2.png" src="_images/tutorial_adv_2-results2.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_2.xml">tutorial_adv_2.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_2-rt.xml">tutorial_adv_2-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_adv_2.html">tutorial_adv_2.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_adv_3">
+<span id="advanced-tutorial-3"></span><span id="tutorial-adv-3"></span><h2>8.2.3. Advanced Tutorial 3<a class="headerlink" href="#module-daetools.examples.tutorial_adv_3" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial introduces the following concepts:</p>
+<ul class="simple">
+<li>DAE Tools code-generators<ul>
+<li>Modelica code-generator</li>
+<li>gPROMS code-generator</li>
+<li>FMI code-generator (for Co-Simulation)</li>
+</ul>
+</li>
+<li>DAE Tools model-exchange capabilities:<ul>
+<li>Scilab/GNU_Octave/Matlab MEX functions</li>
+<li>Simulink S-functions</li>
+</ul>
+</li>
+</ul>
+<p>The model represent a simple multiplier block. It contains two inlet and two outlet ports.
+The outlets values are equal to inputs values multiplied by a multiplier &#8220;m&#8221;:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>out1.y   = m1   x in1.y
+out2.y[] = m2[] x in2.y[]
+</pre></div>
+</div>
+<p>where multipliers m1 and m2[] are:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>STN Multipliers
+   case variableMultipliers:
+      dm1/dt   = p1
+      dm2[]/dt = p2
+   case constantMultipliers:
+      dm1/dt   = 0
+      dm2[]/dt = 0
+</pre></div>
+</div>
+<p>(that is the multipliers can be constant or variable).</p>
+<p>The ports in1 and out1 are scalar (width = 1).
+The ports in2 and out2 are vectors (width = 1).</p>
+<p>Achtung, Achtung!!
+Notate bene:</p>
+<ol class="arabic simple">
+<li>Inlet ports must be DOFs (that is to have their values asssigned),
+for they can&#8217;t be connected when the model is simulated outside of daetools context.</li>
+<li>Only scalar output ports are supported at the moment!! (Simulink issue)</li>
+</ol>
+<p>The plot of the inlet &#8216;y&#8217; variable and the multiplied outlet &#8216;y&#8217; variable for
+the constant multipliers (m1 = 2):</p>
+<a class="reference internal image-reference" href="_images/tutorial_adv_3-results.png"><img alt="_images/tutorial_adv_3-results.png" src="_images/tutorial_adv_3-results.png" style="width: 500px;" /></a>
+<p>The plot of the inlet &#8216;y&#8217; variable and the multiplied outlet &#8216;y&#8217; variable for
+the variable multipliers (dm1/dt = 10, m1(t=0) = 2):</p>
+<a class="reference internal image-reference" href="_images/tutorial_adv_3-results2.png"><img alt="_images/tutorial_adv_3-results2.png" src="_images/tutorial_adv_3-results2.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_3.xml">tutorial_adv_3.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_3-rt.xml">tutorial_adv_3-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_adv_3.html">tutorial_adv_3.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-daetools.examples.tutorial_adv_4">
+<span id="advanced-tutorial-4"></span><span id="tutorial-adv-4"></span><h2>8.2.4. Advanced Tutorial 4<a class="headerlink" href="#module-daetools.examples.tutorial_adv_4" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial illustrates the OpenCS code generator.
+For the given DAE Tools simulation it generates input files for OpenCS simulation,
+either for a single CPU or for a parallel simulation using MPI.
+The model is identical to the model in the tutorial 11.</p>
+<p>The OpenCS framework currently does not support:</p>
+<ul class="simple">
+<li>Discontinuous equations (STNs and IFs)</li>
+<li>External functions</li>
+<li>Thermo-physical property packages</li>
+</ul>
+<p>The temperature plot (at t=100s, x=0.5128, y=*):</p>
+<a class="reference internal image-reference" href="_images/tutorial_adv_4-results.png"><img alt="_images/tutorial_adv_4-results.png" src="_images/tutorial_adv_4-results.png" style="width: 500px;" /></a>
+<p class="rubric">Files</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_4.xml">tutorial_adv_4.xml</a></td>
+</tr>
+<tr class="row-even"><td>Runtime model report</td>
+<td><a class="reference external" href="../examples/tutorial_adv_4-rt.xml">tutorial_adv_4-rt.xml</a></td>
+</tr>
+<tr class="row-odd"><td>Source code</td>
+<td><a class="reference external" href="../examples/tutorial_adv_4.html">tutorial_adv_4.py</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/tutorials-advanced.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

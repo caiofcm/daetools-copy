@@ -1,0 +1,149 @@
+***************
+OpenCS Examples
+***************
+..  
+    Copyright (C) Dragan Nikolic
+    DAE Tools is free software; you can redistribute it and/or modify it under the
+    terms of the GNU General Public License version 3 as published by the Free Software
+    Foundation. DAE Tools is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+    PARTICULAR PURPOSE. See the GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License along with the
+    DAE Tools software; if not, see <http://www.gnu.org/licenses/>.
+
+
+============================ =================================================================
+:ref:`tutorial_opencs_dae_1` |topencs_dae_1|
+---------------------------- -----------------------------------------------------------------
+:ref:`tutorial_opencs_dae_2` |topencs_dae_2|
+---------------------------- -----------------------------------------------------------------
+:ref:`tutorial_opencs_dae_3` |topencs_dae_3|
+---------------------------- -----------------------------------------------------------------
+:ref:`tutorial_opencs_ode_1` |topencs_ode_1|
+---------------------------- -----------------------------------------------------------------
+:ref:`tutorial_opencs_ode_2` |topencs_ode_2|
+---------------------------- -----------------------------------------------------------------
+:ref:`tutorial_opencs_ode_3` |topencs_ode_3|
+---------------------------- -----------------------------------------------------------------
+============================ =================================================================
+
+ 
+.. |topencs_dae_1| replace:: The chemical kinetics problem with 6 non-linear differential equations.
+
+.. |topencs_dae_2| replace:: A simple heat conduction problem (re-implementation of the model in :ref:`tutorial1`).
+
+.. |topencs_dae_3| replace:: Auto-catalytic chemical reaction with oscillations (the Brusselator PDE).
+
+.. |topencs_ode_1| replace:: The Roberts chemical kinetics problem with 3 rate equations.
+
+.. |topencs_ode_2| replace:: A simple advection-diffusion in 2-D.
+
+.. |topencs_ode_3| replace:: 2-species diurnal kinetics advection-diffusion PDE system in 2D.
+
+
+.. begin-command
+
+.. _tutorial_opencs_dae_1:
+
+OpenCS Example DAE 1
+====================
+
+.. automodule:: daetools.examples.tutorial_opencs_dae_1
+    :no-members:
+    :no-undoc-members:
+
+.. rubric:: Files
+
+=====================   =================================================================
+Source code             `tutorial_opencs_dae_1.py <../examples/tutorial_opencs_dae_1.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <../examples/tutorial_opencs_aux.html>`_
+DAE Tools model         `tutorial_opencs_daetools_1.py <../examples/tutorial_opencs_daetools_1.html>`_
+The original results    `tutorial_opencs_dae_1.csv <../examples/tutorial_opencs_dae_1.csv>`_
+=====================   =================================================================
+
+.. _tutorial_opencs_dae_2:
+
+OpenCS Example DAE 2
+====================
+
+.. automodule:: daetools.examples.tutorial_opencs_dae_2
+    :no-members:
+    :no-undoc-members:
+
+.. rubric:: Files
+
+=====================   =================================================================
+Source code             `tutorial_opencs_dae_2.py <../examples/tutorial_opencs_dae_2.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <../examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_dae_2.csv <../examples/tutorial_opencs_dae_2.csv>`_
+=====================   =================================================================
+
+.. _tutorial_opencs_dae_3:
+
+OpenCS Example DAE 3
+====================
+
+.. automodule:: daetools.examples.tutorial_opencs_dae_3
+    :no-members:
+    :no-undoc-members:
+
+.. rubric:: Files
+
+=====================   =================================================================
+Source code             `tutorial_opencs_dae_3.py <../examples/tutorial_opencs_dae_3.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <../examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_dae_3.csv <../examples/tutorial_opencs_dae_3.csv>`_
+=====================   =================================================================
+
+.. _tutorial_opencs_ode_1:
+
+OpenCS Example ODE 1
+====================
+
+.. automodule:: daetools.examples.tutorial_opencs_ode_1
+    :no-members:
+    :no-undoc-members:
+
+.. rubric:: Files
+
+=====================   =================================================================
+Source code             `tutorial_opencs_ode_1.py <../examples/tutorial_opencs_ode_1.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <../examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_ode_1.csv <../examples/tutorial_opencs_ode_1.csv>`_
+=====================   =================================================================
+
+.. _tutorial_opencs_ode_2:
+
+OpenCS Example ODE 2
+====================
+
+.. automodule:: daetools.examples.tutorial_opencs_ode_2
+    :no-members:
+    :no-undoc-members:
+
+.. rubric:: Files
+
+=====================   =================================================================
+Source code             `tutorial_opencs_ode_2.py <../examples/tutorial_opencs_ode_2.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <../examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_ode_2.csv <../examples/tutorial_opencs_ode_2.csv>`_
+=====================   =================================================================
+
+.. _tutorial_opencs_ode_3:
+
+OpenCS Example ODE 3
+====================
+
+.. automodule:: daetools.examples.tutorial_opencs_ode_3
+    :no-members:
+    :no-undoc-members:
+
+.. rubric:: Files
+
+=====================   =================================================================
+Source code             `tutorial_opencs_ode_3.py <../examples/tutorial_opencs_ode_3.html>`_
+Auxiliary functions     `tutorial_opencs_aux.py <../examples/tutorial_opencs_aux.html>`_
+The original results    `tutorial_opencs_ode_3.csv <../examples/tutorial_opencs_ode_3.csv>`_
+=====================   =================================================================
+
+.. end-command

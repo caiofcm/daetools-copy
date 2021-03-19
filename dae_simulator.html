@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.13. DAE Tools Simulator &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7.14. Thermophysical Property Packages" href="thermo_packages.html" />
+    <link rel="prev" title="7.12. DAE Tools Plotter" href="dae_plotter.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">7.13. DAE Tools Simulator</a><ul>
+<li><a class="reference internal" href="#overview">7.13.1. Overview</a></li>
+<li><a class="reference internal" href="#module-daetools.dae_simulator.simulator">7.13.2. Classes</a></li>
+<li><a class="reference internal" href="#web-service-classes">7.13.3. Web service classes</a></li>
+<li><a class="reference internal" href="#web-service-javascript-classes">7.13.4. Web service JavaScript classes</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="dae-tools-simulator">
+<h1>7.13. DAE Tools Simulator<a class="headerlink" href="#dae-tools-simulator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>7.13.1. Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-daetools.dae_simulator.simulator">
+<span id="classes"></span><h2>7.13.2. Classes<a class="headerlink" href="#module-daetools.dae_simulator.simulator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="daetools.dae_simulator.simulator.daeSimulator">
+<em class="property">class </em><code class="descname">daeSimulator</code><span class="sig-paren">(</span><em>app</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.done">
+<code class="descname">done</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.done" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>showExplorer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.showMessage">
+<code class="descname">showMessage</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.showMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.showMessage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotAbout">
+<code class="descname">slotAbout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotAbout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotAbout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotExportSparseMatrixAsMatrixMarketFormat">
+<code class="descname">slotExportSparseMatrixAsMatrixMarketFormat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotExportSparseMatrixAsMatrixMarketFormat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotExportSparseMatrixAsMatrixMarketFormat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotOpenSparseMatrixImage">
+<code class="descname">slotOpenSparseMatrixImage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotOpenSparseMatrixImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotOpenSparseMatrixImage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotPause">
+<code class="descname">slotPause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotPause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotPause" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotResume">
+<code class="descname">slotResume</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotResume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotResume" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotRun">
+<code class="descname">slotRun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotRun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulator.daeSimulator.slotShowExplorerAndRun">
+<code class="descname">slotShowExplorerAndRun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulator.html#daeSimulator.slotShowExplorerAndRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulator.daeSimulator.slotShowExplorerAndRun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-daetools.dae_simulator.simulation_explorer"></span><dl class="class">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer">
+<em class="property">class </em><code class="descname">daeSimulationExplorer</code><span class="sig-paren">(</span><em>qt_app</em>, <em>simulation</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">PyQt5.QtWidgets.QDialog</span></code></p>
+<dl class="method">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateCode">
+<code class="descname">generateCode</code><span class="sig-paren">(</span><em>language</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer.generateCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateCode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateHTMLForm">
+<em class="property">static </em><code class="descname">generateHTMLForm</code><span class="sig-paren">(</span><em>simulation</em>, <em>htmlOutputFile</em>, <em>find_files_dir='.'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer.generateHTMLForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateHTMLForm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateJSONSettings">
+<em class="property">static </em><code class="descname">generateJSONSettings</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer.generateJSONSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.generateJSONSettings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.jsonRuntimeSettings">
+<code class="descname">jsonRuntimeSettings</code><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.jsonRuntimeSettings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.reject">
+<code class="descname">reject</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer.reject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.reject" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.runtimeSettings">
+<code class="descname">runtimeSettings</code><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.runtimeSettings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.saveJSONSettings">
+<em class="property">static </em><code class="descname">saveJSONSettings</code><span class="sig-paren">(</span><em>simulation</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer.saveJSONSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.saveJSONSettings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.updateSimulation">
+<code class="descname">updateSimulation</code><span class="sig-paren">(</span><em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_explorer.html#daeSimulationExplorer.updateSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_explorer.daeSimulationExplorer.updateSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-daetools.dae_simulator.simulation_inspector"></span><dl class="class">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector">
+<em class="property">class </em><code class="descname">daeSimulationInspector</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/simulation_inspector.html#daeSimulationInspector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryActiveStates">
+<code class="descname">categoryActiveStates</code><em class="property"> = '___ACTIVE_STATES___'</em><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryActiveStates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryDOFs">
+<code class="descname">categoryDOFs</code><em class="property"> = '___DOFS___'</em><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryDOFs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryDomains">
+<code class="descname">categoryDomains</code><em class="property"> = '___DOMAINS___'</em><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryDomains" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryInitialConditions">
+<code class="descname">categoryInitialConditions</code><em class="property"> = '___INITIAL_CONDITIONS___'</em><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryInitialConditions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryParameters">
+<code class="descname">categoryParameters</code><em class="property"> = '___PARAMETERS___'</em><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryParameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryVariablesToReport">
+<code class="descname">categoryVariablesToReport</code><em class="property"> = '___VARIABLES_TO_REPORT___'</em><a class="headerlink" href="#daetools.dae_simulator.simulation_inspector.daeSimulationInspector.categoryVariablesToReport" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="web-service-classes">
+<h2>7.13.3. Web service classes<a class="headerlink" href="#web-service-classes" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#daetools.dae_simulator.web_service.daeWebService" title="daetools.dae_simulator.web_service.daeWebService"><code class="xref py py-obj docutils literal"><span class="pre">daeWebService</span></code></a>()</td>
+<td>The base class for web applications/web services.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#daetools.dae_simulator.daetools_ws.daeSimulationWebService" title="daetools.dae_simulator.daetools_ws.daeSimulationWebService"><code class="xref py py-obj docutils literal"><span class="pre">daeSimulationWebService</span></code></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#daetools.dae_simulator.daetools_fmi_ws.daeFMI2_CoS_WebService" title="daetools.dae_simulator.daetools_fmi_ws.daeFMI2_CoS_WebService"><code class="xref py py-obj docutils literal"><span class="pre">daeFMI2_CoS_WebService</span></code></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="daetools.dae_simulator.web_service.BadRequest">
+<em class="property">class </em><code class="descname">BadRequest</code><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#BadRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.BadRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">RuntimeError</span></code></p>
+<p>Results in: 400 Bad Request response</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.web_service.ServerError">
+<em class="property">class </em><code class="descname">ServerError</code><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#ServerError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.ServerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">RuntimeError</span></code></p>
+<p>Results in: 500 Internal Server Error response</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.web_service.NoLoggingWSGIRequestHandler">
+<em class="property">class </em><code class="descname">NoLoggingWSGIRequestHandler</code><span class="sig-paren">(</span><em>request</em>, <em>client_address</em>, <em>server</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#NoLoggingWSGIRequestHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.NoLoggingWSGIRequestHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">wsgiref.simple_server.WSGIRequestHandler</span></code></p>
+<p>Request handler that suppresses logging to the stderr.</p>
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.NoLoggingWSGIRequestHandler.log_message">
+<code class="descname">log_message</code><span class="sig-paren">(</span><em>format</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#NoLoggingWSGIRequestHandler.log_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.NoLoggingWSGIRequestHandler.log_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.web_service.daeWebService">
+<em class="property">class </em><code class="descname">daeWebService</code><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The base class for web applications/web services.
+Performs the low level tasks such as parsing the query to get its arguments
+and sending responses with results to the clients.</p>
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.daeWebService.getQueryArguments">
+<code class="descname">getQueryArguments</code><span class="sig-paren">(</span><em>environ</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.getQueryArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.getQueryArguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the query arguments&#8217; values as a dictionary object.
+Can process both GET and POST requests (double check this).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.daeWebService.jsonBadRequest">
+<code class="descname">jsonBadRequest</code><span class="sig-paren">(</span><em>reason</em>, <em>start_response</em>, <em>simulationID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.jsonBadRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.jsonBadRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bad request error status to the client.
+The argument reason is a string with the exception description.
+It is not a fatal error, thus DO NOT delete the current object identified by its simulationID.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.daeWebService.jsonError">
+<code class="descname">jsonError</code><span class="sig-paren">(</span><em>reason</em>, <em>start_response</em>, <em>simulationID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.jsonError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.jsonError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the error status to the client.
+The argument reason is a string with the exception description.
+In case of errors always deletes the current object identified by its simulationID.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.daeWebService.jsonResult">
+<code class="descname">jsonResult</code><span class="sig-paren">(</span><em>result</em>, <em>start_response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.jsonResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.jsonResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the success status and the data to the client.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.daeWebService.jsonSuccess">
+<code class="descname">jsonSuccess</code><span class="sig-paren">(</span><em>start_response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.jsonSuccess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.jsonSuccess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the success status to the client and no results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service.daeWebService.keepRunning">
+<code class="descname">keepRunning</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.keepRunning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.keepRunning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Server will stop if at least one request has been processed and no activeObjects exist
+(all active objects finished with the simulation).
+Therefore, the server can serve multiple clients but will shutdown after all objects 
+freed their resources and the number of active objects goes to zero.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.web_service.daeWebService.startWebService">
+<em class="property">static </em><code class="descname">startWebService</code><span class="sig-paren">(</span><em>application</em>, <em>address</em>, <em>port</em>, <em>serveForever=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.startWebService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.startWebService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the web application.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.web_service.daeWebService.tryConnectWebService">
+<em class="property">static </em><code class="descname">tryConnectWebService</code><span class="sig-paren">(</span><em>address</em>, <em>port</em>, <em>timeout=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service.html#daeWebService.tryConnectWebService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service.daeWebService.tryConnectWebService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to connect to the above server (timeout is 10s).
+If successful, the server has successfully been started
+and the subsequent clients can connect to it.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.daetools_ws.daeSimulationWebService">
+<em class="property">class </em><code class="descname">daeSimulationWebService</code><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_ws.html#daeSimulationWebService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_ws.daeSimulationWebService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#daetools.dae_simulator.web_service.daeWebService" title="daetools.dae_simulator.web_service.daeWebService"><code class="xref py py-class docutils literal"><span class="pre">daetools.dae_simulator.web_service.daeWebService</span></code></a></p>
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.daetools_ws.daeSimulationWebService.runSimulationsAsWebService">
+<em class="property">static </em><code class="descname">runSimulationsAsWebService</code><span class="sig-paren">(</span><em>availableSimulations</em>, <em>address='127.0.0.1'</em>, <em>port=8001</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_ws.html#daeSimulationWebService.runSimulationsAsWebService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_ws.daeSimulationWebService.runSimulationsAsWebService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the daetools web service providing the simulation via their names.
+Argument &#8216;simulations&#8217; is a dictionary: {name: callable}</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component">
+<em class="property">class </em><code class="descname">fmi2Component</code><span class="sig-paren">(</span><em>simulation</em>, <em>instanceName</em>, <em>guid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2CancelStep">
+<code class="descname">fmi2CancelStep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2CancelStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2CancelStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2DoStep">
+<code class="descname">fmi2DoStep</code><span class="sig-paren">(</span><em>currentCommunicationPoint</em>, <em>communicationStepSize</em>, <em>noSetFMUStatePriorToCurrentPoint</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2DoStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2DoStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2EnterInitializationMode">
+<code class="descname">fmi2EnterInitializationMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2EnterInitializationMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2EnterInitializationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2ExitInitializationMode">
+<code class="descname">fmi2ExitInitializationMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2ExitInitializationMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2ExitInitializationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2FreeInstance">
+<code class="descname">fmi2FreeInstance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2FreeInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2FreeInstance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetBoolean">
+<code class="descname">fmi2GetBoolean</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2GetBoolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetBoolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetInteger">
+<code class="descname">fmi2GetInteger</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2GetInteger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetInteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetReal">
+<code class="descname">fmi2GetReal</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2GetReal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetReal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetString">
+<code class="descname">fmi2GetString</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2GetString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2GetString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Instantiate">
+<em class="property">static </em><code class="descname">fmi2Instantiate</code><span class="sig-paren">(</span><em>instanceName</em>, <em>guid</em>, <em>resourceLocation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2Instantiate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Instantiate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Reset">
+<code class="descname">fmi2Reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2Reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetBoolean">
+<code class="descname">fmi2SetBoolean</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2SetBoolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetBoolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetInteger">
+<code class="descname">fmi2SetInteger</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2SetInteger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetInteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetReal">
+<code class="descname">fmi2SetReal</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2SetReal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetReal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetString">
+<code class="descname">fmi2SetString</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2SetString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetupExperiment">
+<code class="descname">fmi2SetupExperiment</code><span class="sig-paren">(</span><em>toleranceDefined</em>, <em>tolerance</em>, <em>startTime</em>, <em>stopTimeDefined</em>, <em>stopTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2SetupExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2SetupExperiment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Terminate">
+<code class="descname">fmi2Terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/fmi_interface.html#fmi2Component.fmi2Terminate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.fmi_interface.fmi2Component.fmi2Terminate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.daetools_fmi_ws.daeFMI2_CoS_WebService">
+<em class="property">class </em><code class="descname">daeFMI2_CoS_WebService</code><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws.html#daeFMI2_CoS_WebService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws.daeFMI2_CoS_WebService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#daetools.dae_simulator.web_service.daeWebService" title="daetools.dae_simulator.web_service.daeWebService"><code class="xref py py-class docutils literal"><span class="pre">daetools.dae_simulator.web_service.daeWebService</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.web_service_client.daeWebServiceClient">
+<em class="property">class </em><code class="descname">daeWebServiceClient</code><span class="sig-paren">(</span><em>webServiceName</em>, <em>address</em>, <em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service_client.html#daeWebServiceClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service_client.daeWebServiceClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service_client.daeWebServiceClient.getResponse">
+<code class="descname">getResponse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service_client.html#daeWebServiceClient.getResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service_client.daeWebServiceClient.getResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.web_service_client.daeWebServiceClient.sendRequest">
+<code class="descname">sendRequest</code><span class="sig-paren">(</span><em>args</em>, <em>method='POST'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/web_service_client.html#daeWebServiceClient.sendRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.web_service_client.daeWebServiceClient.sendRequest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws">
+<em class="property">class </em><code class="descname">fmi2Component_ws</code><span class="sig-paren">(</span><em>webServiceName='daetools_fmi_ws'</em>, <em>server='127.0.0.1'</em>, <em>port=8002</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#daetools.dae_simulator.web_service_client.daeWebServiceClient" title="daetools.dae_simulator.web_service_client.daeWebServiceClient"><code class="xref py py-class docutils literal"><span class="pre">daetools.dae_simulator.web_service_client.daeWebServiceClient</span></code></a></p>
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2CancelStep">
+<code class="descname">fmi2CancelStep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2CancelStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2CancelStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2DoStep">
+<code class="descname">fmi2DoStep</code><span class="sig-paren">(</span><em>currentCommunicationPoint</em>, <em>communicationStepSize</em>, <em>noSetFMUStatePriorToCurrentPoint</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2DoStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2DoStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2EnterInitializationMode">
+<code class="descname">fmi2EnterInitializationMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2EnterInitializationMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2EnterInitializationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2ExitInitializationMode">
+<code class="descname">fmi2ExitInitializationMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2ExitInitializationMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2ExitInitializationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2FreeInstance">
+<code class="descname">fmi2FreeInstance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2FreeInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2FreeInstance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetBoolean">
+<code class="descname">fmi2GetBoolean</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2GetBoolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetBoolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetInteger">
+<code class="descname">fmi2GetInteger</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2GetInteger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetInteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetReal">
+<code class="descname">fmi2GetReal</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2GetReal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetReal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetString">
+<code class="descname">fmi2GetString</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2GetString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2GetString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2Instantiate">
+<code class="descname">fmi2Instantiate</code><span class="sig-paren">(</span><em>instanceName</em>, <em>guid</em>, <em>resourceLocation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2Instantiate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2Instantiate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2Reset">
+<code class="descname">fmi2Reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2Reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2Reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetBoolean">
+<code class="descname">fmi2SetBoolean</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2SetBoolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetBoolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetInteger">
+<code class="descname">fmi2SetInteger</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2SetInteger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetInteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetReal">
+<code class="descname">fmi2SetReal</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2SetReal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetReal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetString">
+<code class="descname">fmi2SetString</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2SetString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetupExperiment">
+<code class="descname">fmi2SetupExperiment</code><span class="sig-paren">(</span><em>toleranceDefined</em>, <em>tolerance</em>, <em>startTime</em>, <em>stopTimeDefined</em>, <em>stopTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2SetupExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2SetupExperiment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2Terminate">
+<code class="descname">fmi2Terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/dae_simulator/daetools_fmi_ws_client.html#fmi2Component_ws.fmi2Terminate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.dae_simulator.daetools_fmi_ws_client.fmi2Component_ws.fmi2Terminate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="web-service-javascript-classes">
+<h2>7.13.4. Web service JavaScript classes<a class="headerlink" href="#web-service-javascript-classes" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">daeWebService</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">daeDataReporter</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">daeDAESolver</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">daeSimulation</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">daeFMI2Simulation</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="daeWebService">
+<em class="property">class </em><code class="descname">daeWebService</code><span class="sig-paren">(</span><em>address</em>, <em>port</em>, <em>webServiceName</em>, <em>method</em><span class="sig-paren">)</span><a class="headerlink" href="#daeWebService" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="ServerStatus">
+<code class="descname">ServerStatus</code><a class="headerlink" href="#ServerStatus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ClearServer">
+<code class="descname">ClearServer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ClearServer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="onSuccess">
+<code class="descname">onSuccess</code><span class="sig-paren">(</span><em>httpRequest</em>, <em>path</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#onSuccess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="onError">
+<code class="descname">onError</code><span class="sig-paren">(</span><em>httpRequest</em>, <em>path</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#onError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="onConnectionFailure">
+<code class="descname">onConnectionFailure</code><span class="sig-paren">(</span><em>path</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#onConnectionFailure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="getResponse">
+<code class="descname">getResponse</code><span class="sig-paren">(</span><em>httpRequest</em><span class="sig-paren">)</span><a class="headerlink" href="#getResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="createHTTPRequest">
+<code class="descname">createHTTPRequest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#createHTTPRequest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="executeFun">
+<code class="descname">executeFun</code><span class="sig-paren">(</span><em>functionName</em>, <em>parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#executeFun" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daeSimulation">
+<em class="property">class </em><code class="descname">daeSimulation</code><span class="sig-paren">(</span><em>webService</em><span class="sig-paren">)</span><a class="headerlink" href="#daeSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt id="LoadSimulation">
+<code class="descname">LoadSimulation</code><span class="sig-paren">(</span><em>pythonFile</em>, <em>loadCallable</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#LoadSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="LoadTutorial">
+<code class="descname">LoadTutorial</code><span class="sig-paren">(</span><em>tutorialName</em><span class="sig-paren">)</span><a class="headerlink" href="#LoadTutorial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="LoadSimulationByName">
+<code class="descname">LoadSimulationByName</code><span class="sig-paren">(</span><em>simulationName</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#LoadSimulationByName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="AvailableSimulations">
+<code class="descname">AvailableSimulations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AvailableSimulations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Finalize">
+<code class="descname">Finalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Finalize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ModelInfo">
+<code class="descname">ModelInfo</code><a class="headerlink" href="#ModelInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Name">
+<code class="descname">Name</code><a class="headerlink" href="#Name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="DataReporter">
+<code class="descname">DataReporter</code><a class="headerlink" href="#DataReporter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="DAESolver">
+<code class="descname">DAESolver</code><a class="headerlink" href="#DAESolver" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="CurrentTime">
+<code class="descname">CurrentTime</code><a class="headerlink" href="#CurrentTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="TimeHorizon">
+<code class="descname">TimeHorizon</code><a class="headerlink" href="#TimeHorizon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ReportingInterval">
+<code class="descname">ReportingInterval</code><a class="headerlink" href="#ReportingInterval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SolveInitial">
+<code class="descname">SolveInitial</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SolveInitial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Reinitialize">
+<code class="descname">Reinitialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Reinitialize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Reset">
+<code class="descname">Reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ReportData">
+<code class="descname">ReportData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ReportData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Integrate">
+<code class="descname">Integrate</code><span class="sig-paren">(</span><em>stopAtDiscontinuity</em>, <em>reportDataAroundDiscontinuities</em><span class="sig-paren">)</span><a class="headerlink" href="#Integrate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="IntegrateForTimeInterval">
+<code class="descname">IntegrateForTimeInterval</code><span class="sig-paren">(</span><em>timeInterval</em>, <em>stopAtDiscontinuity</em>, <em>reportDataAroundDiscontinuities</em><span class="sig-paren">)</span><a class="headerlink" href="#IntegrateForTimeInterval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="IntegrateUntilTime">
+<code class="descname">IntegrateUntilTime</code><span class="sig-paren">(</span><em>time</em>, <em>stopAtDiscontinuity</em>, <em>reportDataAroundDiscontinuities</em><span class="sig-paren">)</span><a class="headerlink" href="#IntegrateUntilTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="GetParameterValue">
+<code class="descname">GetParameterValue</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#GetParameterValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="GetVariableValue">
+<code class="descname">GetVariableValue</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#GetVariableValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="GetActiveState">
+<code class="descname">GetActiveState</code><span class="sig-paren">(</span><em>stnName</em><span class="sig-paren">)</span><a class="headerlink" href="#GetActiveState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SetParameterValue">
+<code class="descname">SetParameterValue</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#SetParameterValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ReAssignValue">
+<code class="descname">ReAssignValue</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#ReAssignValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ReSetInitialCondition">
+<code class="descname">ReSetInitialCondition</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#ReSetInitialCondition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SetActiveState">
+<code class="descname">SetActiveState</code><span class="sig-paren">(</span><em>stnName</em>, <em>activeState</em><span class="sig-paren">)</span><a class="headerlink" href="#SetActiveState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="create_daetools_ws">
+<code class="descname">create_daetools_ws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#create_daetools_ws" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="daeDataReporter">
+<em class="property">class </em><code class="descname">daeDataReporter</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#daeDataReporter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt id="Value">
+<code class="descname">Value</code><span class="sig-paren">(</span><em>variableName</em><span class="sig-paren">)</span><a class="headerlink" href="#Value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="AllValues">
+<code class="descname">AllValues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AllValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daeDAESolver">
+<em class="property">class </em><code class="descname">daeDAESolver</code><span class="sig-paren">(</span><em>simulation</em><span class="sig-paren">)</span><a class="headerlink" href="#daeDAESolver" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="RelativeTolerance">
+<code class="descname">RelativeTolerance</code><a class="headerlink" href="#RelativeTolerance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="daeFMI2Simulation">
+<em class="property">class </em><code class="descname">daeFMI2Simulation</code><span class="sig-paren">(</span><em>webService</em><span class="sig-paren">)</span><a class="headerlink" href="#daeFMI2Simulation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="function">
+<dt id="fmi2Instantiate">
+<code class="descname">fmi2Instantiate</code><span class="sig-paren">(</span><em>instanceName</em>, <em>guid</em>, <em>resourceLocation</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2Instantiate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2Terminate">
+<code class="descname">fmi2Terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmi2Terminate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2FreeInstance">
+<code class="descname">fmi2FreeInstance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmi2FreeInstance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2SetupExperiment">
+<code class="descname">fmi2SetupExperiment</code><span class="sig-paren">(</span><em>toleranceDefined</em>, <em>tolerance</em>, <em>startTime</em>, <em>stopTimeDefined</em>, <em>stopTime</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2SetupExperiment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2EnterInitializationMode">
+<code class="descname">fmi2EnterInitializationMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmi2EnterInitializationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2ExitInitializationMode">
+<code class="descname">fmi2ExitInitializationMode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmi2ExitInitializationMode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2Reset">
+<code class="descname">fmi2Reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmi2Reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2DoStep">
+<code class="descname">fmi2DoStep</code><span class="sig-paren">(</span><em>currentCommunicationPoint</em>, <em>communicationStepSize</em>, <em>noSetFMUStatePriorToCurrentPoint</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2DoStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2CancelStep">
+<code class="descname">fmi2CancelStep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmi2CancelStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2GetReal">
+<code class="descname">fmi2GetReal</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2GetReal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2SetReal">
+<code class="descname">fmi2SetReal</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2SetReal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2GetString">
+<code class="descname">fmi2GetString</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2GetString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2SetString">
+<code class="descname">fmi2SetString</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2SetString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2GetBoolean">
+<code class="descname">fmi2GetBoolean</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2GetBoolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2SetBoolean">
+<code class="descname">fmi2SetBoolean</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2SetBoolean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2GetInteger">
+<code class="descname">fmi2GetInteger</code><span class="sig-paren">(</span><em>valReferences</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2GetInteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fmi2SetInteger">
+<code class="descname">fmi2SetInteger</code><span class="sig-paren">(</span><em>valReferences</em>, <em>values</em><span class="sig-paren">)</span><a class="headerlink" href="#fmi2SetInteger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/dae_simulator.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>

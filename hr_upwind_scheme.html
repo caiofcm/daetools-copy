@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.2. Finite Volumes &#8212; DAE Tools 1.9.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/readable/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.9.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="shortcut icon" href="_static/[d][a][e].ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7.3. Finite Elements" href="finite_element.html" />
+    <link rel="prev" title="7.1. Module pyCore" href="core.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><span><img src="_static/[d][a][e]_Tools_project.png"></span>
+          DAE Tools</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.9.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="/">Home</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paradigms.html">2. Programming Paradigms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">3. Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_daetools.html">4. Getting DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">5. Getting Started with DAE Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDAE_user_guide.html">6. User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="pyDAE_api_ref.html">7. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">7.2. Finite Volumes</a><ul>
+<li><a class="reference internal" href="#module-daetools.pyDAE.hr_upwind_scheme">7.2.1. Classes</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="finite-volumes">
+<h1>7.2. Finite Volumes<a class="headerlink" href="#finite-volumes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-daetools.pyDAE.hr_upwind_scheme">
+<span id="classes"></span><h2>7.2.1. Classes<a class="headerlink" href="#module-daetools.pyDAE.hr_upwind_scheme" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation" title="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation"><code class="xref py py-obj docutils literal"><span class="pre">daeHRUpwindSchemeEquation</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation">
+<em class="property">class </em><code class="descname">daeHRUpwindSchemeEquation</code><span class="sig-paren">(</span><em>variable</em>, <em>domain</em>, <em>phi</em>, <em>r_epsilon=1e-10</em>, <em>reversedFlow=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/pyDAE/hr_upwind_scheme.html#daeHRUpwindSchemeEquation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.supported_flux_limiters">
+<code class="descname">supported_flux_limiters</code><em class="property"> = [&lt;function daeHRUpwindSchemeEquation.Phi_HCUS&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_HQUICK&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_Koren&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_monotinized_central&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_minmod&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_Osher&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_ospre&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_smart&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_superbee&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_Sweby&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_UMIST&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_vanAlbada1&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_vanAlbada2&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_vanLeer&gt;, &lt;function daeHRUpwindSchemeEquation.Phi_vanLeer_minmod&gt;]</em><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.supported_flux_limiters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>variable</em>, <em>domain</em>, <em>phi</em>, <em>r_epsilon=1e-10</em>, <em>reversedFlow=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/pyDAE/hr_upwind_scheme.html#daeHRUpwindSchemeEquation.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.dc_dt">
+<code class="descname">dc_dt</code><span class="sig-paren">(</span><em>i</em>, <em>variable=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/pyDAE/hr_upwind_scheme.html#daeHRUpwindSchemeEquation.dc_dt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.dc_dt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accumulation term in the cell-centered finite-volume discretisation:</p>
+<p><span class="math">\(\int_{\Omega_i} {\partial c_i \over \partial t} dx\)</span></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.dc_dx">
+<code class="descname">dc_dx</code><span class="sig-paren">(</span><em>i</em>, <em>S=None</em>, <em>variable=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/pyDAE/hr_upwind_scheme.html#daeHRUpwindSchemeEquation.dc_dx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.dc_dx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convection term in the cell-centered finite-volume discretisation:</p>
+<p><span class="math">\(c_{i + {1 \over 2}} - c_{i - {1 \over 2}}\)</span>.</p>
+<p>Cell-face state <span class="math">\(c_{i+{1 \over 2}}\)</span> is given as:</p>
+<p><span class="math">\({c}_{i + {1 \over 2}} = c_i  + \phi \left( r_{i + {1 \over 2}} \right) \left( c_i - c_{i-1}  \right)\)</span></p>
+<p>where <span class="math">\(\phi\)</span> is the flux limiter function and <span class="math">\(r_{i + {1 \over 2}}\)</span> the upwind ratio of consecutive 
+solution gradients:</p>
+<p><span class="math">\(r_{i + {1 \over 2}} = {{c_{i+1} - c_{i} + \epsilon} \over {c_{i} - c_{i-1} + \epsilon}}\)</span>.</p>
+<p>If the source term integral <span class="math">\(S= {1 \over u} \int_{\Omega_i} s(x) dx\)</span> is not <code class="docutils literal"><span class="pre">None</span></code> then the convection term is given as:
+<span class="math">\((c-S)_{i + {1 \over 2}} - (c-S)_{i - {1 \over 2}}\)</span>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.d2c_dx2">
+<code class="descname">d2c_dx2</code><span class="sig-paren">(</span><em>i</em>, <em>variable=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/pyDAE/hr_upwind_scheme.html#daeHRUpwindSchemeEquation.d2c_dx2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.d2c_dx2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diffusion term in the cell-centered finite-volume discretisation:</p>
+<p><span class="math">\(\left( \partial c_i \over \partial x \right)_{i + {1 \over 2}} - \left( \partial c_i \over \partial x \right)_{i - {1 \over 2}}\)</span></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.source">
+<code class="descname">source</code><span class="sig-paren">(</span><em>s</em>, <em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/daetools/pyDAE/hr_upwind_scheme.html#daeHRUpwindSchemeEquation.source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#daetools.pyDAE.hr_upwind_scheme.daeHRUpwindSchemeEquation.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Source term in the cell-centered finite-volume discretisation:</p>
+<p><span class="math">\(\int_{\Omega_i} s(x) dx\)</span></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/hr_upwind_scheme.rst.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2008-2019, Dragan Nikolic.<br/>
+      Last updated on Mar 29, 2019.<br/>
+    </p>
+  </div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52277546-1', 'daetools.com');
+  ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
